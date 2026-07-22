@@ -34,7 +34,7 @@ export function BasicLayout({
       <TypographyProvider {...typography}>
         <div
           className={cn(
-            "h-full min-h-full w-full bg-background text-foreground antialiased",
+            "h-full min-h-full w-full bg-page text-foreground antialiased",
             className
           )}
           {...props}

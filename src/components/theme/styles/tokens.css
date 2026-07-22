@@ -1,6 +1,17 @@
 @theme inline {
     --color-background: var(--background);
     --color-foreground: var(--foreground);
+    --color-page: var(--page);
+    --color-surface: var(--surface);
+    --color-surface-foreground: var(--surface-foreground);
+    --color-content-1: var(--content-1);
+    --color-content-1-foreground: var(--content-1-foreground);
+    --color-content-2: var(--content-2);
+    --color-content-2-foreground: var(--content-2-foreground);
+    --color-content-3: var(--content-3);
+    --color-content-3-foreground: var(--content-3-foreground);
+    --color-content-4: var(--content-4);
+    --color-content-4-foreground: var(--content-4-foreground);
     --color-card: var(--card);
     --color-card-foreground: var(--card-foreground);
     --color-popover: var(--popover);
