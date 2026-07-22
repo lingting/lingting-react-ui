@@ -70,11 +70,20 @@ export function App() {
 `${storageKey}-persist` 保存；`storageKey` 与 `persistenceKey` 都可覆盖。通过 `useTheme().setPersist(false)`
 关闭后，会清除已保存主题但保留关闭状态；刷新页面后将使用 `defaultTheme`，并继续保持关闭。
 
-shadcn 组件从独立子入口引入：
+shadcn 组件可从聚合子入口引入。ESM 使用方会由打包器进行摇树优化：
 
 ```tsx
 import { Button, Dialog } from "lingting-react-ui/shadcn"
 ```
+
+需要让 CJS 环境或不进行摇树优化的构建工具只加载单个组件时，请使用组件子路径：
+
+```tsx
+import {Button} from "lingting-react-ui/components/shadcn/ui/button"
+import {Dialog} from "lingting-react-ui/components/shadcn/ui/dialog"
+```
+
+构建产物会保留 `src/` 的模块目录，同时提供 ESM 和 CJS 文件；根入口和 `shadcn` 入口仍为兼容性聚合入口。
 
 ## 本地编译与文件链接
 

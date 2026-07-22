@@ -26,6 +26,21 @@
       "import": "./dist/shadcn.js",
       "require": "./dist/shadcn.cjs"
     },
+    "./components/*": {
+      "types": "./dist/components/*.d.ts",
+      "import": "./dist/components/*.js",
+      "require": "./dist/components/*.cjs"
+    },
+    "./hooks/*": {
+      "types": "./dist/hooks/*.d.ts",
+      "import": "./dist/hooks/*.js",
+      "require": "./dist/hooks/*.cjs"
+    },
+    "./lib/*": {
+      "types": "./dist/lib/*.d.ts",
+      "import": "./dist/lib/*.js",
+      "require": "./dist/lib/*.cjs"
+    },
     "./styles/all.css": "./dist/styles/all.css"
   },
   "scripts": {
