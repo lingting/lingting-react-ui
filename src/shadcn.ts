@@ -1,5 +1,3 @@
-import "./styles/all.css"
-
 export * from "./components/shadcn/ui/accordion"
 export * from "./components/shadcn/ui/alert-dialog"
 export * from "./components/shadcn/ui/alert"

@@ -40,8 +40,7 @@
       "types": "./dist/lib/*.d.ts",
       "import": "./dist/lib/*.js",
       "require": "./dist/lib/*.cjs"
-    },
-    "./styles/all.css": "./dist/styles/all.css"
+    }
   },
   "scripts": {
     "build": "vite build && pnpm run build:types",

@@ -1,5 +1,3 @@
-import "./styles/all.css"
-
 export { BasicLayout } from "./components/layout/BasicLayout"
 export {
   SidebarLayout,

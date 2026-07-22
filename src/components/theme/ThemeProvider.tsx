@@ -8,6 +8,12 @@ import {
   useState,
 } from "react"
 
+import "@/index.css"
+import "./styles/light.css"
+import "./styles/dark.css"
+import "./styles/desktop-light.css"
+import "./styles/desktop-dark.css"
+
 export type BuiltInTheme = "light" | "dark" | "desktop-light" | "desktop-dark"
 export type CustomTheme = string & {}
 export type ResolvedTheme = BuiltInTheme | CustomTheme

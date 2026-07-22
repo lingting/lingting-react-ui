@@ -9,6 +9,12 @@ import {
 } from "react"
 import type { Typography } from "./types"
 
+import "./styles/tokens.css"
+import "./styles/basic.css"
+import "./styles/compact.css"
+import "./styles/spacious.css"
+import "./styles/content.css"
+
 export type { Typography } from "./types"
 
 export interface TypographyProviderProps {

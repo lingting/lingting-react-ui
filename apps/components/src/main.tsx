@@ -1,6 +1,5 @@
 import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
-import "lingting-react-ui/styles/all.css"
 import { BasicLayout } from "lingting-react-ui"
 import { ComponentsApp } from "./ComponentsApp"
 

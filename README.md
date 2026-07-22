@@ -8,17 +8,13 @@
 - pnpm 10 或更高版本
 - React 19
 
-## 安装与样式
+## 安装
 
 ```bash
 pnpm add lingting-react-ui
 ```
 
-在应用入口导入完整样式。该入口包含基础样式、共享 token、四套内置主题和三套内置排版方案。
-
-```tsx
-import "lingting-react-ui/styles/all.css"
-```
+`BasicLayout` 或 `ThemeProvider` 会导入主题和基础样式，无需在应用入口额外导入 CSS。单独使用 shadcn 原始组件时，需由上层布局提供基础样式。
 
 ## 使用组件
 
