@@ -111,7 +111,13 @@ class 提供自己的 token：
 ```
 
 ```tsx
-import { Paragraph, Text, Title, Typography, useTypography } from "lingting-react-ui"
+import {
+   Paragraph,
+   Text,
+   Title,
+   Typography,
+   useTypography,
+} from "lingting-react-ui"
 
 function Article() {
   const { setTypography } = useTypography()

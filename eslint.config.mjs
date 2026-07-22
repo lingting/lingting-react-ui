@@ -5,18 +5,29 @@ import globals from "globals"
 import tseslint from "typescript-eslint"
 
 export default tseslint.config(
-    {ignores: ["dist", "components-dist", "node_modules"]},
-    {
-        extends: [js.configs.recommended, ...tseslint.configs.recommended],
-        files: ["src/**/*.{ts,tsx}"],
-        languageOptions: {globals: globals.browser},
-        plugins: {
-            "react-hooks": reactHooks,
-            "react-refresh": reactRefresh,
-        },
-        rules: {
-            ...reactHooks.configs.recommended.rules,
-            "react-refresh/only-export-components": ["warn", {allowConstantExport: true}],
-        },
-    }
+  {
+    ignores: [
+      "dist",
+      "node_modules",
+      ".agents",
+      ".idea",
+      "src/components/shadcn",
+    ],
+  },
+  {
+    extends: [js.configs.recommended, ...tseslint.configs.recommended],
+    files: ["src/**/*.{ts,tsx}"],
+    languageOptions: { globals: globals.browser },
+    plugins: {
+      "react-hooks": reactHooks,
+      "react-refresh": reactRefresh,
+    },
+    rules: {
+      ...reactHooks.configs.recommended.rules,
+      "react-refresh/only-export-components": [
+        "off",
+        { allowConstantExport: true },
+      ],
+    },
+  }
 )

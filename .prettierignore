@@ -4,3 +4,6 @@ node_modules/
 .turbo/
 coverage/
 .pnpm-store/
+src/components/shadcn/
+.agents/
+.idea/
