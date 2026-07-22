@@ -5,8 +5,8 @@ import type {
   SidebarLayoutHeightMode,
   SidebarLayoutItem,
   SidebarLayoutSidebarOptions,
-} from "../SidebarLayout.types"
-import { toSidebarLayoutCssSize } from "../SidebarLayoutStyle"
+} from "./SidebarLayout.types"
+import { toSidebarLayoutCssSize } from "./SidebarLayoutStyle"
 import { SidebarLayoutItems } from "./SidebarLayoutItems"
 
 import "./SidebarLayoutSidebar.css"

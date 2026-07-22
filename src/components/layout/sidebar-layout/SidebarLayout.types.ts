@@ -3,7 +3,7 @@ import type {
   ReactNode,
 } from "react"
 
-import type { BasicLayoutProps } from "./BasicLayout"
+import type { BasicLayoutProps } from "../BasicLayout"
 
 export type SidebarLayoutSize = number | string
 

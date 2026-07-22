@@ -16,15 +16,15 @@ import {
 import { cn } from "@/lib/utils"
 
 import { BasicLayout } from "./BasicLayout"
-import { SidebarLayoutContent } from "./SidebarLayoutContent"
+import { SidebarLayoutContent } from "./sidebar-layout/SidebarLayoutContent"
 import type {
   SidebarLayoutActionContext,
   SidebarLayoutProps,
   SidebarLayoutRef,
-} from "./SidebarLayout.types"
+} from "./sidebar-layout/SidebarLayout.types"
 import { SidebarLayoutSidebar } from "./sidebar-layout/SidebarLayoutSidebar"
 
-import "./SidebarLayout.css"
+import "./sidebar-layout/SidebarLayout.css"
 
 const DEFAULT_WIDTH = 256
 const DEFAULT_MIN_WIDTH = 192
@@ -197,4 +197,4 @@ export type {
   SidebarLayoutRef,
   SidebarLayoutSidebarOptions,
   SidebarLayoutSize,
-} from "./SidebarLayout.types"
+} from "./sidebar-layout/SidebarLayout.types"

@@ -5,7 +5,7 @@ import { TextIcon } from "@/components/icon/TextIcon"
 import type {
   SidebarLayoutActionContext,
   SidebarLayoutItem as SidebarLayoutItemValue,
-} from "../SidebarLayout.types"
+} from "./SidebarLayout.types"
 
 interface SidebarLayoutItemProps {
   item: SidebarLayoutItemValue

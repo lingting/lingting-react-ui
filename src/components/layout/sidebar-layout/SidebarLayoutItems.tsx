@@ -1,7 +1,7 @@
 import type {
   SidebarLayoutActionContext,
   SidebarLayoutItem as SidebarLayoutItemValue,
-} from "../SidebarLayout.types"
+} from "./SidebarLayout.types"
 import { SidebarLayoutItem } from "./SidebarLayoutItem"
 
 interface SidebarLayoutItemsProps {
