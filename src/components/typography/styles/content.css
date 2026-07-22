@@ -85,6 +85,37 @@
     -webkit-box-orient: vertical;
 }
 
+.typography-link {
+    color: var(--typography-link);
+}
+
+.typography-secondary {
+    color: var(--typography-secondary);
+}
+
+.typography-success {
+    color: var(--typography-success);
+}
+
+.typography-warning {
+    color: var(--typography-warning);
+}
+
+.typography-danger {
+    color: var(--typography-danger);
+}
+
+.typography-mark {
+    background-color: var(--typography-mark-background);
+}
+
+.typography-disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    color: var(--typography-disabled);
+    opacity: 0.6;
+}
+
 .typography-action,
 .typography-expand {
     display: inline-flex;

@@ -1,6 +1,7 @@
 import * as React from "react"
 import {Check, Clipboard, Pencil, X} from "lucide-react"
 import {cn} from "@/lib/utils"
+import {typographyDecorationClassName} from "./decorationClassName"
 import type {
     TypographyCopyableConfig,
     TypographyDecorationProps,
@@ -18,33 +19,6 @@ interface TypographyContentProps extends TypographyDecorationProps {
 
 function resolveConfig<T>(value: boolean | T | undefined): T | null {
     return value && value !== true ? value : value ? {} as T : null
-}
-
-function decorationClassName({
-                                 code,
-                                 delete: deleted,
-                                 disabled,
-                                 italic,
-                                 keyboard,
-                                 mark,
-                                 strong,
-                                 type,
-                                 underline
-                             }: TypographyDecorationProps) {
-    return cn(
-        disabled && "pointer-events-none cursor-not-allowed text-muted-foreground opacity-60",
-        type === "secondary" && "text-muted-foreground",
-        type === "success" && "text-emerald-600 dark:text-emerald-400",
-        type === "warning" && "text-amber-600 dark:text-amber-400",
-        type === "danger" && "text-destructive",
-        strong && "font-semibold",
-        italic && "italic",
-        underline && "underline underline-offset-4",
-        deleted && "line-through",
-        mark && "bg-yellow-200 px-1 text-inherit dark:bg-yellow-500/30",
-        code && "rounded bg-muted px-1.5 py-0.5 font-mono text-[0.875em]",
-        keyboard && "rounded border border-border bg-muted px-1.5 py-0.5 font-mono text-[0.875em] shadow-xs"
-    )
 }
 
 async function copyToClipboard(text: string) {
@@ -167,7 +141,7 @@ export function TypographyContent({
             <Component
                 {...componentProps}
                 className={cn(
-                    decorationClassName(decorationProps),
+                    typographyDecorationClassName(decorationProps),
                     isClamped && "typography-ellipsis",
                     className
                 )}

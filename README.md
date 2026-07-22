@@ -81,6 +81,13 @@ class 提供自己的 token：
 .theme-brand {
   --background: oklch(0.98 0.02 250);
   --foreground: oklch(0.2 0.03 250);
+  --typography-link: oklch(0.42 0.16 250);
+  --typography-secondary: oklch(0.48 0.03 250);
+  --typography-success: oklch(0.62 0.14 160);
+  --typography-warning: oklch(0.7 0.16 72);
+  --typography-danger: oklch(0.58 0.22 25);
+  --typography-disabled: oklch(0.62 0.02 250);
+  --typography-mark-background: oklch(0.92 0.12 100);
 }
 ```
 
@@ -126,6 +133,16 @@ function Article() {
 
 `Text` 和 `Paragraph` 支持 `type`、`disabled`、`strong`、`italic`、`underline`、`delete`、`mark`、`code`、`keyboard`，以及
 `copyable`、`editable`、`ellipsis`。`Link` 支持原生锚点属性及相同的文本状态样式。
+
+排版语义色由主题 token 提供，组件会分别添加 `typography-link`、`typography-secondary`、`typography-success`、
+`typography-warning`、`typography-danger` 和 `typography-mark` 类。禁用状态统一使用 `typography-disabled`，可由应用样式覆盖：
+
+```css
+.typography-disabled {
+  color: var(--muted-foreground);
+  opacity: 0.45;
+}
+```
 
 shadcn 组件可从聚合子入口引入。ESM 使用方会由打包器进行摇树优化：
 

@@ -14,6 +14,13 @@
     --accent: oklch(0.269 0 0);
     --accent-foreground: oklch(0.985 0 0);
     --destructive: oklch(0.704 0.191 22.216);
+    --typography-link: var(--primary);
+    --typography-secondary: var(--muted-foreground);
+    --typography-success: oklch(76.5% 0.177 163.223);
+    --typography-warning: oklch(82.8% 0.189 84.429);
+    --typography-danger: var(--destructive);
+    --typography-disabled: var(--muted-foreground);
+    --typography-mark-background: oklch(79.5% 0.184 86.047 / 30%);
     --border: oklch(1 0 0 / 10%);
     --input: oklch(1 0 0 / 15%);
     --ring: oklch(0.556 0 0);
