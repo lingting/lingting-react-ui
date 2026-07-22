@@ -2,6 +2,7 @@ import "./styles/all.css"
 
 export { BasicLayout } from "./components/layout/BasicLayout"
 export { TestButton } from "./components/test/TestButton"
+export { TextIcon, type TextIconProps } from "./components/icon/TextIcon"
 export {
   ThemeProvider,
   useTheme,
