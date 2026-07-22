@@ -8,7 +8,6 @@ export type LinkProps = Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "typ
 export function Link({
                          children,
                          className,
-                         code,
                          delete: deleted,
                          disabled,
                          italic,
@@ -26,7 +25,6 @@ export function Link({
             className={cn(
                 "typography-link underline-offset-4 hover:underline",
                 typographyDecorationClassName({
-                    code,
                     delete: deleted,
                     disabled,
                     italic,

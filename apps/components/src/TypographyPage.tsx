@@ -1,5 +1,5 @@
 import {useCallback, useState} from "react"
-import {Link, Paragraph, Text, Title, Typography} from "lingting-react-ui"
+import {Code, Link, Paragraph, Text, Title, Typography} from "lingting-react-ui"
 
 const longText = "排版组件支持通过省略配置控制长文本展示，在需要时允许用户展开完整内容，并在不同排版方案中保持一致的层级和节奏。"
 
@@ -21,7 +21,7 @@ export function TypographyPage() {
                 <Title level={3}>三级标题</Title>
                 <Paragraph>
                     <Text strong>强调文本</Text>、<Text italic>斜体文本</Text>、<Text underline>下划线</Text>、
-                    <Text delete>删除线</Text>、<Text mark>标记文本</Text>、<Text code>const name = "Lingting"</Text>、
+                    <Text delete>删除线</Text>、<Text mark>标记文本</Text>、<Code>const name = "Lingting"</Code>、
                     <Text keyboard>Ctrl K</Text>。
                 </Paragraph>
                 <Paragraph>
@@ -78,7 +78,7 @@ export function TypographyPage() {
             </div>
 
             <Typography.Paragraph type="secondary">
-                同时支持具名组件和 <Typography.Text code>Typography.Title</Typography.Text> 等复合组件 API。
+                同时支持具名组件和 <Typography.Code>Typography.Title</Typography.Code> 等复合组件 API。
             </Typography.Paragraph>
         </section>
     )

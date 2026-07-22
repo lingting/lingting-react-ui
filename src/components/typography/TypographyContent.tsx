@@ -1,6 +1,7 @@
 import * as React from "react"
-import {Check, Clipboard, Pencil, X} from "lucide-react"
+import {Check, ChevronDown, ChevronUp, Clipboard, Pencil, X} from "lucide-react"
 import {cn} from "@/lib/utils"
+import {TypographyAction} from "./TypographyAction"
 import {typographyDecorationClassName} from "./decorationClassName"
 import type {
     TypographyCopyableConfig,
@@ -117,12 +118,10 @@ export function TypographyContent({
                         }
                     }}
                 />
-                <button type="button" className="typography-action" aria-label="确认编辑" onClick={finishEditing}>
-                    <Check aria-hidden="true"/>
-                </button>
-                <button type="button" className="typography-action" aria-label="取消编辑" onClick={cancelEditing}>
-                    <X aria-hidden="true"/>
-                </button>
+                <TypographyAction ariaLabel="确认编辑" className="typography-action" icon={<Check aria-hidden="true"/>}
+                                  onClick={finishEditing}/>
+                <TypographyAction ariaLabel="取消编辑" className="typography-action" icon={<X aria-hidden="true"/>}
+                                  onClick={cancelEditing}/>
             </span>
         )
     }
@@ -150,26 +149,22 @@ export function TypographyContent({
                 {children}
             </Component>
             {editableConfig && (
-                <button type="button" className="typography-action" aria-label="编辑" title="编辑"
-                        onClick={startEditing}>
-                    <Pencil aria-hidden="true"/>
-                </button>
+                <TypographyAction ariaLabel="编辑" className="typography-action" config={editableConfig}
+                                  icon={<Pencil aria-hidden="true"/>} title="编辑" onClick={startEditing}/>
             )}
             {copyConfig && (
-                <button
-                    type="button"
-                    className="typography-action"
-                    aria-label={copied ? "已复制" : "复制"}
-                    title={typeof copyTooltip === "string" ? copyTooltip : undefined}
-                    onClick={handleCopy}
-                >
-                    {copied ? <Check aria-hidden="true"/> : <Clipboard aria-hidden="true"/>}
-                </button>
+                <TypographyAction ariaLabel={copied ? "已复制" : "复制"} className="typography-action"
+                                  config={copyConfig}
+                                  icon={copied ? <Check aria-hidden="true"/> : <Clipboard aria-hidden="true"/>}
+                                  title={typeof copyTooltip === "string" ? copyTooltip : undefined}
+                                  onClick={handleCopy}/>
             )}
             {ellipsisConfig?.expandable && (
-                <button type="button" className="typography-expand" onClick={toggleExpanded}>
-                    {expanded ? "收起" : ellipsisConfig.symbol ?? "展开"}
-                </button>
+                <TypographyAction ariaLabel={expanded ? "收起" : "展开"} className="typography-expand"
+                                  config={ellipsisConfig}
+                                  icon={ellipsisConfig.symbol ?? (expanded ? <ChevronUp aria-hidden="true"/> :
+                                      <ChevronDown aria-hidden="true"/>)}
+                                  title={expanded ? "收起" : "展开"} onClick={toggleExpanded}/>
             )}
         </>
     )

@@ -13,6 +13,7 @@ export {
     type ThemeProviderProps,
 } from "./components/theme/ThemeProvider"
 export {Link, type LinkProps} from "./components/typography/Link"
+export {Code, type CodeProps} from "./components/typography/Code"
 export {Paragraph, type ParagraphProps} from "./components/typography/Paragraph"
 export {
     TypographyProvider,
@@ -25,6 +26,8 @@ export {Title, type TitleProps} from "./components/typography/Title"
 export {Typography} from "./components/typography/Typography"
 export type {
     BuiltInTypography,
+    TypographyActionConfig,
+    TypographyActionRenderProps,
     TypographyCopyableConfig,
     TypographyDecorationProps,
     TypographyEditableConfig,
