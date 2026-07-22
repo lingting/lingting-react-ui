@@ -29,7 +29,10 @@ import {
   BasicLayout,
   TestButton,
   ThemeProvider,
+   Typography,
+   TypographyProvider,
   useTheme,
+   useTypography,
 } from "lingting-react-ui"
 
 function ThemeActions() {
@@ -44,6 +47,7 @@ export function App() {
       defaultTheme="desktop-light"
       storageKey="my-app/theme"
       persist
+      typography={{defaultTypography: "basic"}}
     >
       <TestButton />
       <ThemeActions />
@@ -52,15 +56,18 @@ export function App() {
 }
 ```
 
-`BasicLayout` 会包裹 `ThemeProvider` 并创建基础页面根容器。已有页面布局时，直接使用 `ThemeProvider`：
+`BasicLayout` 会包裹 `ThemeProvider` 与 `TypographyProvider` 并创建基础页面根容器。`typography`
+用于传入排版配置，避免与主题的持久化配置冲突。已有页面布局时，可直接使用 Provider：
 
 ```tsx
-import { ThemeProvider } from "lingting-react-ui"
+import { ThemeProvider, TypographyProvider } from "lingting-react-ui"
 
 export function App() {
   return (
     <ThemeProvider defaultTheme="light" persist={false}>
-      <YourPage />
+      <TypographyProvider defaultTypography="compact">
+        <YourPage />
+      </TypographyProvider>
     </ThemeProvider>
   )
 }
@@ -69,6 +76,35 @@ export function App() {
 `persist` 默认为 `true`，作为首次进入时的持久化默认值。主题值默认使用 `lingting-react-ui/theme-use` 保存，持久化状态默认使用
 `${storageKey}-persist` 保存；`storageKey` 与 `persistenceKey` 都可覆盖。通过 `useTheme().setPersist(false)`
 关闭后，会清除已保存主题但保留关闭状态；刷新页面后将使用 `defaultTheme`，并继续保持关闭。
+
+## 排版组件
+
+`TypographyProvider` 提供 `basic`、`compact` 与 `spacious` 三套排版方案。其 `persist`、`storageKey` 与 `persistenceKey`
+的行为和主题 Provider 一致；可通过 `useTypography()` 读取和切换当前方案。
+
+```tsx
+import { Paragraph, Text, Title, Typography, useTypography } from "lingting-react-ui"
+
+function Article() {
+  const { setTypography } = useTypography()
+
+  return (
+    <>
+      <button onClick={() => setTypography("spacious")}>宽松阅读</button>
+      <Title level={1}>文章标题</Title>
+      <Paragraph copyable editable={{ maxLength: 120 }}>
+        <Text strong>强调内容</Text>支持复制与编辑。
+      </Paragraph>
+      <Typography.Paragraph ellipsis={{ rows: 2, expandable: "collapsible" }}>
+        可通过复合组件 API 使用段落。
+      </Typography.Paragraph>
+    </>
+  )
+}
+```
+
+`Text` 和 `Paragraph` 支持 `type`、`disabled`、`strong`、`italic`、`underline`、`delete`、`mark`、`code`、`keyboard`，以及
+`copyable`、`editable`、`ellipsis`。`Link` 支持原生锚点属性及相同的文本状态样式。
 
 shadcn 组件可从聚合子入口引入。ESM 使用方会由打包器进行摇树优化：
 

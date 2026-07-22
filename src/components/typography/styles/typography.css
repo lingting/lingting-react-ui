@@ -1,0 +1,138 @@
+:root,
+.typography-basic {
+    --typography-body-size: 1rem;
+    --typography-body-line-height: 1.7;
+    --typography-heading-gap: 1.5rem;
+    --typography-paragraph-gap: 1rem;
+}
+
+.typography-compact {
+    --typography-body-size: 0.9375rem;
+    --typography-body-line-height: 1.5;
+    --typography-heading-gap: 1rem;
+    --typography-paragraph-gap: 0.75rem;
+}
+
+.typography-spacious {
+    --typography-body-size: 1.0625rem;
+    --typography-body-line-height: 1.85;
+    --typography-heading-gap: 2rem;
+    --typography-paragraph-gap: 1.5rem;
+}
+
+@layer base {
+    .typography-content {
+        font-size: var(--typography-body-size);
+        line-height: var(--typography-body-line-height);
+    }
+
+    .typography-content h1,
+    .typography-content h2,
+    .typography-content h3,
+    .typography-content h4,
+    .typography-content h5 {
+        margin-top: var(--typography-heading-gap);
+        margin-bottom: calc(var(--typography-heading-gap) / 2);
+        font-weight: 700;
+        line-height: 1.25;
+    }
+
+    .typography-content h1 {
+        font-size: 2.25em;
+    }
+
+    .typography-content h2 {
+        font-size: 1.875em;
+    }
+
+    .typography-content h3 {
+        font-size: 1.5em;
+    }
+
+    .typography-content h4 {
+        font-size: 1.25em;
+    }
+
+    .typography-content h5 {
+        font-size: 1.125em;
+    }
+
+    .typography-content p {
+        margin-block: 0 var(--typography-paragraph-gap);
+    }
+
+    .typography-content blockquote {
+        margin: var(--typography-paragraph-gap) 0;
+        border-left: 0.25rem solid var(--border);
+        padding-left: 1rem;
+        color: var(--muted-foreground);
+    }
+
+    .typography-content ul,
+    .typography-content ol {
+        margin: var(--typography-paragraph-gap) 0;
+        padding-left: 1.5rem;
+    }
+
+    .typography-content li {
+        margin-block: 0.25rem;
+    }
+
+    .typography-content table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-block: var(--typography-paragraph-gap);
+    }
+
+    .typography-content th,
+    .typography-content td {
+        border: 1px solid var(--border);
+        padding: 0.5rem 0.75rem;
+        text-align: left;
+    }
+
+    .typography-content pre {
+        overflow-x: auto;
+        margin-block: var(--typography-paragraph-gap);
+        border-radius: var(--radius);
+        background: var(--muted);
+        padding: 1rem;
+        font-size: 0.875em;
+    }
+}
+
+.typography-ellipsis {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+}
+
+.typography-action,
+.typography-expand {
+    display: inline-flex;
+    margin-left: 0.25rem;
+    cursor: pointer;
+    align-items: center;
+    border-radius: 0.25rem;
+    color: var(--muted-foreground);
+    vertical-align: middle;
+}
+
+.typography-action {
+    padding: 0.125rem;
+}
+
+.typography-action svg {
+    width: 0.875rem;
+    height: 0.875rem;
+}
+
+.typography-action:hover,
+.typography-expand:hover {
+    color: var(--foreground);
+}
+
+.typography-expand {
+    font-size: 0.875em;
+    color: var(--primary);
+}
