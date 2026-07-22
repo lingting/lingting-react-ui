@@ -1,6 +1,18 @@
 import "./styles/all.css"
 
 export { BasicLayout } from "./components/layout/BasicLayout"
+export {
+  SidebarLayout,
+  type SidebarLayoutActionContext,
+  type SidebarLayoutCollapseMode,
+  type SidebarLayoutHeaderOptions,
+  type SidebarLayoutHeightMode,
+  type SidebarLayoutItem,
+  type SidebarLayoutProps,
+  type SidebarLayoutRef,
+  type SidebarLayoutSidebarOptions,
+  type SidebarLayoutSize,
+} from "./components/layout/SidebarLayout"
 export { TestButton } from "./components/test/TestButton"
 export { TextIcon, type TextIconProps } from "./components/icon/TextIcon"
 export {
