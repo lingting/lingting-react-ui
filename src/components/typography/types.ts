@@ -1,6 +1,7 @@
 import type {ReactNode} from "react"
 
-export type Typography = "basic" | "compact" | "spacious"
+export type BuiltInTypography = "basic" | "compact" | "spacious"
+export type Typography = BuiltInTypography | (string & {})
 export type TypographyVariant = Typography
 export type TypographyType = "secondary" | "success" | "warning" | "danger"
 export type TypographyTrigger = "icon" | "text" | "both"

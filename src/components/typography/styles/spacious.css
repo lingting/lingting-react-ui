@@ -1,0 +1,6 @@
+.typography-spacious {
+    --typography-body-size: 1.0625rem;
+    --typography-body-line-height: 1.85;
+    --typography-heading-gap: 2rem;
+    --typography-paragraph-gap: 1.5rem;
+}

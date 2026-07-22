@@ -19,12 +19,14 @@ export interface TypographyContextValue {
 }
 
 const DEFAULT_STORAGE_KEY = "lingting-react-ui/typography-use"
-const typographyClasses = ["typography-basic", "typography-compact", "typography-spacious"] as const
-const typographyValues: Typography[] = ["basic", "compact", "spacious"]
 const TypographyContext = createContext<TypographyContextValue | null>(null)
 
 function isTypography(value: string | null): value is Typography {
-    return typographyValues.includes(value as Typography)
+    return Boolean(value && value.trim() === value && !/\s/.test(value))
+}
+
+function typographyClassName(typography: Typography) {
+    return `typography-${typography}`
 }
 
 function readPersistState(defaultPersist: boolean, persistenceKey: string) {
@@ -43,36 +45,47 @@ export function TypographyProvider({
                                        storageKey = DEFAULT_STORAGE_KEY,
                                        persistenceKey = `${storageKey}-persist`,
                                    }: TypographyProviderProps) {
+    const fallbackTypography = isTypography(defaultTypography)
+        ? defaultTypography
+        : "basic"
     const [persistEnabled, setPersistEnabled] = useState(() =>
         readPersistState(persist, persistenceKey)
     )
     const [typography, setTypography] = useState<Typography>(() => {
         if (!persistEnabled || typeof window === "undefined") {
-            return defaultTypography
+            return fallbackTypography
         }
 
         const storedTypography = window.localStorage.getItem(storageKey)
-        return isTypography(storedTypography) ? storedTypography : defaultTypography
+        return isTypography(storedTypography) ? storedTypography : fallbackTypography
     })
     const setPersist = useCallback((enabled: boolean) => setPersistEnabled(enabled), [])
+    const updateTypography = useCallback((nextTypography: Typography) => {
+        if (isTypography(nextTypography)) {
+            setTypography(nextTypography)
+        }
+    }, [])
 
     useEffect(() => {
         const root = document.documentElement
-        root.classList.remove(...typographyClasses)
-        root.classList.add(`typography-${typography}`)
+        const className = typographyClassName(typography)
+        root.classList.add(className)
         window.localStorage.setItem(persistenceKey, String(persistEnabled))
 
         if (persistEnabled) {
             window.localStorage.setItem(storageKey, typography)
-            return
+        } else {
+            window.localStorage.removeItem(storageKey)
         }
 
-        window.localStorage.removeItem(storageKey)
+        return () => {
+            root.classList.remove(className)
+        }
     }, [persistenceKey, persistEnabled, storageKey, typography])
 
     const contextValue = useMemo(
-        () => ({persist: persistEnabled, setPersist, setTypography, typography}),
-        [persistEnabled, setPersist, typography]
+        () => ({persist: persistEnabled, setPersist, setTypography: updateTypography, typography}),
+        [persistEnabled, setPersist, typography, updateTypography]
     )
 
     return <TypographyContext.Provider value={contextValue}>{children}</TypographyContext.Provider>

@@ -1,10 +1,12 @@
 import {createContext, type ReactNode, useCallback, useContext, useEffect, useMemo, useState,} from "react"
 
-export type ResolvedTheme =
+export type BuiltInTheme =
     | "light"
     | "dark"
     | "desktop-light"
     | "desktop-dark"
+export type CustomTheme = string & {}
+export type ResolvedTheme = BuiltInTheme | CustomTheme
 export type Theme = ResolvedTheme | "system"
 
 export interface ThemeProviderProps {
@@ -24,16 +26,18 @@ export interface ThemeContextValue {
 }
 
 const DEFAULT_STORAGE_KEY = "lingting-react-ui/theme-use"
-const themeClasses: ResolvedTheme[] = [
-    "light",
-    "dark",
-    "desktop-light",
-    "desktop-dark",
-]
 const ThemeContext = createContext<ThemeContextValue | null>(null)
 
 function isTheme(value: string | null): value is Theme {
-    return value === "system" || themeClasses.includes(value as ResolvedTheme)
+    return value === "system" || isThemeName(value)
+}
+
+function isThemeName(value: string | null): value is ResolvedTheme {
+    return Boolean(value && value.trim() === value && !/\s/.test(value))
+}
+
+function themeClassName(theme: ResolvedTheme) {
+    return `theme-${theme}`
 }
 
 function getSystemTheme(): "light" | "dark" {
@@ -70,6 +74,7 @@ export function ThemeProvider({
                                   storageKey = DEFAULT_STORAGE_KEY,
                                   persistenceKey = `${storageKey}-persist`,
                               }: ThemeProviderProps) {
+    const fallbackTheme = isTheme(defaultTheme) ? defaultTheme : "system"
     const [systemTheme, setSystemTheme] = useState<"light" | "dark">(
         getSystemTheme
     )
@@ -78,13 +83,19 @@ export function ThemeProvider({
     )
     const [theme, setTheme] = useState<Theme>(() => {
         if (!persistEnabled || typeof window === "undefined") {
-            return defaultTheme
+            return fallbackTheme
         }
 
         const storedTheme = window.localStorage.getItem(storageKey)
-        return isTheme(storedTheme) ? storedTheme : defaultTheme
+        return isTheme(storedTheme) ? storedTheme : fallbackTheme
     })
     const resolvedTheme = theme === "system" ? systemTheme : theme
+
+    const updateTheme = useCallback((nextTheme: Theme) => {
+        if (isTheme(nextTheme)) {
+            setTheme(nextTheme)
+        }
+    }, [])
 
     const setPersist = useCallback((enabled: boolean) => {
         setPersistEnabled(enabled)
@@ -100,8 +111,8 @@ export function ThemeProvider({
 
     useEffect(() => {
         const root = document.documentElement
-        root.classList.remove(...themeClasses)
-        root.classList.add(resolvedTheme)
+        const className = themeClassName(resolvedTheme)
+        root.classList.add(className)
 
         window.localStorage.setItem(persistenceKey, String(persistEnabled))
 
@@ -110,6 +121,10 @@ export function ThemeProvider({
         } else {
             window.localStorage.removeItem(storageKey)
         }
+
+        return () => {
+            root.classList.remove(className)
+        }
     }, [persistenceKey, persistEnabled, resolvedTheme, storageKey, theme])
 
     const contextValue = useMemo(
@@ -117,10 +132,10 @@ export function ThemeProvider({
             persist: persistEnabled,
             resolvedTheme,
             setPersist,
-            setTheme,
+            setTheme: updateTheme,
             theme,
         }),
-        [persistEnabled, resolvedTheme, setPersist, theme]
+        [persistEnabled, resolvedTheme, setPersist, theme, updateTheme]
     )
 
     return <ThemeContext.Provider value={contextValue}>{children}</ThemeContext.Provider>

@@ -14,7 +14,7 @@
 pnpm add lingting-react-ui
 ```
 
-在应用入口导入完整样式。该入口包含基础样式、共享 token 和 `light`、`dark`、`desktop-light`、`desktop-dark` 四套主题定义。
+在应用入口导入完整样式。该入口包含基础样式、共享 token、四套内置主题和三套内置排版方案。
 
 ```tsx
 import "lingting-react-ui/styles/all.css"
@@ -73,6 +73,17 @@ export function App() {
 }
 ```
 
+`ThemeProvider` 内置 `light`、`dark`、`desktop-light`、`desktop-dark` 和 `system`。除 `system` 外，主题名称会作为根节点的
+`theme-<名称>` class；例如 `setTheme("brand")` 会添加 `theme-brand`。自定义名称必须为不含空白字符的非空字符串，使用方可按该
+class 提供自己的 token：
+
+```css
+.theme-brand {
+  --background: oklch(0.98 0.02 250);
+  --foreground: oklch(0.2 0.03 250);
+}
+```
+
 `persist` 默认为 `true`，作为首次进入时的持久化默认值。主题值默认使用 `lingting-react-ui/theme-use` 保存，持久化状态默认使用
 `${storageKey}-persist` 保存；`storageKey` 与 `persistenceKey` 都可覆盖。通过 `useTheme().setPersist(false)`
 关闭后，会清除已保存主题但保留关闭状态；刷新页面后将使用 `defaultTheme`，并继续保持关闭。
@@ -80,7 +91,17 @@ export function App() {
 ## 排版组件
 
 `TypographyProvider` 提供 `basic`、`compact` 与 `spacious` 三套排版方案。其 `persist`、`storageKey` 与 `persistenceKey`
-的行为和主题 Provider 一致；可通过 `useTypography()` 读取和切换当前方案。
+的行为和主题 Provider 一致；可通过 `useTypography()` 读取和切换当前方案。方案名称会作为根节点的 `typography-<名称>` class，
+例如 `setTypography("reading")` 会添加 `typography-reading`。可使用以下 token 定义自定义方案：
+
+```css
+.typography-reading {
+  --typography-body-size: 1rem;
+  --typography-body-line-height: 1.75;
+  --typography-heading-gap: 1.75rem;
+  --typography-paragraph-gap: 1.125rem;
+}
+```
 
 ```tsx
 import { Paragraph, Text, Title, Typography, useTypography } from "lingting-react-ui"

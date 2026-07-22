@@ -4,4 +4,8 @@
 @import "../components/theme/styles/dark.css";
 @import "../components/theme/styles/desktop-light.css";
 @import "../components/theme/styles/desktop-dark.css";
-@import "../components/typography/styles/typography.css";
+@import "../components/typography/styles/tokens.css";
+@import "../components/typography/styles/basic.css";
+@import "../components/typography/styles/compact.css";
+@import "../components/typography/styles/spacious.css";
+@import "../components/typography/styles/content.css";

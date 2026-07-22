@@ -5,6 +5,8 @@ export {TestButton} from "./components/test/TestButton"
 export {
     ThemeProvider,
     useTheme,
+    type BuiltInTheme,
+    type CustomTheme,
     type ResolvedTheme,
     type Theme,
     type ThemeContextValue,
@@ -22,6 +24,7 @@ export {Text, type TextProps} from "./components/typography/Text"
 export {Title, type TitleProps} from "./components/typography/Title"
 export {Typography} from "./components/typography/Typography"
 export type {
+    BuiltInTypography,
     TypographyCopyableConfig,
     TypographyDecorationProps,
     TypographyEditableConfig,

@@ -6,8 +6,8 @@ import * as RechartsPrimitive from "recharts"
 
 import {cn} from "@/lib/utils"
 
-// Format: { THEME_NAME: CSS_SELECTOR }
-const THEMES = {light: "", dark: ".dark"} as const
+// 格式：{ 主题名称: CSS 选择器 }
+const THEMES = {light: "", dark: ":is(.theme-dark, .theme-desktop-dark)"} as const
 
 const INITIAL_DIMENSION = {width: 320, height: 200} as const
 type TooltipNameType = number | string
