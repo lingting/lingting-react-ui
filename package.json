@@ -47,6 +47,7 @@
     "build": "vite build && pnpm run build:types",
     "build:types": "tsc -p tsconfig.build.json",
     "build:components": "pnpm run build && pnpm --filter lingting-react-ui-components build",
+    "start:components": "pnpm run build && pnpm --filter lingting-react-ui-components dev",
     "lint": "eslint .",
     "prepublishOnly": "pnpm run build"
   },
