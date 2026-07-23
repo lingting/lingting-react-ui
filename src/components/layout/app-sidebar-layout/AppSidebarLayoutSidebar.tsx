@@ -45,6 +45,7 @@ export function AppSidebarLayoutSidebar({
     >
       {user && !isBottomUser && <AppSidebarLayoutUserView user={user} />}
       <AppSidebarLayoutMenu
+        collapsed={collapsed}
         currentRoute={currentRoute}
         expandMode={expandMode}
         items={items}

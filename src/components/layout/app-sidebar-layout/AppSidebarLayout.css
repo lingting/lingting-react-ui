@@ -26,7 +26,6 @@
 }
 
 .app-sidebar-layout-menu__item > .app-sidebar-layout-menu__list {
-  border-left: 1px solid var(--sidebar-border);
   margin-left: 1.1875rem;
   margin-top: 0.25rem;
   padding-left: 0.5rem;
@@ -56,11 +55,33 @@
 }
 
 .app-sidebar-layout-menu__button:hover,
-.app-sidebar-layout-menu__button:focus-visible,
-.app-sidebar-layout-menu__button[data-active] {
+.app-sidebar-layout-menu__button:focus-visible {
   background-color: var(--sidebar-accent);
   color: var(--sidebar-accent-foreground);
   outline: none;
+}
+
+.app-sidebar-layout-menu__button[data-active],
+.app-sidebar-layout-menu__collapsed-item[data-active] {
+  background-color: var(--content-3);
+  border-radius: 999px;
+  color: var(--sidebar-foreground);
+}
+
+.app-sidebar-layout-menu__button[data-active-directory],
+.app-sidebar-layout-menu__collapsed-submenu-trigger[data-active-directory] {
+  color: var(--sidebar-primary);
+}
+
+.app-sidebar-layout-menu__button[data-active] .text-icon,
+.app-sidebar-layout-menu__collapsed-item[data-active] .text-icon {
+  background-color: var(--sidebar);
+  color: var(--sidebar-foreground);
+}
+
+.app-sidebar-layout-menu__button[data-active-directory] .text-icon {
+  background-color: var(--sidebar-primary);
+  color: var(--sidebar-primary-foreground);
 }
 
 .app-sidebar-layout-menu__button:focus-visible,
@@ -112,6 +133,25 @@
 
 .app-sidebar-layout-menu__chevron[data-expanded] {
   transform: rotate(180deg);
+}
+
+.app-sidebar-layout-menu__collapsed-content,
+.app-sidebar-layout-menu__collapsed-submenu-content {
+  background-color: var(--sidebar);
+  border: 1px solid var(--sidebar-border);
+  border-radius: var(--radius-sm);
+  color: var(--sidebar-foreground);
+  min-width: 12rem;
+}
+
+.app-sidebar-layout-menu__collapsed-submenu-trigger,
+.app-sidebar-layout-menu__collapsed-item {
+  color: inherit;
+}
+
+.app-sidebar-layout-menu__collapsed-submenu-trigger[data-active-directory] .text-icon {
+  background-color: var(--sidebar-primary);
+  color: var(--sidebar-primary-foreground);
 }
 
 .app-sidebar-layout-user,
@@ -272,8 +312,3 @@
 .app-sidebar-layout-sidebar--collapsed-icon
   .app-sidebar-layout-sidebar__logout
   > span:not(.app-sidebar-layout-sidebar__logout-icon),
-.app-sidebar-layout-sidebar--collapsed-icon
-  .app-sidebar-layout-menu__item
-  > .app-sidebar-layout-menu__list {
-  display: none;
-}

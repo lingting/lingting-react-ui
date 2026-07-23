@@ -8,6 +8,5 @@ export interface MenuItem {
   icon?: ReactNode
   path: string
   title: ReactNode
-  tooltop?: ReactNode
   tooltip?: ReactNode
 }
