@@ -50,6 +50,7 @@ export function AppSidebarLayoutHeader({
               onClick={state.toggle}
               size="icon-lg"
               type="button"
+              variant="ghost"
             >
               {collapseIcon(header, state.collapsed)}
             </Button>

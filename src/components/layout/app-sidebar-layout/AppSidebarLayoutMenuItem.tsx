@@ -65,46 +65,52 @@ export const AppSidebarLayoutMenuItem = memo(function AppSidebarLayoutMenuItem({
   if (collapsed && node.isDirectory) {
     return (
       <SidebarMenuItem>
-        <DropdownMenu
-          modal={false}
-          onOpenChange={(open) => {
-            if (open) onPopupOpen(node.path)
-            else onPopupClose()
-          }}
-          open={openPath === node.path}
-        >
-          <DropdownMenuTrigger asChild>
-            <Button
-              aria-expanded={openPath === node.path}
-              aria-label={typeof node.item.title === "string" ? node.item.title : undefined}
-              className="app-sidebar-layout-menu__trigger"
-              data-active-directory={isActiveDirectory || undefined}
-              onPointerEnter={() => onPopupOpen(node.path)}
-              onPointerLeave={onPopupScheduleClose}
-              size="icon-lg"
-              type="button"
-            >
-              {icon}
-            </Button>
-          </DropdownMenuTrigger>
-          {node.children.length > 0 && (
-            <DropdownMenuContent
-              align="start"
-              className="app-sidebar-layout-menu-popup"
-              onPointerEnter={() => onPopupOpen(node.path)}
-              onPointerLeave={onPopupScheduleClose}
-              side="right"
-            >
-              <AppSidebarLayoutMenuPopup
-                activeDirectoryPaths={activeDirectoryPaths}
-                activePath={activePath}
-                items={node.children}
-                navigate={navigate}
-                onNavigate={onPopupClose}
-              />
-            </DropdownMenuContent>
-          )}
-        </DropdownMenu>
+        <Tooltip>
+          <DropdownMenu
+            modal={false}
+            onOpenChange={(open) => {
+              if (open) onPopupOpen(node.path)
+              else onPopupClose()
+            }}
+            open={openPath === node.path}
+          >
+            <TooltipTrigger asChild>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  aria-expanded={openPath === node.path}
+                  aria-label={typeof node.item.title === "string" ? node.item.title : undefined}
+                  className="app-sidebar-layout-menu__trigger"
+                  data-active-directory={isActiveDirectory || undefined}
+                  onPointerEnter={() => onPopupOpen(node.path)}
+                  onPointerLeave={onPopupScheduleClose}
+                  size="icon-lg"
+                  type="button"
+                  variant="ghost"
+                >
+                  {icon}
+                </Button>
+              </DropdownMenuTrigger>
+            </TooltipTrigger>
+            {node.children.length > 0 && (
+              <DropdownMenuContent
+                align="start"
+                className="app-sidebar-layout-menu-popup"
+                onPointerEnter={() => onPopupOpen(node.path)}
+                onPointerLeave={onPopupScheduleClose}
+                side="right"
+              >
+                <AppSidebarLayoutMenuPopup
+                  activeDirectoryPaths={activeDirectoryPaths}
+                  activePath={activePath}
+                  items={node.children}
+                  navigate={navigate}
+                  onNavigate={onPopupClose}
+                />
+              </DropdownMenuContent>
+            )}
+          </DropdownMenu>
+          <TooltipContent side="right">{tooltip}</TooltipContent>
+        </Tooltip>
       </SidebarMenuItem>
     )
   }
@@ -122,6 +128,7 @@ export const AppSidebarLayoutMenuItem = memo(function AppSidebarLayoutMenuItem({
               onClick={handleClick}
               size="icon-lg"
               type="button"
+              variant="ghost"
             >
               {icon}
             </Button>
@@ -143,6 +150,7 @@ export const AppSidebarLayoutMenuItem = memo(function AppSidebarLayoutMenuItem({
         onClick={handleClick}
         size="lg"
         type="button"
+        variant="ghost"
       >
         {icon}
         <span className="app-sidebar-layout-menu__title">{node.item.title}</span>
