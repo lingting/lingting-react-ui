@@ -160,7 +160,7 @@ export function TypographyContent({
         />
         <TypographyAction
           ariaLabel="取消编辑"
-          className="typography-action"
+          className="typography-action typography-action-cancel"
           icon={<X aria-hidden="true" />}
           onClick={cancelEditing}
         />

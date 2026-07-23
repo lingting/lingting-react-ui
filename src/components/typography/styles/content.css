@@ -198,6 +198,11 @@
   color: var(--foreground);
 }
 
+.typography-action-cancel,
+.typography-action-cancel:hover {
+  color: var(--typography-danger);
+}
+
 .typography-expand {
   font-size: 0.875em;
   color: var(--primary);
