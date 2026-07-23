@@ -21,7 +21,6 @@ import {
   MessageScrollerViewport,
   Progress,
   Spinner,
-  Toaster,
 } from "lingting-react-ui/shadcn"
 import { InboxIcon, InfoIcon } from "lucide-react"
 import { DemoSection } from "../components/DemoSection"
@@ -81,7 +80,6 @@ export function ShadcnFeedbackPage() {
         </DemoSection>
         <DemoSection title="Sonner">
           <Button onClick={() => toast.success("设置已保存")}>显示通知</Button>
-          <Toaster />
         </DemoSection>
         <DemoSection title="Spinner">
           <Spinner />

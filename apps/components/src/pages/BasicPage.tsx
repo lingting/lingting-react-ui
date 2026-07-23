@@ -7,6 +7,8 @@ import {
   useTheme,
 } from "lingting-react-ui"
 import { Button } from "lingting-react-ui/shadcn"
+import { LogOutIcon } from "lucide-react"
+import { toast } from "sonner"
 import { DemoSection } from "../components/DemoSection"
 import { basicItems } from "../config/ComponentRoutes"
 
@@ -120,6 +122,17 @@ export function BasicPage({ page, navigate }: BasicPageProps) {
             header={{ title: "示例应用" }}
             menu={[{ path: "overview", title: "概览" }]}
             navigate={() => undefined}
+            user={{
+              description: "用户参数展示",
+              logout: {
+                icon: <LogOutIcon />,
+                onClick: () => toast.info("已点击示例中的底部退出"),
+                position: "bottom",
+                text: "退出登录",
+              },
+              nickname: "示例用户",
+              position: "top",
+            }}
           >
             <div className="components-layout-preview__content">应用内容</div>
           </AppSidebarLayout>
