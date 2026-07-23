@@ -17,12 +17,11 @@ export function typographyDecorationClassName({
     type === "warning" && "typography-warning",
     type === "danger" && "typography-danger",
     disabled && "typography-disabled",
-    strong && "font-semibold",
-    italic && "italic",
-    underline && "underline underline-offset-4",
-    deleted && "line-through",
-    mark && "typography-mark px-1",
-    keyboard &&
-      "rounded border border-border bg-muted px-1.5 py-0.5 font-mono text-[0.875em] shadow-xs"
+    strong && "typography-strong",
+    italic && "typography-italic",
+    underline && "typography-underline",
+    deleted && "typography-delete",
+    mark && "typography-mark",
+    keyboard && "typography-keyboard"
   )
 }

@@ -27,7 +27,7 @@ export function Link({
       {...props}
       aria-disabled={disabled || undefined}
       className={cn(
-        "typography-link underline-offset-4 hover:underline",
+        "typography-link",
         typographyDecorationClassName({
           delete: deleted,
           disabled,

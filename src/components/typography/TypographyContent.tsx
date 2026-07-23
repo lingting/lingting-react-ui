@@ -1,12 +1,5 @@
 import * as React from "react"
-import {
-  Check,
-  ChevronDown,
-  ChevronUp,
-  Clipboard,
-  Pencil,
-  X,
-} from "lucide-react"
+import { Check, ChevronUp, Clipboard, Ellipsis, Pencil, X } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { TypographyAction } from "./TypographyAction"
 import { typographyDecorationClassName } from "./decorationClassName"
@@ -56,9 +49,38 @@ export function TypographyContent({
   ellipsis,
   ...decorationProps
 }: TypographyContentProps) {
-  const copyConfig = resolveConfig<TypographyCopyableConfig>(copyable)
-  const editableConfig = resolveConfig<TypographyEditableConfig>(editable)
-  const ellipsisConfig = resolveConfig<TypographyEllipsisConfig>(ellipsis)
+  const {
+    copyable: componentCopyable,
+    delete: componentDeleted,
+    disabled: componentDisabled,
+    editable: componentEditable,
+    ellipsis: componentEllipsis,
+    italic: componentItalic,
+    keyboard: componentKeyboard,
+    mark: componentMark,
+    strong: componentStrong,
+    type: componentType,
+    underline: componentUnderline,
+    ...nativeComponentProps
+  } = componentProps as TypographyDecorationProps & Record<string, unknown>
+  const resolvedCopyable = copyable ?? componentCopyable
+  const resolvedEditable = editable ?? componentEditable
+  const resolvedEllipsis = ellipsis ?? componentEllipsis
+  const resolvedDecorationProps: TypographyDecorationProps = {
+    delete: decorationProps.delete ?? componentDeleted,
+    disabled: decorationProps.disabled ?? componentDisabled,
+    italic: decorationProps.italic ?? componentItalic,
+    keyboard: decorationProps.keyboard ?? componentKeyboard,
+    mark: decorationProps.mark ?? componentMark,
+    strong: decorationProps.strong ?? componentStrong,
+    type: decorationProps.type ?? componentType,
+    underline: decorationProps.underline ?? componentUnderline,
+  }
+  const copyConfig = resolveConfig<TypographyCopyableConfig>(resolvedCopyable)
+  const editableConfig =
+    resolveConfig<TypographyEditableConfig>(resolvedEditable)
+  const ellipsisConfig =
+    resolveConfig<TypographyEllipsisConfig>(resolvedEllipsis)
   const contentText = typeof children === "string" ? children : ""
   const [editing, setEditing] = React.useState(editableConfig?.editing ?? false)
   const [value, setValue] = React.useState(contentText)
@@ -156,18 +178,23 @@ export function TypographyContent({
       ? copyConfig.tooltips[0]
       : "复制"
   return (
-    <>
-      <Component
-        {...componentProps}
+    <Component
+      {...nativeComponentProps}
+      className={cn(
+        typographyDecorationClassName(resolvedDecorationProps),
+        isClamped && "typography-ellipsis-container",
+        className
+      )}
+    >
+      <span
         className={cn(
-          typographyDecorationClassName(decorationProps),
           isClamped && "typography-ellipsis",
-          className
+          expanded && ellipsisConfig && "typography-ellipsis-expanded"
         )}
         style={isClamped ? { WebkitLineClamp: rows } : undefined}
       >
         {children}
-      </Component>
+      </span>
       {editableConfig && (
         <TypographyAction
           ariaLabel="编辑"
@@ -204,13 +231,13 @@ export function TypographyContent({
             (expanded ? (
               <ChevronUp aria-hidden="true" />
             ) : (
-              <ChevronDown aria-hidden="true" />
+              <Ellipsis aria-hidden="true" />
             ))
           }
           title={expanded ? "收起" : "展开"}
           onClick={toggleExpanded}
         />
       )}
-    </>
+    </Component>
   )
 }
