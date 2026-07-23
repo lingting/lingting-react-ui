@@ -2,6 +2,10 @@ import type {
   SidebarLayoutActionContext,
   SidebarLayoutItem as SidebarLayoutItemValue,
 } from "./SidebarLayout.types"
+import {
+  SidebarMenu,
+  SidebarMenuItem,
+} from "@/components/shadcn/ui/sidebar"
 import { SidebarLayoutItem } from "./SidebarLayoutItem"
 
 interface SidebarLayoutItemsProps {
@@ -16,10 +20,12 @@ export function SidebarLayoutItems({
   state,
 }: SidebarLayoutItemsProps) {
   return (
-    <div className={className} data-slot="sidebar-layout-items">
+    <SidebarMenu className={className} data-slot="sidebar-layout-items">
       {items.map((item, index) => (
-        <SidebarLayoutItem item={item} key={index} state={state} />
+        <SidebarMenuItem key={index}>
+          <SidebarLayoutItem item={item} state={state} />
+        </SidebarMenuItem>
       ))}
-    </div>
+    </SidebarMenu>
   )
 }

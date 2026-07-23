@@ -1,4 +1,4 @@
-import { useCallback } from "react"
+import { memo, useCallback } from "react"
 
 import { TextIcon } from "@/components/icon/TextIcon"
 import { Button } from "@/components/shadcn/ui/button"
@@ -13,7 +13,10 @@ interface SidebarLayoutItemProps {
   state: SidebarLayoutActionContext
 }
 
-export function SidebarLayoutItem({ item, state }: SidebarLayoutItemProps) {
+export const SidebarLayoutItem = memo(function SidebarLayoutItem({
+  item,
+  state,
+}: SidebarLayoutItemProps) {
   const handleClick = useCallback(() => {
     item.onClick?.(state)
   }, [item, state])
@@ -43,4 +46,4 @@ export function SidebarLayoutItem({ item, state }: SidebarLayoutItemProps) {
       <span className="sidebar-layout-item__content">{item.content}</span>
     </Button>
   )
-}
+})

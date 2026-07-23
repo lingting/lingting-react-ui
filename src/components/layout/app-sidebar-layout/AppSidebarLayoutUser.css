@@ -1,0 +1,117 @@
+.app-sidebar-layout-user,
+.app-sidebar-layout-sidebar__logout,
+.app-sidebar-layout-sidebar__footer-items {
+  margin: 0.75rem;
+}
+
+.app-sidebar-layout-user {
+  align-items: center;
+  background-color: var(--sidebar-accent);
+  border-radius: var(--radius-md);
+  display: flex;
+  gap: 0.625rem;
+  min-width: 0;
+  padding: 0.625rem;
+}
+
+.app-sidebar-layout-user__avatar {
+  flex: 0 0 auto;
+}
+
+.app-sidebar-layout-user__content {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.app-sidebar-layout-user__name,
+.app-sidebar-layout-user__description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.app-sidebar-layout-user__name {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.app-sidebar-layout-user__description {
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  margin-top: 0.125rem;
+}
+
+.app-sidebar-layout-user__logout-icon[data-slot="button"] {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: var(--radius-sm);
+  color: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  flex: 0 0 1.75rem;
+  justify-content: center;
+}
+
+.app-sidebar-layout-user__logout-icon[data-slot="button"]:hover {
+  background-color: var(--sidebar);
+}
+
+.app-sidebar-layout-user__logout-icon[data-slot="button"]:focus-visible {
+  box-shadow: 0 0 0 2px var(--sidebar-ring);
+  outline: none;
+}
+
+.app-sidebar-layout-user__logout-icon > svg {
+  height: 1rem;
+  width: 1rem;
+}
+
+.app-sidebar-layout-sidebar__footer-items {
+  flex: 0 0 auto;
+  gap: 0.25rem;
+  list-style: none;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.app-sidebar-layout-sidebar__logout[data-slot="button"] {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: var(--radius-sm);
+  color: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 0.625rem;
+  padding: 0.375rem 0.5rem;
+}
+
+.app-sidebar-layout-sidebar__logout[data-slot="button"]:hover {
+  background-color: var(--sidebar-accent);
+}
+
+.app-sidebar-layout-sidebar__logout[data-slot="button"]:focus-visible {
+  box-shadow: 0 0 0 2px var(--sidebar-ring);
+  outline: none;
+}
+
+.app-sidebar-layout-sidebar--collapsed-icon .app-sidebar-layout-user,
+.app-sidebar-layout-sidebar--collapsed-icon
+  .app-sidebar-layout-sidebar__footer-items,
+.app-sidebar-layout-sidebar--collapsed-icon
+  .app-sidebar-layout-sidebar__logout {
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+}
+
+.app-sidebar-layout-sidebar--collapsed-icon .app-sidebar-layout-user__content,
+.app-sidebar-layout-sidebar--collapsed-icon
+  .app-sidebar-layout-user__logout-icon,
+.app-sidebar-layout-sidebar--collapsed-icon
+  .app-sidebar-layout-sidebar__logout
+  > span:not(.app-sidebar-layout-sidebar__logout-icon) {
+  display: none;
+}

@@ -4,7 +4,6 @@ import {
   useImperativeHandle,
   useLayoutEffect,
   useRef,
-  useState,
 } from "react"
 import type { PanelImperativeHandle } from "react-resizable-panels"
 
@@ -17,12 +16,12 @@ import { cn } from "@/lib/utils"
 
 import { BasicLayout } from "./BasicLayout"
 import { SidebarLayoutContent } from "./sidebar-layout/SidebarLayoutContent"
+import { SidebarLayoutSidebar } from "./sidebar-layout/SidebarLayoutSidebar"
+import { useSidebarLayoutState } from "./sidebar-layout/useSidebarLayoutState"
 import type {
-  SidebarLayoutActionContext,
   SidebarLayoutProps,
   SidebarLayoutRef,
 } from "./sidebar-layout/SidebarLayout.types"
-import { SidebarLayoutSidebar } from "./sidebar-layout/SidebarLayoutSidebar"
 
 import "./sidebar-layout/SidebarLayout.css"
 
@@ -50,68 +49,45 @@ export const SidebarLayout = forwardRef<SidebarLayoutRef, SidebarLayoutProps>(
     },
     ref
   ) {
-    const [internalCollapsed, setInternalCollapsed] = useState(defaultCollapsed)
     const panelRef = useRef<PanelImperativeHandle>(null)
-    const isCollapsed = collapsed ?? internalCollapsed
-    const collapsedRef = useRef(isCollapsed)
+    const { actions, collapsedRef, isCollapsed, updateCollapsed } =
+      useSidebarLayoutState({
+        collapsed,
+        defaultCollapsed,
+        navigate,
+        onCollapsedChange,
+      })
     const collapseMode = sidebar.collapseMode ?? "hidden"
     const heightMode = sidebar.heightMode ?? "stretch"
     const collapsedSize =
       collapseMode === "icon"
         ? (sidebar.collapsedIconWidth ?? DEFAULT_COLLAPSED_ICON_WIDTH)
         : 0
-    const setCollapsed = useCallback(
-      (nextCollapsed: boolean) => {
-        if (collapsedRef.current === nextCollapsed) return
-        collapsedRef.current = nextCollapsed
-        if (collapsed === undefined) setInternalCollapsed(nextCollapsed)
-        onCollapsedChange?.(nextCollapsed)
-      },
-      [collapsed, onCollapsedChange]
-    )
-    const expand = useCallback(() => setCollapsed(false), [setCollapsed])
-    const collapse = useCallback(() => setCollapsed(true), [setCollapsed])
-    const toggle = useCallback(
-      () => setCollapsed(!collapsedRef.current),
-      [setCollapsed]
-    )
-    const handleNavigate = useCallback(
-      (to: string) => {
-        if (navigate) {
-          navigate(to)
-          return
-        }
-        if (typeof window !== "undefined") window.location.assign(to)
-      },
-      [navigate]
-    )
-    const state: SidebarLayoutActionContext = {
-      collapse,
-      collapsed: isCollapsed,
-      expand,
-      navigate: handleNavigate,
-      toggle,
-    }
+    const handlePanelResize = useCallback(() => {
+      const panelCollapsed = panelRef.current?.isCollapsed()
+      if (panelCollapsed === undefined) return
 
-    useImperativeHandle(ref, () => ({ collapse, expand, toggle }), [
-      collapse,
-      expand,
-      toggle,
-    ])
+      updateCollapsed(panelCollapsed)
+    }, [updateCollapsed])
 
+    useImperativeHandle(
+      ref,
+      () => ({
+        collapse: actions.collapse,
+        expand: actions.expand,
+        toggle: actions.toggle,
+      }),
+      [actions.collapse, actions.expand, actions.toggle]
+    )
     useLayoutEffect(() => {
       collapsedRef.current = isCollapsed
       if (isCollapsed) {
         panelRef.current?.collapse()
         return
       }
-      panelRef.current?.expand()
-    }, [isCollapsed])
 
-    const handlePanelResize = useCallback(() => {
-      const nextCollapsed = panelRef.current?.isCollapsed()
-      if (nextCollapsed !== undefined) setCollapsed(nextCollapsed)
-    }, [setCollapsed])
+      panelRef.current?.expand()
+    }, [collapsedRef, isCollapsed])
 
     return (
       <BasicLayout
@@ -145,19 +121,19 @@ export const SidebarLayout = forwardRef<SidebarLayoutRef, SidebarLayoutProps>(
             onResize={handlePanelResize}
             panelRef={panelRef}
           >
-            {renderSidebar?.(state) ?? (
+            {renderSidebar?.(actions) ?? (
               <SidebarLayoutSidebar
-                collapsed={state.collapsed}
+                collapsed={actions.collapsed}
                 footerItems={footerItems}
                 items={items}
                 options={sidebar}
-                state={state}
+                state={actions}
               />
             )}
           </ResizablePanel>
           <ResizableHandle className="sidebar-layout__resize-handle" />
           <ResizablePanel className="sidebar-layout__panel" minSize={0}>
-            {renderContent?.(state) ?? (
+            {renderContent?.(actions) ?? (
               <SidebarLayoutContent header={header}>
                 {children}
               </SidebarLayoutContent>
