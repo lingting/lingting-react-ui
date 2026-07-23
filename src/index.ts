@@ -1,5 +1,16 @@
 export { BasicLayout } from "./components/layout/BasicLayout"
 export {
+  AppSidebarLayout,
+  type AppSidebarLayoutHeader,
+  type AppSidebarLayoutLogout,
+  type AppSidebarLayoutLogoutPosition,
+  type AppSidebarLayoutProps,
+  type AppSidebarLayoutRef,
+  type AppSidebarLayoutUser,
+  type AppSidebarLayoutUserPosition,
+} from "./components/layout/AppSidebarLayout"
+export type { MenuExpandMode, MenuItem } from "./types/menu"
+export {
   SidebarLayout,
   type SidebarLayoutActionContext,
   type SidebarLayoutCollapseMode,

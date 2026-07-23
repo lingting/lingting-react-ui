@@ -43,6 +43,8 @@ export const SidebarLayout = forwardRef<SidebarLayoutRef, SidebarLayoutProps>(
       items = [],
       navigate,
       onCollapsedChange,
+      renderContent,
+      renderSidebar,
       sidebar = {},
       ...props
     },
@@ -56,53 +58,34 @@ export const SidebarLayout = forwardRef<SidebarLayoutRef, SidebarLayoutProps>(
     const heightMode = sidebar.heightMode ?? "stretch"
     const collapsedSize =
       collapseMode === "icon"
-        ? sidebar.collapsedIconWidth ?? DEFAULT_COLLAPSED_ICON_WIDTH
+        ? (sidebar.collapsedIconWidth ?? DEFAULT_COLLAPSED_ICON_WIDTH)
         : 0
-
     const setCollapsed = useCallback(
       (nextCollapsed: boolean) => {
-        if (collapsedRef.current === nextCollapsed) {
-          return
-        }
-
+        if (collapsedRef.current === nextCollapsed) return
         collapsedRef.current = nextCollapsed
-
-        if (collapsed === undefined) {
-          setInternalCollapsed(nextCollapsed)
-        }
-
+        if (collapsed === undefined) setInternalCollapsed(nextCollapsed)
         onCollapsedChange?.(nextCollapsed)
       },
       [collapsed, onCollapsedChange]
     )
-
-    const expand = useCallback(() => {
-      setCollapsed(false)
-    }, [setCollapsed])
-
-    const collapse = useCallback(() => {
-      setCollapsed(true)
-    }, [setCollapsed])
-
-    const toggle = useCallback(() => {
-      setCollapsed(!collapsedRef.current)
-    }, [setCollapsed])
-
+    const expand = useCallback(() => setCollapsed(false), [setCollapsed])
+    const collapse = useCallback(() => setCollapsed(true), [setCollapsed])
+    const toggle = useCallback(
+      () => setCollapsed(!collapsedRef.current),
+      [setCollapsed]
+    )
     const handleNavigate = useCallback(
       (to: string) => {
         if (navigate) {
           navigate(to)
           return
         }
-
-        if (typeof window !== "undefined") {
-          window.location.assign(to)
-        }
+        if (typeof window !== "undefined") window.location.assign(to)
       },
       [navigate]
     )
-
-    const actionContext: SidebarLayoutActionContext = {
+    const state: SidebarLayoutActionContext = {
       collapse,
       collapsed: isCollapsed,
       expand,
@@ -118,21 +101,16 @@ export const SidebarLayout = forwardRef<SidebarLayoutRef, SidebarLayoutProps>(
 
     useLayoutEffect(() => {
       collapsedRef.current = isCollapsed
-
       if (isCollapsed) {
         panelRef.current?.collapse()
         return
       }
-
       panelRef.current?.expand()
     }, [isCollapsed])
 
     const handlePanelResize = useCallback(() => {
       const nextCollapsed = panelRef.current?.isCollapsed()
-
-      if (nextCollapsed !== undefined) {
-        setCollapsed(nextCollapsed)
-      }
+      if (nextCollapsed !== undefined) setCollapsed(nextCollapsed)
     }, [setCollapsed])
 
     return (
@@ -167,19 +145,23 @@ export const SidebarLayout = forwardRef<SidebarLayoutRef, SidebarLayoutProps>(
             onResize={handlePanelResize}
             panelRef={panelRef}
           >
-            <SidebarLayoutSidebar
-              collapsed={isCollapsed}
-              footerItems={footerItems}
-              items={items}
-              options={sidebar}
-              state={actionContext}
-            />
+            {renderSidebar?.(state) ?? (
+              <SidebarLayoutSidebar
+                collapsed={state.collapsed}
+                footerItems={footerItems}
+                items={items}
+                options={sidebar}
+                state={state}
+              />
+            )}
           </ResizablePanel>
           <ResizableHandle className="sidebar-layout__resize-handle" />
           <ResizablePanel className="sidebar-layout__panel" minSize={0}>
-            <SidebarLayoutContent header={header}>
-              {children}
-            </SidebarLayoutContent>
+            {renderContent?.(state) ?? (
+              <SidebarLayoutContent header={header}>
+                {children}
+              </SidebarLayoutContent>
+            )}
           </ResizablePanel>
         </ResizablePanelGroup>
       </BasicLayout>

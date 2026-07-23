@@ -6,11 +6,19 @@
 @custom-variant dark (&:where(.theme-dark, .theme-dark *, .theme-desktop-dark, .theme-desktop-dark *));
 
 @layer base {
-    * {
-        @apply border-border;
-    }
+  * {
+    @apply border-border;
+  }
 
-    body {
-        @apply bg-page text-foreground;
-    }
+  body {
+    @apply bg-page text-foreground;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
 }

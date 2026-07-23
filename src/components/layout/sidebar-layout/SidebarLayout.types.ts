@@ -1,7 +1,4 @@
-import type {
-  CSSProperties,
-  ReactNode,
-} from "react"
+import type { CSSProperties, ReactNode } from "react"
 
 import type { BasicLayoutProps } from "../BasicLayout"
 
@@ -46,8 +43,7 @@ export interface SidebarLayoutHeaderOptions {
   right?: ReactNode
 }
 
-export interface SidebarLayoutProps
-  extends Omit<BasicLayoutProps, "children"> {
+export interface SidebarLayoutProps extends Omit<BasicLayoutProps, "children"> {
   children: ReactNode
   collapsed?: boolean
   defaultCollapsed?: boolean
@@ -56,5 +52,7 @@ export interface SidebarLayoutProps
   items?: readonly SidebarLayoutItem[]
   navigate?: (to: string) => void
   onCollapsedChange?: (collapsed: boolean) => void
+  renderContent?: (state: SidebarLayoutActionContext) => ReactNode
+  renderSidebar?: (state: SidebarLayoutActionContext) => ReactNode
   sidebar?: SidebarLayoutSidebarOptions
 }
