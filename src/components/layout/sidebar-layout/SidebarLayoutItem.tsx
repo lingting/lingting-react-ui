@@ -1,6 +1,7 @@
 import { useCallback } from "react"
 
 import { TextIcon } from "@/components/icon/TextIcon"
+import { Button } from "@/components/shadcn/ui/button"
 
 import type {
   SidebarLayoutActionContext,
@@ -21,12 +22,13 @@ export function SidebarLayoutItem({ item, state }: SidebarLayoutItemProps) {
   const label = typeof item.content === "string" ? item.content : undefined
 
   return (
-    <button
+    <Button
       aria-label={label}
       className="sidebar-layout-item"
       data-has-icon={hasIcon}
       data-slot="sidebar-layout-item"
       onClick={handleClick}
+      size="lg"
       type="button"
     >
       {hasIcon && (
@@ -39,6 +41,6 @@ export function SidebarLayoutItem({ item, state }: SidebarLayoutItemProps) {
         </span>
       )}
       <span className="sidebar-layout-item__content">{item.content}</span>
-    </button>
+    </Button>
   )
 }

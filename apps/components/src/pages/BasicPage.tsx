@@ -26,7 +26,7 @@ export function BasicPage({ page, navigate }: BasicPageProps) {
         </header>
         <div className="components-overview-grid">
           {basicItems.slice(1).map((item) => (
-            <button
+            <Button
               className="components-overview-card"
               key={item.path}
               onClick={() => navigate(`/basic/${item.path}`)}
@@ -34,7 +34,7 @@ export function BasicPage({ page, navigate }: BasicPageProps) {
             >
               <strong>{item.title}</strong>
               <span>{basicPreview(item.path)}</span>
-            </button>
+            </Button>
           ))}
         </div>
       </div>

@@ -168,18 +168,22 @@
   font-size: 0.875em;
 }
 
-.typography-action,
-.typography-expand {
+.typography-action[data-slot="button"],
+.typography-expand[data-slot="button"] {
   display: inline-flex;
   margin-left: 0.25rem;
   cursor: pointer;
   align-items: center;
+  background: transparent;
+  border: 0;
   border-radius: 0.25rem;
   color: var(--primary);
+  height: auto;
+  min-height: 0;
   vertical-align: middle;
 }
 
-.typography-action {
+.typography-action[data-slot="button"] {
   padding: 0.125rem;
 }
 
@@ -193,22 +197,22 @@
   height: 0.875rem;
 }
 
-.typography-action:hover,
-.typography-expand:hover {
+.typography-action[data-slot="button"]:hover,
+.typography-expand[data-slot="button"]:hover {
   color: var(--foreground);
 }
 
-.typography-action-cancel,
-.typography-action-cancel:hover {
+.typography-action-cancel[data-slot="button"],
+.typography-action-cancel[data-slot="button"]:hover {
   color: var(--typography-danger);
 }
 
-.typography-expand {
+.typography-expand[data-slot="button"] {
   font-size: 0.875em;
   color: var(--primary);
 }
 
-.typography-ellipsis-container .typography-expand {
+.typography-ellipsis-container .typography-expand[data-slot="button"] {
   position: absolute;
   right: 0;
   bottom: 0;

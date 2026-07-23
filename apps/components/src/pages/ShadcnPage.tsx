@@ -1,4 +1,5 @@
 import { type ComponentType } from "react"
+import { Button } from "lingting-react-ui/shadcn"
 import { shadcnGroups } from "../config/ComponentRoutes"
 import { ShadcnDisplayPage } from "./ShadcnDisplayPage"
 import { ShadcnFeedbackPage } from "./ShadcnFeedbackPage"
@@ -33,7 +34,7 @@ export function ShadcnPage({ navigate, page }: ShadcnPageProps) {
       </header>
       <div className="components-overview-grid">
         {shadcnGroups.map((group) => (
-          <button
+          <Button
             className="components-overview-card components-overview-card--icon"
             key={group.path}
             onClick={() => navigate(`/shadcn/${group.path}`)}
@@ -42,7 +43,7 @@ export function ShadcnPage({ navigate, page }: ShadcnPageProps) {
             <span className="components-overview-card__icon">{group.icon}</span>
             <strong>{group.title}</strong>
             <span>{groupDescription(group.path)}</span>
-          </button>
+          </Button>
         ))}
       </div>
     </div>

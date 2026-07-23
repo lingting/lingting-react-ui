@@ -1,6 +1,7 @@
 import * as React from "react"
 import { Check, ChevronUp, Clipboard, Ellipsis, Pencil, X } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { Input } from "@/components/shadcn/ui/input"
 import { TypographyAction } from "./TypographyAction"
 import { typographyDecorationClassName } from "./decorationClassName"
 import type {
@@ -134,7 +135,7 @@ export function TypographyContent({
       <span
         className={cn("inline-flex max-w-full items-center gap-1", className)}
       >
-        <input
+        <Input
           autoFocus
           className="h-7 min-w-0 flex-1 rounded border border-input bg-background px-2 text-inherit outline-none focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30"
           maxLength={editableConfig?.maxLength}

@@ -3,6 +3,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/shadcn/ui/avatar"
+import { Button } from "@/components/shadcn/ui/button"
 import {
   Tooltip,
   TooltipContent,
@@ -36,14 +37,15 @@ export function AppSidebarLayoutUser({ user }: AppSidebarLayoutUserProps) {
       {inlineLogout && (
         <Tooltip>
           <TooltipTrigger asChild>
-            <button
+            <Button
               aria-label="退出"
               className="app-sidebar-layout-user__logout-icon"
               onClick={inlineLogout.onClick}
+              size="icon-sm"
               type="button"
             >
               {inlineLogout.icon}
-            </button>
+            </Button>
           </TooltipTrigger>
           <TooltipContent>{inlineLogout.text}</TooltipContent>
         </Tooltip>

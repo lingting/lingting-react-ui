@@ -6,6 +6,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/shadcn/ui/tooltip"
+import { Button } from "@/components/shadcn/ui/button"
 import { isMenuDirectory, normalizeMenuPath } from "@/lib/menu-utils"
 import type { MenuItem } from "@/types/menu"
 
@@ -46,7 +47,7 @@ export function AppSidebarLayoutMenuExpanded({
           navigate(path)
         }
         const button = (
-          <button
+          <Button
             aria-current={isActive ? "page" : undefined}
             aria-expanded={isDirectory ? isExpanded : undefined}
             className="app-sidebar-layout-menu__button"
@@ -54,6 +55,7 @@ export function AppSidebarLayoutMenuExpanded({
             data-active-directory={isActiveDirectory || undefined}
             data-directory={isDirectory || undefined}
             onClick={handleClick}
+            size="lg"
             type="button"
           >
             {item.icon && (
@@ -69,7 +71,7 @@ export function AppSidebarLayoutMenuExpanded({
                 data-expanded={isExpanded || undefined}
               />
             )}
-          </button>
+          </Button>
         )
 
         return (

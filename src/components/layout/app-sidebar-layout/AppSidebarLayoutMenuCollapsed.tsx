@@ -12,6 +12,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/shadcn/ui/tooltip"
+import { Button } from "@/components/shadcn/ui/button"
 import { isMenuDirectory, normalizeMenuPath } from "@/lib/menu-utils"
 import type { MenuItem } from "@/types/menu"
 
@@ -84,18 +85,19 @@ export function AppSidebarLayoutMenuCollapsed({
             <li className="app-sidebar-layout-menu__item" key={path}>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <button
+                  <Button
                     aria-current={isActive ? "page" : undefined}
                     className="app-sidebar-layout-menu__button"
                     data-active={isActive || undefined}
                     onClick={() => navigate(path)}
+                    size="lg"
                     type="button"
                   >
                     {icon}
                     <span className="app-sidebar-layout-menu__title">
                       {item.title}
                     </span>
-                  </button>
+                  </Button>
                 </TooltipTrigger>
                 <TooltipContent side="right">{tooltip}</TooltipContent>
               </Tooltip>
@@ -114,20 +116,21 @@ export function AppSidebarLayoutMenuCollapsed({
               open={openPath === path}
             >
               <DropdownMenuTrigger asChild>
-                <button
+                <Button
                   aria-expanded={openPath === path}
                   className="app-sidebar-layout-menu__button"
                   data-active-directory={isActiveDirectory || undefined}
                   data-directory="true"
                   onPointerEnter={() => openMenu(path)}
                   onPointerLeave={scheduleClose}
+                  size="lg"
                   type="button"
                 >
                   {icon}
                   <span className="app-sidebar-layout-menu__title">
                     {item.title}
                   </span>
-                </button>
+                </Button>
               </DropdownMenuTrigger>
               {item.children?.length ? (
                 <DropdownMenuContent

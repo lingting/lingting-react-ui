@@ -6,6 +6,7 @@ import {
 } from "lingting-react-ui"
 import {
   Button,
+  Label,
   Popover,
   PopoverContent,
   PopoverHeader,
@@ -71,13 +72,13 @@ export function ComponentsAppSettings() {
               </Button>
             ))}
           </div>
-          <label className="components-settings__persist">
+          <Label className="components-settings__persist">
             <span>记住主题选择</span>
             <Switch
               checked={persist}
               onCheckedChange={handleThemePersistChange}
             />
-          </label>
+          </Label>
         </PopoverContent>
       </Popover>
 
@@ -108,13 +109,13 @@ export function ComponentsAppSettings() {
               </Button>
             ))}
           </div>
-          <label className="components-settings__persist">
+          <Label className="components-settings__persist">
             <span>记住排版选择</span>
             <Switch
               checked={typographyPersist}
               onCheckedChange={handleTypographyPersistChange}
             />
-          </label>
+          </Label>
         </PopoverContent>
       </Popover>
     </div>

@@ -43,7 +43,7 @@
   overflow-y: auto;
 }
 
-.sidebar-layout-item {
+.sidebar-layout-item[data-slot="sidebar-layout-item"] {
   align-items: center;
   background-color: transparent;
   border: 0;
@@ -52,21 +52,20 @@
   cursor: pointer;
   display: flex;
   gap: 0.5rem;
-  min-height: 2.25rem;
   min-width: 0;
   padding: 0.375rem 0.5rem;
   text-align: left;
   width: 100%;
 }
 
-.sidebar-layout-item:hover,
-.sidebar-layout-item:focus-visible {
+.sidebar-layout-item[data-slot="sidebar-layout-item"]:hover,
+.sidebar-layout-item[data-slot="sidebar-layout-item"]:focus-visible {
   background-color: var(--sidebar-accent);
   color: var(--sidebar-accent-foreground);
   outline: none;
 }
 
-.sidebar-layout-item:focus-visible {
+.sidebar-layout-item[data-slot="sidebar-layout-item"]:focus-visible {
   box-shadow: 0 0 0 2px var(--sidebar-ring);
 }
 

@@ -9,6 +9,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/shadcn/ui/tooltip"
+import { Button } from "@/components/shadcn/ui/button"
 
 import type { SidebarLayoutActionContext } from "../sidebar-layout/SidebarLayout.types"
 import type { AppSidebarLayoutHeader } from "./AppSidebarLayoutTypes"
@@ -43,14 +44,15 @@ export function AppSidebarLayoutHeader({
       <div className="app-sidebar-layout-header__start">
         <Tooltip>
           <TooltipTrigger asChild>
-            <button
+            <Button
               aria-label={tooltip}
               className="app-sidebar-layout-header__toggle"
               onClick={state.toggle}
+              size="icon-lg"
               type="button"
             >
               {collapseIcon(header, state.collapsed)}
-            </button>
+            </Button>
           </TooltipTrigger>
           <TooltipContent>{tooltip}</TooltipContent>
         </Tooltip>

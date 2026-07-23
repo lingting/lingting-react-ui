@@ -1,6 +1,7 @@
 import type { SidebarLayoutItem } from "../sidebar-layout/SidebarLayout.types"
 import { SidebarLayoutItems } from "../sidebar-layout/SidebarLayoutItems"
 import type { SidebarLayoutActionContext } from "../sidebar-layout/SidebarLayout.types"
+import { Button } from "@/components/shadcn/ui/button"
 import { AppSidebarLayoutMenu } from "./AppSidebarLayoutMenu"
 import type { MenuExpandMode, MenuItem } from "@/types/menu"
 import type { AppSidebarLayoutUser as AppSidebarLayoutUserValue } from "./AppSidebarLayoutTypes"
@@ -58,9 +59,10 @@ export function AppSidebarLayoutSidebar({
       />
       {user && isBottomUser && <AppSidebarLayoutUserView user={user} />}
       {bottomLogout && (
-        <button
+        <Button
           className="app-sidebar-layout-sidebar__logout"
           onClick={bottomLogout.onClick}
+          size="lg"
           type="button"
         >
           {bottomLogout.icon && (
@@ -69,7 +71,7 @@ export function AppSidebarLayoutSidebar({
             </span>
           )}
           <span>{bottomLogout.text}</span>
-        </button>
+        </Button>
       )}
     </aside>
   )

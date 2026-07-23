@@ -1,5 +1,6 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
+import { Button } from "@/components/shadcn/ui/button"
 import type { TypographyActionConfig } from "./types"
 
 interface TypographyActionProps {
@@ -55,7 +56,7 @@ export function TypographyAction({
   }
 
   return (
-    <button
+    <Button
       {...buttonProps}
       type="button"
       aria-label={buttonProps?.["aria-label"] ?? ariaLabel}
@@ -64,6 +65,6 @@ export function TypographyAction({
       onClick={handleClick}
     >
       {actionIcon}
-    </button>
+    </Button>
   )
 }

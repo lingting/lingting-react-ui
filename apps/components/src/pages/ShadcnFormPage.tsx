@@ -95,17 +95,17 @@ export function ShadcnFormPage() {
         </DemoSection>
         <DemoSection title="Checkbox / Switch">
           <div className="components-demo-stack">
-            <label className="components-control-label">
+            <Label className="components-control-label">
               <Checkbox
                 checked={checked}
                 onCheckedChange={handleCheckedChange}
               />{" "}
               接收更新
-            </label>
-            <label className="components-control-label">
+            </Label>
+            <Label className="components-control-label">
               <Switch checked={enabled} onCheckedChange={handleEnabledChange} />{" "}
               启用通知
-            </label>
+            </Label>
           </div>
         </DemoSection>
         <DemoSection title="Combobox">
@@ -157,12 +157,12 @@ export function ShadcnFormPage() {
         </DemoSection>
         <DemoSection title="RadioGroup">
           <RadioGroup defaultValue="public">
-            <label className="components-control-label">
+            <Label className="components-control-label">
               <RadioGroupItem value="public" /> 公开
-            </label>
-            <label className="components-control-label">
+            </Label>
+            <Label className="components-control-label">
               <RadioGroupItem value="private" /> 私密
-            </label>
+            </Label>
           </RadioGroup>
         </DemoSection>
         <DemoSection title="Select">

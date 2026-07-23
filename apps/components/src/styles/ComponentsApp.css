@@ -96,7 +96,7 @@ body,
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
 }
 
-.components-overview-card {
+.components-overview-card[data-slot="button"] {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -105,6 +105,7 @@ body,
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  height: auto;
   min-height: 9.5rem;
   padding: 1.25rem;
   text-align: left;
@@ -113,8 +114,8 @@ body,
     transform 150ms ease;
 }
 
-.components-overview-card:hover,
-.components-overview-card:focus-visible {
+.components-overview-card[data-slot="button"]:hover,
+.components-overview-card[data-slot="button"]:focus-visible {
   border-color: var(--primary);
   outline: none;
   transform: translateY(-2px);
