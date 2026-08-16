@@ -1,7 +1,7 @@
 import { useRouter } from "@lri/hooks";
 import { BasicLayout } from "@lri/layout";
 
-export function ProStandaloneRoute() {
+export function StandaloneRoute() {
   const { match } = useRouter();
   if (!match || match.type !== "standalone") return null;
 

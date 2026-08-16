@@ -2,7 +2,7 @@ import { Typography } from "antd";
 
 import { BasicLayout } from "@lri/layout";
 
-export function ProNotFoundPage() {
+export function NotFoundPage() {
   return (
     <BasicLayout>
       <section>

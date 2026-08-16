@@ -1,7 +1,7 @@
 import { RouterProvider } from "@tanstack/react-router";
 import { useEffect, useMemo } from "react";
 
-import { ProNotFoundPage } from "@lri/blocks";
+import { NotFoundPage } from "@lri/blocks";
 import { RouterContextProvider } from "@lri/hooks";
 import { UserStore } from "@lri/store";
 
@@ -18,7 +18,7 @@ export type {
 export function AppSidebarLayout(props: AppSidebarLayoutProps) {
   const {
     menuRoutes,
-    notFoundComponent = ProNotFoundPage,
+    notFoundComponent = NotFoundPage,
     rootRedirectTo,
     standaloneRoutes = [],
   } = props;

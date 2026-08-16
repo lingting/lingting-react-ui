@@ -7,7 +7,7 @@ import {
   type AnyRoute,
 } from "@tanstack/react-router";
 
-import { ProStandaloneRoute } from "@lri/blocks";
+import { StandaloneRoute } from "@lri/blocks";
 import { findFirstMenuLeafPath, joinRoutePath } from "@lri/lib";
 import type {
   MenuRouteDefinition,
@@ -73,7 +73,7 @@ function createStandaloneRoute(parentRoute: AnyRoute, definition: StandaloneRout
   };
 
   return createRoute({
-    component: ProStandaloneRoute,
+    component: StandaloneRoute,
     getParentRoute: () => parentRoute,
     path: definition.path,
     staticData,
