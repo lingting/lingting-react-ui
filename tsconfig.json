@@ -15,10 +15,7 @@
     "incremental": true,
     "baseUrl": ".",
     "types": ["vite/client"],
-    "paths": {
-      "@/*": ["./src/*"],
-      "@/shadcn/*": ["./src/components/shadcn/*"]
-    }
+    "paths": { "@/*": ["./src/*"] }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "vite.config.ts"],
   "exclude": ["node_modules"]

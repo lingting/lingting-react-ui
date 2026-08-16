@@ -1,86 +1,39 @@
-# React 组件设计约束
+# 组件库归属与组件设计
 
-本项目是企业级 React 组件库。实现任何组件前，必须先判断其为 Primitive Component（基础组件）或 Business Component（业务组件）。
+先按以下顺序判定：用户明确要求、`AGENTS.md`、当前目录的既有实现，最后才自行判断。归属未确定前不得设计 API、目录或导出。
 
-## 类型判定
+| 类型 | 归属 | 可依赖 | 禁止包含 |
+| --- | --- | --- | --- |
+| Primitive | `src/components/` | `hooks`、`lib`、`types` | 领域语义、业务接口、硬编码权限数据或业务工作流 |
+| 通用高级组件 | `src/components/` 或 `src/blocks/` | Primitive、`hooks`、`lib`、`types`、`layout` | 写死的领域实体、接口地址、业务菜单或业务流程 |
+| 通用布局 | `src/layout/` | `blocks`、`components`、`store`、`types` | 具体领域页面、接口、模型或流程 |
+| 通用 Store | `src/store/` | 组件库通用模块与 `types` | 领域状态、硬编码权限数据、独立类型文件、重复或转发逻辑 |
+| 路由能力 | `src/layout/`、`src/hooks/`、`src/lib/`、`src/types/` | 组件库模块与路由依赖 | 具体业务页面、路由配置、接口或权限数据 |
 
-判定优先级为：用户明确指定 > 本项目规范 > 自动判断。用户指定“基础 Table”时按 Primitive 实现；指定“ProTable”时按 Business
-实现。用户未指定时，组件只要包含请求、查询、分页、排序、权限、数据处理或业务流程中的任一项，即为 Business；否则为 Primitive。
+## Primitive 与高级组件
 
-## Primitive Component
+Primitive 只承担 UI 渲染、样式、基础交互和组合，优先使用组合式 API。Ant Design 已提供的基础能力直接使用 ANTD；不要为基础 `Table` 创建项目封装。新增组件必须符合根目录 `DESIGN.md`。
 
-通用 UI 元素、没有业务流程与接口请求、不管理业务状态、可跨场景复用或接近 HTML 原生能力的组件属于 Primitive，例如
-Button、Input、Select、Checkbox、Radio、Dialog、Drawer、Tabs、Card、Table、Form Field 与 Pagination。
-
-Primitive 必须采用组合式 API，优先组件组合而非配置对象：
-
-```tsx
-<Table>
-  <TableHeader>
-    <TableRow>
-      <TableHead>Name</TableHead>
-    </TableRow>
-  </TableHeader>
-  <TableBody>
-    <TableRow>
-      <TableCell>Tom</TableCell>
-    </TableRow>
-  </TableBody>
-</Table>
-```
-
-Primitive 只负责 UI 渲染、样式、无障碍、基础交互与组件组合。禁止 API 请求、数据获取、权限逻辑、业务规则、工作流和领域模型；例如
-Button 不得接受 `permission` 或 `api` 等业务 props。
-
-Primitive 位于 `src/components/` 体系。复合 Primitive 可按组件目录拆分，例如 `Table/Table.tsx`、`Table/TableRow.tsx`、
-`Table/TableCell.tsx` 与 `Table/index.ts`。
-
-对外发布的自研 Primitive 从 `lingting-react-ui` 根入口导入；已有 shadcn 原始组件继续从 `lingting-react-ui/shadcn`
-导入。两类入口均不得混入 Business 组件。
-
-## Business Component
-
-包含业务流程、数据加载、查询、分页、排序、权限、CRUD 或面向具体业务场景的组件属于 Business，例如
-ProTable、SearchTable、CRUDTable、ProForm、PageContainer、UserSelector、PermissionTree 与 BusinessDashboard。
-
-Business 必须采用配置驱动 API，在业务效率优先的场景中配置优于组合：
+通用高级组件可以处理请求、数据拉取、表格、分页、路由和权限认证适配，但必须通过泛型、配置、回调或适配接口接收数据源、字段、路由、用户与权限规则。保持领域无关，例如：
 
 ```tsx
-<ProTable
+<ExTable<User>
   request={queryUsers}
-  columns={[
-    {title: "Name", dataIndex: "name"},
-    {title: "Status", dataIndex: "status"},
-  ]}
-  pagination
+  columns={columns}
 />
 ```
 
-Business 负责数据状态、请求封装、查询、分页、排序、加载、空状态、错误状态、权限控制与常用业务流程。Business 可以使用
-Primitive；Primitive 严禁导入或依赖 Business。
+`request` 与 `columns` 由使用方提供，组件库不导入业务 API 或领域模型。
 
-Business 位于 `src/pro/` 体系。新增第一个需要公开发布的 Business 组件时，同步创建 `src/pro.ts` 聚合入口并在 `package.json`
-增加 `./pro` export，使消费者从 `lingting-react-ui/pro` 导入。Business 不得进入 `lingting-react-ui` 根入口或
-`lingting-react-ui/shadcn` 子入口。
+## 结构规则
 
-本规则只定义未来新增时的结构；当前没有 Business 组件时，不创建空的 `src/pro.ts`，也不修改 `package.json`。
+- Block 组合可复用的界面区块或页面壳；必须通过 Props 接收展示内容和行为。
+- Layout 只实现通用应用或页面布局及其私有控制逻辑；不得绑定具体业务页面。
+- 每个 Store 只有一个实现文件，相关 `use` Hook 必须与 Store 同文件；共享类型定义在 `src/types/`。
+- 类型默认使用 `type`。仅在声明合并、模块扩展或无法等价表达时使用 `interface`；扩展对象类型优先使用 `&`。
+- 将组件内与 UI 无关的计算和转换提取到 `src/lib/<Component>Utils.ts`。发现可跨组件复用时，迁移到按功能命名的 `src/lib/*Utils.ts`，先检查并合并同类工具，再从 `src/lib/index.ts` 导出。
+- 颜色、表面和状态使用 ANTD 主题 token；不写内联硬编码主题色。可由 Tailwind 表达的结构 CSS 优先使用 `@apply`。
 
-## Table 与 Form 分层
+## 验收
 
-Table Primitive 仅提供 table 结构、header、body、row 与 cell 的组合组件，不接受 `columns`、`request`、`pagination` 或 `filter`
-。ProTable 位于 Business 层，负责 columns、request、分页、查询、排序和导出。
-
-基础 Form 通过 `<Form><FormItem><Input /></FormItem></Form>` 组合，负责布局、校验绑定与字段组合。ProForm 位于 Business 层，通过
-schema 等配置负责 schema 渲染、提交、重置与请求：
-
-```tsx
-<ProForm
-  schema={[
-    {name: "username", type: "input"},
-  ]}
-/>
-```
-
-## 实现原则
-
-低层组件采用组合 API，高层组件采用配置 API。禁止将业务智能放入 Primitive 组件。
+确认公开模块不导入业务实现；确认公开模块从所属 `index.ts` 逐级导出；确认高级组件通过 Props、泛型、回调或适配接口承载差异；确认 ANTD 导入、token、文本与事件 API 符合主技能约束。

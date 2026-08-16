@@ -1,14 +1,12 @@
-# 文件与命名约束
+# 文件、目录与导出命名
 
-除 Hook 文件外，TypeScript 与 TSX 文件使用 UpperCamelCase，例如 `UserProfile.tsx`、`AccountSettings.ts`、`OrderTable.tsx` 与
-`ApiClient.ts`。目录使用全小写 kebab-case，例如 `user-profile/`、`account-settings/` 与 `order-table/`。
+- React 导出组件以及组件文件使用 PascalCase。
+- Hook 文件和导出使用 `use` 加 camelCase，例如 `useUserInfo.ts` 与 `useUserInfo`。
+- 其他 TypeScript 与样式文件使用小驼峰，例如 `accountSettings.ts`、`apiClient.ts` 与 `accountSettings.css`；工具函数文件遵循 `<feature>Utils.ts`。
+- 目录使用小写 kebab-case，例如 `user-profile/`。
+- `App.tsx`、`main.tsx`、`global.tsx`、`router.tsx`、各级 `index.ts` 等框架或约定入口保持既有名称。
+- 只对修改或新增的源码执行命名迁移，不批量重命名无关文件。
 
-React 组件文件使用 `PascalCase.tsx`，其导出组件名使用 `PascalCase`。Hook 文件使用 `use` 加 PascalCase 的 camelCase 文件名，例如
-`useUserInfo.ts`、`useAuthState.ts`，导出 Hook 名称与文件名一致。
+创建、移动或重命名文件前，检查目标是否已存在，确认目录职责和组件层级，并避免覆盖无关文件。发生名称冲突时，选择语义明确的组件或模块名称，不占用已有通用组件名。
 
-创建或移动文件前，确认不属于 `src/components/shadcn/ui/` 的受保护原始组件修改，文件与目录命名正确，不覆盖已有文件，且符合
-`refs/component-design.md` 的组件层级。
-
-业务需求与 shadcn 组件同名时，保留 shadcn 原名称与路径，在对应业务目录创建语义明确的封装组件。例如，已有
-`src/components/shadcn/ui/dialog.tsx` 时，订单确认弹窗应命名为 `src/pro/order-dialog/OrderConfirmDialog.tsx`，不得放入
-shadcn 目录或重命名 shadcn 的 `Dialog`。
+新增公开模块时，先在该分类或目录的 `index.ts` 声明导出，再逐级聚合到上层入口。不要从根入口直接导出内部实现文件。

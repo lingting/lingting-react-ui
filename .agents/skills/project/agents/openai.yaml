@@ -1,0 +1,4 @@
+interface:
+  display_name: "项目开发规范"
+  short_description: "在本仓库实现符合架构约束的前端功能"
+  default_prompt: "Use $project to implement a scoped change in this repository."

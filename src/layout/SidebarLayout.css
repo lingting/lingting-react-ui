@@ -1,0 +1,57 @@
+@reference "@/index.css";
+
+.sidebar-layout {
+  @apply h-full min-h-full w-full;
+}
+
+.sidebar-layout__sidebar {
+  @apply h-full min-h-full overflow-hidden;
+  @apply bg-(--ant-color-bg-container);
+  @apply border-e border-solid border-(--ant-color-border-secondary);
+  transition: width 0.2s ease;
+}
+
+.sidebar-layout__sidebar .ant-layout-sider-children {
+  @apply flex h-full min-h-0 flex-col;
+}
+
+.sidebar-layout__base-items {
+  @apply min-h-0 flex-1 overflow-y-auto overflow-x-hidden;
+  padding: 2px 0 0 2px;
+  padding-inline-end: 2px;
+}
+
+.sidebar-layout__bottom-items {
+  @apply shrink-0 overflow-y-auto overflow-x-hidden;
+  padding: 2px 0 0 2px;
+  padding-inline-end: 2px;
+  max-height: 30%;
+}
+
+.sidebar-layout__main {
+  @apply min-h-0 min-w-0 flex-1 flex-col;
+}
+
+.sidebar-layout__header {
+  @apply flex h-14 shrink-0 items-center px-6;
+  @apply bg-(--ant-color-bg-container);
+  @apply border-e border-solid border-(--ant-color-border-secondary);
+  line-height: normal;
+}
+
+.sidebar-layout__header-left {
+  @apply flex min-w-0 max-w-[30%] items-center gap-4 overflow-hidden whitespace-nowrap;
+}
+
+.sidebar-layout__header-left > .ant-btn {
+  @apply shrink-0;
+}
+
+.sidebar-layout__header-right {
+  @apply flex min-w-0 flex-1 items-center justify-end gap-4 overflow-hidden whitespace-nowrap;
+}
+
+.sidebar-layout__content {
+  @apply min-h-0 min-w-0 flex-1 overflow-x-auto overflow-y-auto p-6;
+  @apply bg-(--ant-color-bg-layout);
+}

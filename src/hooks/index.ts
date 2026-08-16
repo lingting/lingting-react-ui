@@ -1,1 +1,3 @@
-export * from "./use-mobile"
+export * from "./useDict";
+export * from "./useMobile";
+export * from "./useRouter";

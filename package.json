@@ -1,98 +1,56 @@
 {
   "name": "lingting-react-ui",
   "version": "0.1.0",
-  "description": "基于 shadcn/ui 的 React 组件库",
+  "description": "基于 React 与 Ant Design 的专用高级组件库",
   "license": "MIT",
-  "type": "module",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist",
-    "README.md",
-    "LICENSE"
-  ],
-  "sideEffects": [
-    "**/*.css"
-  ],
+  "main": "./dist/lingting-react-ui.umd.cjs",
+  "module": "./dist/lingting-react-ui.js",
+  "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
-    },
-    "./shadcn": {
-      "types": "./dist/shadcn.d.ts",
-      "import": "./dist/shadcn.js",
-      "require": "./dist/shadcn.cjs"
-    },
-    "./components/*": {
-      "types": "./dist/components/*.d.ts",
-      "import": "./dist/components/*.js",
-      "require": "./dist/components/*.cjs"
-    },
-    "./hooks/*": {
-      "types": "./dist/hooks/*.d.ts",
-      "import": "./dist/hooks/*.js",
-      "require": "./dist/hooks/*.cjs"
-    },
-    "./lib/*": {
-      "types": "./dist/lib/*.d.ts",
-      "import": "./dist/lib/*.js",
-      "require": "./dist/lib/*.cjs"
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/lingting-react-ui.js",
+      "require": "./dist/lingting-react-ui.umd.cjs"
     }
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build": "vite build && pnpm run build:types",
-    "build:types": "tsc -p tsconfig.build.json",
-    "build:components": "pnpm run build && pnpm --filter lingting-react-ui-components build",
-    "start:components": "pnpm run build && pnpm --filter lingting-react-ui-components dev",
-    "lint": "prettier --write . && eslint .",
-    "prepublishOnly": "pnpm run build"
+    "dev": "vp dev",
+    "build": "vp build && tsc -p tsconfig.build.json",
+    "format": "vp fmt"
   },
   "peerDependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
-  },
-  "dependencies": {
-    "@base-ui/react": "~1.6.0",
-    "@shadcn/react": "~0.2.1",
-    "class-variance-authority": "~0.7.1",
+    "@ant-design/icons": "~6.3.2",
+    "@ant-design/pro-components": "^3.1.14-6",
+    "@tanstack/react-query": "~5.101.2",
+    "@tanstack/react-router": "^1.170.18",
+    "@tanstack/react-store": "^0.11.0",
+    "antd": "~6.5.1",
     "clsx": "~2.1.1",
-    "cmdk": "~1.1.1",
-    "date-fns": "~4.4.0",
-    "embla-carousel-react": "~8.6.0",
-    "input-otp": "~1.4.2",
-    "lucide-react": "~1.25.0",
-    "radix-ui": "~1.6.4",
-    "react-day-picker": "~10.0.1",
-    "react-resizable-panels": "~4.12.2",
-    "recharts": "3.8.0",
-    "sonner": "~2.0.7",
-    "tailwind-merge": "~3.6.0",
-    "vaul": "~1.1.2"
+    "dayjs": "~1.11.21",
+    "react": "~19.2.7",
+    "react-dom": "~19.2.7"
   },
   "devDependencies": {
-    "@eslint/js": "~10.0.1",
+    "@ant-design/cli": "~6.5.3",
     "@tailwindcss/vite": "~4.1.18",
-    "@types/node": "~24.10.1",
+    "@types/node": "~22.13.1",
     "@types/react": "~19.2.8",
     "@types/react-dom": "~19.2.3",
     "@vitejs/plugin-react": "~5.1.1",
-    "eslint": "~9.39.1",
-    "eslint-config-prettier": "~10.1.8",
-    "eslint-plugin-react-hooks": "~7.0.1",
-    "eslint-plugin-react-refresh": "~0.4.24",
-    "globals": "~16.5.0",
-    "prettier": "~3.9.6",
-    "prettier-plugin-tailwindcss": "~0.8.1",
-    "shadcn": "4.13.1",
     "tailwindcss": "~4.1.18",
     "typescript": "~5.9.3",
-    "typescript-eslint": "~8.46.4",
-    "vite": "~7.2.6"
+    "vite": "catalog:",
+    "vite-plus": "catalog:"
   },
   "volta": {
     "node": "22.22.3"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   }
 }

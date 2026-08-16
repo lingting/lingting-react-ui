@@ -1,0 +1,9 @@
+@reference "@/index.css";
+
+.basic-layout-app {
+  @apply h-full min-h-full w-full font-sans antialiased;
+}
+
+.basic-layout {
+  @apply flex h-full min-h-full w-full flex-col font-sans antialiased;
+}

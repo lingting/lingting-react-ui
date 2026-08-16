@@ -9,9 +9,17 @@ node_modules
 !.yarn/versions
 .idea
 
-.agents/*
-!/.agents/skills/
-!/.agents/skills/project/**
+# skill 生成的推理文档
+findings.md
+progress.md
+task_plan.md
+task.md
+
+/.agents/*
+!/.agents/skills
+/.agents/skills/*
+!/.agents/skills/antd
+!/.agents/skills/project
 
 dist/
 
@@ -38,6 +46,8 @@ pnpm-debug.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.development
+!.env.production
 
 # typescript
 *.tsbuildinfo

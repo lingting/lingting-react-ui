@@ -1,0 +1,9 @@
+@layer components {
+  .app-sidebar-layout__user-text {
+    @apply flex min-w-0 flex-col;
+  }
+
+  .app-sidebar-layout__user-avatar {
+    @apply shrink-0;
+  }
+}

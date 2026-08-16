@@ -1,6 +1,0 @@
-@theme inline {
-    --text-typography-body: var(--typography-body-size);
-    --leading-typography-body: var(--typography-body-line-height);
-    --spacing-typography-heading: var(--typography-heading-gap);
-    --spacing-typography-paragraph: var(--typography-paragraph-gap);
-}
