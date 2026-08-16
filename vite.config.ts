@@ -28,7 +28,7 @@ export default defineConfig({
     lib: {
       entry: resolve(import.meta.dirname, "src/index.ts"),
       fileName: "lingting-react-ui",
-      formats: ["es", "umd"],
+      formats: ["es"],
       name: "LingtingReactUi",
     },
     rollupOptions: { external },
