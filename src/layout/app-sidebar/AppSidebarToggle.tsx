@@ -1,7 +1,7 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 
-import { SidebarCollapsed, useSidebarLayout } from "@/layout";
+import { SidebarCollapsed, useSidebarLayout } from "@lri/layout";
 
 export default function AppSidebarToggle() {
   const { collapsed, toggleCollapsed } = useSidebarLayout();

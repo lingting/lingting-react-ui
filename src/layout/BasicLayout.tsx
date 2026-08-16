@@ -12,10 +12,10 @@ import {
   useState,
 } from "react";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { AppHolder } from "@/lib";
+import { AppHolder } from "@lri/lib";
 
 import "./BasicLayout.css";
-import { useToken } from "@/hooks/useAntdExt";
+import { useToken } from "@lri/hooks/useAntdExt";
 
 type ProThemeConfig = Omit<ComponentProps<typeof ProConfigProvider>, "children">;
 

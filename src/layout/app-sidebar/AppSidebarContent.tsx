@@ -3,10 +3,10 @@ import { Outlet, useRouter, useRouterState } from "@tanstack/react-router";
 import { Avatar, Dropdown, Menu, type MenuProps, Typography } from "antd";
 import { Children, type ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 
-import { SidebarCollapsed, SidebarLayout, useSidebarLayout } from "@/layout";
-import { findMenuAncestorPaths, joinRoutePath, normalizeRoutePath } from "@/lib";
-import { useUserStore } from "@/store";
-import type { MenuRouteDefinition, ProUser } from "@/types";
+import { SidebarCollapsed, SidebarLayout, useSidebarLayout } from "@lri/layout";
+import { findMenuAncestorPaths, joinRoutePath, normalizeRoutePath } from "@lri/lib";
+import { useUserStore } from "@lri/store";
+import type { MenuRouteDefinition, ProUser } from "@lri/types";
 
 import { useAppSidebarLayoutProps } from "./AppSidebarLayoutContext";
 import type { AppSidebarLayoutProps } from "./AppSidebarLayoutTypes";

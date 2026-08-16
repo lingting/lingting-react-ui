@@ -1,7 +1,7 @@
 import { Badge, Checkbox, Select, type SelectProps, Tag, theme } from "antd";
 
-import { useDictOptions, useDictValue } from "@/hooks";
-import { resolveDictColor } from "@/lib";
+import { useDictOptions, useDictValue } from "@lri/hooks";
+import { resolveDictColor } from "@lri/lib";
 import type {
   DictBadgeProps,
   DictCheckBoxProps,
@@ -9,7 +9,7 @@ import type {
   DictTagProps,
   DictTextProps,
   DictValue,
-} from "@/types";
+} from "@lri/types";
 
 export function DictBadge<T extends DictValue>({
   dict,

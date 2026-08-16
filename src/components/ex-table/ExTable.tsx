@@ -1,7 +1,7 @@
 import { type ProColumns, ProTable } from "@ant-design/pro-components";
 import { useMemo } from "react";
 
-import { AppHolder, formatTimestamp } from "@/lib";
+import { AppHolder, formatTimestamp } from "@lri/lib";
 import type {
   ExDictProps,
   ExTableColumn,
@@ -9,7 +9,7 @@ import type {
   ExTableRequestParams,
   PaginationParams,
   PaginationResult,
-} from "@/types";
+} from "@lri/types";
 
 import { Dict } from "../dict";
 

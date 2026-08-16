@@ -2,7 +2,7 @@ import { Popconfirm, Tooltip } from "antd";
 import type { PopconfirmProps, TooltipProps } from "antd";
 import { isValidElement, type ReactNode } from "react";
 
-import type { ExButtonConfirm, ExButtonTooltip } from "@/types";
+import type { ExButtonConfirm, ExButtonTooltip } from "@lri/types";
 
 export function isConfigObject(value: unknown): value is Record<string, unknown> {
   return (

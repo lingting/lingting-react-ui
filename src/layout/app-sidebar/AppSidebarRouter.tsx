@@ -7,14 +7,14 @@ import {
   type AnyRoute,
 } from "@tanstack/react-router";
 
-import { ProStandaloneRoute } from "@/blocks";
-import { findFirstMenuLeafPath, joinRoutePath } from "@/lib";
+import { ProStandaloneRoute } from "@lri/blocks";
+import { findFirstMenuLeafPath, joinRoutePath } from "@lri/lib";
 import type {
   MenuRouteDefinition,
   ProRouteNotFoundComponent,
   ProRouteStaticData,
   StandaloneRouteDefinition,
-} from "@/types";
+} from "@lri/types";
 
 import { AppSidebarContent } from "./AppSidebarContent";
 

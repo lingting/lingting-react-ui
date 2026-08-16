@@ -1,4 +1,4 @@
-@reference "@/index.css";
+@reference "@lri/index.css";
 
 .sidebar-layout {
   @apply h-full min-h-full w-full;

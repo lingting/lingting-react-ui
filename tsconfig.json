@@ -15,7 +15,7 @@
     "incremental": true,
     "baseUrl": ".",
     "types": ["vite/client"],
-    "paths": { "@/*": ["./src/*"] }
+    "paths": { "@lri/*": ["./src/*"] }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "vite.config.ts"],
   "exclude": ["node_modules"]

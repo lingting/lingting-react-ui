@@ -1,5 +1,5 @@
-import { useRouter } from "@/hooks";
-import { BasicLayout } from "@/layout";
+import { useRouter } from "@lri/hooks";
+import { BasicLayout } from "@lri/layout";
 
 export function ProStandaloneRoute() {
   const { match } = useRouter();

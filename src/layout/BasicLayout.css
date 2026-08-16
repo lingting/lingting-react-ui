@@ -1,4 +1,4 @@
-@reference "@/index.css";
+@reference "@lri/index.css";
 
 .basic-layout-app {
   @apply h-full min-h-full w-full font-sans antialiased;

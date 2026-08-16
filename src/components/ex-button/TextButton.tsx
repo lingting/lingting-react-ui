@@ -9,8 +9,8 @@ import {
   renderTooltip,
   resolveButtonContent,
   resolveButtonDisabled,
-} from "@/lib";
-import type { TextButtonProps } from "@/types";
+} from "@lri/lib";
+import type { TextButtonProps } from "@lri/types";
 
 function TextButtonComponent({
   children,

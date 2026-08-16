@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import type { DictData, DictItem, DictValue } from "@/types";
+import type { DictData, DictItem, DictValue } from "@lri/types";
 import { PresetColors } from "antd/es/theme/interface/presetColors";
 
 const presetColors = PresetColors as unknown as readonly string[];

@@ -5,8 +5,8 @@ import {
   normalizeDictData,
   toDictOptions,
   type NormalizedDictItem,
-} from "@/lib";
-import type { DictData, DictValue } from "@/types";
+} from "@lri/lib";
+import type { DictData, DictValue } from "@lri/types";
 
 export function useDictItems<T extends DictValue>(dictdata: DictData<T>): NormalizedDictItem<T>[] {
   return useMemo(() => normalizeDictData(dictdata), [dictdata]);

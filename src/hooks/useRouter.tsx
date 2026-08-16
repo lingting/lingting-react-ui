@@ -1,8 +1,8 @@
 import { useRouterState } from "@tanstack/react-router";
 import { createContext, useContext, useMemo, type ReactNode } from "react";
 
-import { findMenuRoute, findStandaloneRoute, normalizeRoutePath } from "@/lib";
-import type { MenuRouteDefinition, StandaloneRouteDefinition } from "@/types";
+import { findMenuRoute, findStandaloneRoute, normalizeRoutePath } from "@lri/lib";
+import type { MenuRouteDefinition, StandaloneRouteDefinition } from "@lri/types";
 
 type RouterNavigation = {
   navigate: (options: { replace?: boolean; to: string }) => void | Promise<void>;

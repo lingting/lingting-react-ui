@@ -1,7 +1,7 @@
 import { ProFormCheckbox, ProFormSelect } from "@ant-design/pro-components";
 
-import { useDictOptions } from "@/hooks";
-import type { ExFormDictCheckboxProps, ExFormDictSelectProps } from "@/types";
+import { useDictOptions } from "@lri/hooks";
+import type { ExFormDictCheckboxProps, ExFormDictSelectProps } from "@lri/types";
 
 export function ExFormDictSelect<T extends string | number | boolean>({
   dict,

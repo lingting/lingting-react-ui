@@ -1,4 +1,4 @@
-import type { MenuRouteDefinition, StandaloneRouteDefinition } from "@/types";
+import type { MenuRouteDefinition, StandaloneRouteDefinition } from "@lri/types";
 
 export function joinRoutePath(parentPath: string, path: string) {
   return `/${[parentPath, path]

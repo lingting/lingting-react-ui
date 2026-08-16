@@ -12,4 +12,4 @@ export type {
   DictTextProps,
   DictValue,
   DictValues,
-} from "@/types";
+} from "@lri/types";

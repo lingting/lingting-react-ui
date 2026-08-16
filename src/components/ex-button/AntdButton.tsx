@@ -2,8 +2,8 @@ import { Button } from "antd";
 import type { ButtonProps } from "antd";
 import { memo, useMemo, type ReactNode } from "react";
 
-import { hasConfirm, renderConfirm, renderTooltip } from "@/lib";
-import type { ExButtonProps } from "@/types";
+import { hasConfirm, renderConfirm, renderTooltip } from "@lri/lib";
+import type { ExButtonProps } from "@lri/types";
 
 function AntdButtonComponent({
   children,

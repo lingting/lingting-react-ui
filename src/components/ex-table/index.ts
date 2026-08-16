@@ -6,4 +6,4 @@ export type {
   ExTableProps,
   ExTableRequestParams,
   ExTableValueType,
-} from "@/types";
+} from "@lri/types";

@@ -1,4 +1,4 @@
-import type { MenuExpandMode, MenuItem } from "@/types/Menu";
+import type { MenuExpandMode, MenuItem } from "@lri/types/Menu";
 
 export type ResolvedMenuItem = {
   item: MenuItem;

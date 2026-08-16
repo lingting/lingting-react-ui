@@ -1,9 +1,9 @@
-import type { SimpleLoginFormProps, SimpleLoginFormValues } from "@/types";
+import type { SimpleLoginFormProps, SimpleLoginFormValues } from "@lri/types";
 import { Alert, Flex, Row, Spin, Typography } from "antd";
 import { ProForm, ProFormText } from "@ant-design/pro-components";
 import { Children, useCallback, useMemo, useState } from "react";
 
-import { Button, LinkButton } from "@/components";
+import { Button, LinkButton } from "@lri/components";
 
 import "./SimpleLoginForm.css";
 

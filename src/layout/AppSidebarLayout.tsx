@@ -1,9 +1,9 @@
 import { RouterProvider } from "@tanstack/react-router";
 import { useEffect, useMemo } from "react";
 
-import { ProNotFoundPage } from "@/blocks";
-import { RouterContextProvider } from "@/hooks";
-import { UserStore } from "@/store";
+import { ProNotFoundPage } from "@lri/blocks";
+import { RouterContextProvider } from "@lri/hooks";
+import { UserStore } from "@lri/store";
 
 import { AppSidebarLayoutContext } from "./app-sidebar/AppSidebarLayoutContext";
 import { createAppSidebarRouter } from "./app-sidebar/AppSidebarRouter";

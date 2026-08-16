@@ -1,4 +1,4 @@
-import { PREFIX } from "@/global";
+import { PREFIX } from "@lri/global";
 
 const AUTH_TOKEN_STORAGE_KEY = `${PREFIX}/auth-token`;
 

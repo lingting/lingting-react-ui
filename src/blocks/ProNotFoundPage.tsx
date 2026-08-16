@@ -1,6 +1,6 @@
 import { Typography } from "antd";
 
-import { BasicLayout } from "@/layout";
+import { BasicLayout } from "@lri/layout";
 
 export function ProNotFoundPage() {
   return (

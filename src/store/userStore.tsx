@@ -1,8 +1,8 @@
 import type { AnyRouter } from "@tanstack/react-router";
 import { Store, useSelector } from "@tanstack/react-store";
 
-import { PREFIX } from "@/global";
-import { message } from "@/lib";
+import { PREFIX } from "@lri/global";
+import { message } from "@lri/lib";
 import type {
   AuthRule,
   ProUser,
@@ -10,7 +10,7 @@ import type {
   ProUserStoreInitializeOptions,
   ProUserStoreState,
   UseUserStoreResult,
-} from "@/types";
+} from "@lri/types";
 
 const DEFAULT_KEY_PREFIX = `${PREFIX}/user-store`;
 

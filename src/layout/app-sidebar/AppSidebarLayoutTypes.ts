@@ -2,9 +2,9 @@ import type {
   MenuRouteDefinition,
   ProRouteNotFoundComponent,
   StandaloneRouteDefinition,
-} from "@/types";
+} from "@lri/types";
 
-import type { SidebarLayoutProps } from "@/layout";
+import type { SidebarLayoutProps } from "@lri/layout";
 
 export type AppSidebarUserPosition = "hidden" | "top" | "bottom";
 export type AppSidebarLogoutPosition = "hidden" | "user" | "bottom";

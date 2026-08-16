@@ -9,8 +9,8 @@ import {
   renderTooltip,
   resolveButtonContent,
   resolveButtonDisabled,
-} from "@/lib";
-import type { LinkButtonProps } from "@/types";
+} from "@lri/lib";
+import type { LinkButtonProps } from "@lri/types";
 
 function LinkButtonComponent({
   children,
