@@ -2,6 +2,7 @@
   "name": "lingting-react-ui",
   "version": "0.1.0",
   "description": "基于 React 与 Ant Design 的专用高级组件库",
+  "sideEffects": ["**/*.css"],
   "license": "MIT",
   "files": [
     "dist"
