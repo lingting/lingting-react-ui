@@ -39,7 +39,11 @@ export function AppSidebarLayout(props: AppSidebarLayoutProps) {
   }, [router]);
 
   return (
-    <RouterContextProvider menuRoutes={menuRoutes} router={router} standaloneRoutes={standaloneRoutes}>
+    <RouterContextProvider
+      menuRoutes={menuRoutes}
+      router={router}
+      standaloneRoutes={standaloneRoutes}
+    >
       <AppSidebarLayoutContext.Provider value={props}>
         <RouterProvider router={router} />
       </AppSidebarLayoutContext.Provider>

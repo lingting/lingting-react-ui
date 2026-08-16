@@ -46,8 +46,7 @@ function SimpleLoginForm<T = Record<string, unknown>>({
 
       return onFinish(values)
         .catch((reason: unknown) => {
-          const message =
-            reason instanceof Error ? reason.message : String(reason || "登录异常!");
+          const message = reason instanceof Error ? reason.message : String(reason || "登录异常!");
           setError(message);
         })
         .finally(() => setLoading(false));

@@ -8,7 +8,9 @@ export default function AppSidebarToggle() {
   return (
     <Button
       aria-label="切换侧边栏"
-      icon={collapsed === SidebarCollapsed.Collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+      icon={
+        collapsed === SidebarCollapsed.Collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />
+      }
       type="text"
       onClick={toggleCollapsed}
     />

@@ -1,5 +1,5 @@
-import { theme, App } from "antd";
+import { App, theme } from "antd";
 
-export const useToken = theme.useToken;
+export const useToken: typeof theme.useToken = theme.useToken;
 
-export const useApp = App.useApp;
+export const useApp: typeof App.useApp = App.useApp;

@@ -167,10 +167,7 @@ export function AppSidebarContent() {
   const [openKeys, setOpenKeys] = useState<string[]>(ancestorPaths);
   const headerLeftItems = useMemo(
     () =>
-      Children.toArray([
-        <AppSidebarToggle key="__app-sidebar-toggle" />,
-        sourceHeaderLeftItems,
-      ]),
+      Children.toArray([<AppSidebarToggle key="__app-sidebar-toggle" />, sourceHeaderLeftItems]),
     [sourceHeaderLeftItems],
   );
 

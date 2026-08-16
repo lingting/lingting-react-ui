@@ -94,8 +94,8 @@ function prepareColumn<T extends Record<string, unknown>>(column: ExTableColumn<
         }
       };
     }
-    if (!column.renderFormItem) {
-      next.renderFormItem = () =>
+    if (!column.formItemRender) {
+      next.formItemRender = () =>
         dictSearch === "checkbox" ? (
           <Dict.CheckBox {...dictProps} />
         ) : (
