@@ -19,7 +19,7 @@ task.md
 !/.agents/skills
 /.agents/skills/*
 !/.agents/skills/antd
-!/.agents/skills/project
+!/.agents/skills/lingting-react-ui-skill
 
 dist/
 
