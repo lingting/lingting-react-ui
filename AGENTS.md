@@ -16,7 +16,7 @@
 
 ### 组件组合优先级（强制）
 
-新建组件需要组合多个既有组件时，必须按以下顺序检索并复用适用能力：`src/components/` → Ant Design Pro Components → Ant Design（`antd`）。不得绕过已有高优先级组件而重复实现。
+任何内部组件实现（包括组件、Layout、Block 与 JSX 包装）在选择既有组件时，必须严格依次检索并优先复用：项目 `src/components/`（LRI 已有组件）→ Ant Design Pro Components → Ant Design（`antd`）原生组件。仅当前一优先级不存在可满足需求的组件时，才可使用下一优先级；禁止绕过任一高优先级组件而直接选用低优先级组件，也禁止以低优先级组件重复实现高优先级已有能力。
 
 ## 工具与类型约束
 
