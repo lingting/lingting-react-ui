@@ -29,7 +29,7 @@
 ## Ant Design 与样式约束
 
 - 使用 Ant Design v6 API；编写或分析 antd 代码前，优先使用 antd MCP 工具查询当前 API、文档、示例、语义结构与 token。仅当 MCP 不支持时才使用项目内 `pnpm antd` CLI。
-- 新增组件必须符合根目录 `DESIGN.md`。静态布局、颜色、间距、边框与状态样式使用语义化类名，并在对应 CSS 中通过 Tailwind CSS 的 `@apply` 组合；不得建立平行主题体系或硬编码主题色。
+- 新增组件必须符合根目录 `DESIGN.md`。静态布局、颜色、间距、边框与状态样式使用语义化类名，并在对应 CSS 中通过 Tailwind CSS 的 `@apply` 组合；不得建立平行主题体系或硬编码主题色。`src/blocks/` 下的非示例组件不受此限制：除非样式必须依赖 class，否则将样式直接内置在组件中；无需为使用方覆盖样式提供扩展点，需调整时由使用方复制组件源码后自行修改。
 - 基础展示组件优先复用 `src/components/`，其次使用 Ant Design 原生组件；文本展示优先使用 `Typography`。
 - 对稳定 Props 下可跳过渲染的基础组件使用 `React.memo`；非平凡派生内容使用 `useMemo`；仅在需要稳定身份时使用 `useCallback`，且保持依赖数组完整。
 - 不保留 shadcn 配置、源码、路径别名、依赖或兼容入口。

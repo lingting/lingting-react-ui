@@ -1,7 +1,0 @@
-@reference "../index.css";
-
-@layer components {
-  .simple-login-form__message {
-    @apply mb-1 h-8;
-  }
-}

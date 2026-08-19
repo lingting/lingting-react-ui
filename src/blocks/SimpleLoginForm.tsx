@@ -5,14 +5,12 @@ import { Children, useCallback, useMemo, useState } from "react";
 
 import { Button, LinkButton } from "@lri/components";
 
-import "./SimpleLoginForm.css";
-
 function LoginMessage({ text }: { text?: string }) {
   if (text?.trim().length) {
-    return <Alert className="simple-login-form__message" title={text} type="error" showIcon />;
+    return <Alert style={{ height: 32, marginBottom: 4 }} title={text} type="error" showIcon />;
   }
 
-  return <div className="simple-login-form__message" />;
+  return <div style={{ height: 32, marginBottom: 4 }} />;
 }
 
 function SimpleLoginForm<T = Record<string, unknown>>({
