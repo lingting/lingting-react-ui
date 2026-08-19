@@ -6,3 +6,4 @@ export * from "./DictUtils";
 export * from "./ImageUtils";
 export * from "./MenuUtils";
 export * from "./RouteUtils";
+export * from "./CopyUtils";

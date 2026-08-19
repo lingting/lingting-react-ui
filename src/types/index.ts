@@ -7,3 +7,4 @@ export * from "./ExTableTypes";
 export * from "./ButtonTypes";
 export * from "./ExFormTypes";
 export * from "./SimpleLoginFormTypes";
+export * from "./CopyTypes";
