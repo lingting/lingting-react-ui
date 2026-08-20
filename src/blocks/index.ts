@@ -1,3 +1,4 @@
+export { LoadingPage } from "./LoadingPage";
 export { NotFoundPage } from "./NotFoundPage";
 export { PlaceholderPage } from "./PlaceholderPage";
 export { StandaloneRoute } from "./StandaloneRoute";
