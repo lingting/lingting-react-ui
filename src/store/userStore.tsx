@@ -5,20 +5,20 @@ import { PREFIX } from "@lri/global";
 import { message } from "@lri/lib";
 import type {
   AuthRule,
-  ProUser,
-  ProUserAction,
-  ProUserStoreInitializeOptions,
-  ProUserStoreState,
+  User,
+  UserAction,
+  UserStoreInitializeOptions,
+  UserStoreState,
   UseUserStoreResult,
 } from "@lri/types";
 
 const DEFAULT_KEY_PREFIX = `${PREFIX}/user-store`;
 
-type ProUserStoreRuntime = Omit<Required<ProUserStoreInitializeOptions>, "keyPrefix"> & {
+type ProUserStoreRuntime = Omit<Required<UserStoreInitializeOptions>, "keyPrefix"> & {
   keyPrefix: string;
-  refreshPromise?: Promise<ProUser>;
+  refreshPromise?: Promise<User>;
   router?: AnyRouter;
-  store: Store<ProUserStoreState>;
+  store: Store<UserStoreState>;
 };
 
 let runtime: ProUserStoreRuntime | undefined;
@@ -41,7 +41,7 @@ function includesAny(actual: readonly string[], expected: unknown) {
   return values.length === 0 || values.some((value) => actual.includes(value));
 }
 
-function allowUser(user: ProUser | undefined, rule: AuthRule): boolean {
+function allowUser(user: User | undefined, rule: AuthRule): boolean {
   if (rule.anonymous === true) return true;
   if (!user) return false;
 
@@ -107,11 +107,11 @@ async function redirectByAction(current: ProUserStoreRuntime, url?: string) {
 }
 
 export class UserStore {
-  static initialize(options: ProUserStoreInitializeOptions) {
+  static initialize(options: UserStoreInitializeOptions) {
     runtime = {
       ...options,
       keyPrefix: options.keyPrefix?.trim() || DEFAULT_KEY_PREFIX,
-      store: new Store<ProUserStoreState>({}),
+      store: new Store<UserStoreState>({}),
     };
   }
 
@@ -130,12 +130,12 @@ export class UserStore {
     return allowUser(current.store.state.user, resolvedRule);
   }
 
-  static async refresh(): Promise<ProUser> {
+  static async refresh(): Promise<User> {
     const current = getRuntime();
     if (current.refreshPromise) return current.refreshPromise;
 
     const request = (async () => {
-      let action: ProUserAction;
+      let action: UserAction;
       try {
         action = await current.getUser();
       } catch (error) {
@@ -163,7 +163,7 @@ export class UserStore {
 
   static async logout(): Promise<void> {
     const current = getRuntime();
-    let action: ProUserAction;
+    let action: UserAction;
     try {
       action = await current.logout();
     } catch (error) {

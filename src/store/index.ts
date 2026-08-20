@@ -1,8 +1,8 @@
 export { UserStore, useUserStore } from "./userStore";
 export type {
   AuthRule,
-  ProUser,
-  ProUserAction,
-  ProUserStoreInitializeOptions,
+  User,
+  UserAction,
+  UserStoreInitializeOptions,
   UseUserStoreResult,
 } from "@lri//types";

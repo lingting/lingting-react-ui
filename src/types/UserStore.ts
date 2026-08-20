@@ -1,4 +1,4 @@
-export type ProUser = {
+export type User = {
   avatar?: string;
   desc?: string;
   id: string;
@@ -23,25 +23,25 @@ export type AuthRule = {
   tenantIdsAny?: string[];
 };
 
-export type ProUserAction = {
+export type UserAction = {
   type: "login" | "redirect";
   url?: string;
-  value?: ProUser;
+  value?: User;
 };
 
-export type ProUserStoreInitializeOptions = {
-  getUser: () => Promise<ProUserAction>;
+export type UserStoreInitializeOptions = {
+  getUser: () => Promise<UserAction>;
   keyPrefix?: string;
-  logout: () => Promise<ProUserAction>;
+  logout: () => Promise<UserAction>;
 };
 
-export type ProUserStoreState = {
-  user?: ProUser;
+export type UserStoreState = {
+  user?: User;
 };
 
 export type UseUserStoreResult = {
   allow: (rule: string | string[] | AuthRule) => boolean;
   logout: () => Promise<void>;
-  refresh: () => Promise<ProUser>;
-  user?: ProUser;
+  refresh: () => Promise<User>;
+  user?: User;
 };

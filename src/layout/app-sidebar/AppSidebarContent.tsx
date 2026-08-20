@@ -6,7 +6,7 @@ import { Children, type ReactNode, useCallback, useEffect, useMemo, useState } f
 import { SidebarCollapsed, SidebarLayout, useSidebarLayout } from "@lri/layout";
 import { findMenuAncestorPaths, joinRoutePath, normalizeRoutePath } from "@lri/lib";
 import { useUserStore } from "@lri/store";
-import type { MenuRouteDefinition, ProUser } from "@lri/types";
+import type { MenuRouteDefinition, User } from "@lri/types";
 
 import { useAppSidebarLayoutProps } from "./AppSidebarLayoutContext";
 import type { AppSidebarLayoutProps } from "./AppSidebarLayoutTypes";
@@ -34,7 +34,7 @@ function createRouteMenuItems(
   });
 }
 
-function UserText({ user }: { user: ProUser }) {
+function UserText({ user }: { user: User }) {
   return (
     <div className="app-sidebar-layout__user-text">
       <Typography.Text ellipsis>{user.nickname}</Typography.Text>
@@ -95,7 +95,7 @@ function AppSidebarUserMenu({
   user,
 }: {
   logoutPosition: AppSidebarLayoutProps["logoutPosition"];
-  user: ProUser;
+  user: User;
 }) {
   const { collapsed } = useSidebarLayout();
   const { logout } = useUserStore();
