@@ -36,6 +36,7 @@ export type UserStoreInitializeOptions = {
 };
 
 export type UserStoreState = {
+  loading: boolean;
   user?: User;
 };
 
@@ -43,5 +44,6 @@ export type UseUserStoreResult = {
   allow: (rule: string | string[] | AuthRule) => boolean;
   logout: () => Promise<void>;
   refresh: () => Promise<User>;
+  loading: boolean;
   user?: User;
 };

@@ -8,7 +8,7 @@ import { findMenuAncestorPaths, joinRoutePath, normalizeRoutePath } from "@lri/l
 import { useUserStore } from "@lri/store";
 import type { MenuRouteDefinition, User } from "@lri/types";
 
-import { useAppSidebarLayoutProps } from "./AppSidebarLayoutContext";
+import { useAppSidebarLayout } from "./AppSidebarLayoutContext";
 import type { AppSidebarLayoutProps } from "./AppSidebarLayoutTypes";
 import AppSidebarToggle from "./AppSidebarToggle";
 
@@ -147,6 +147,7 @@ function AppSidebarLogoutMenu() {
 }
 
 export function AppSidebarContent() {
+  const { props } = useAppSidebarLayout();
   const {
     baseItems = [],
     bottomItems = [],
@@ -155,7 +156,7 @@ export function AppSidebarContent() {
     menuRoutes,
     userPosition = "top",
     ...sidebarProps
-  } = useAppSidebarLayoutProps();
+  } = props;
   const { user } = useUserStore();
   const pathname = useRouterState({
     select: (state) => normalizeRoutePath(state.location.pathname),

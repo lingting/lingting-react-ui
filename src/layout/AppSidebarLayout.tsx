@@ -1,11 +1,11 @@
 import { RouterProvider } from "@tanstack/react-router";
 import { useEffect, useMemo } from "react";
 
-import { NotFoundPage } from "@lri/blocks";
+import { LoadingPage, NotFoundPage } from "@lri/blocks";
 import { RouterContextProvider } from "@lri/hooks";
 import { UserStore } from "@lri/store";
 
-import { AppSidebarLayoutContext } from "./app-sidebar/AppSidebarLayoutContext";
+import { AppSidebarLayoutContext, useAppSidebarLayout } from "./app-sidebar/AppSidebarLayoutContext";
 import { createAppSidebarRouter } from "./app-sidebar/AppSidebarRouter";
 import type { AppSidebarLayoutProps } from "./app-sidebar/AppSidebarLayoutTypes";
 
@@ -15,8 +15,21 @@ export type {
   AppSidebarUserPosition,
 } from "./app-sidebar/AppSidebarLayoutTypes";
 
+function AppSidebarLayoutContent({
+  router,
+}: {
+  router: ReturnType<typeof createAppSidebarRouter>;
+}) {
+  const { loading, props } = useAppSidebarLayout();
+  const { loadingComponent: LoadingComponent = LoadingPage } = props;
+
+  if (loading) return <LoadingComponent />;
+  return <RouterProvider router={router} />;
+}
+
 export function AppSidebarLayout(props: AppSidebarLayoutProps) {
   const {
+    loadingComponent = LoadingPage,
     menuRoutes,
     notFoundComponent = NotFoundPage,
     rootRedirectTo,
@@ -44,8 +57,8 @@ export function AppSidebarLayout(props: AppSidebarLayoutProps) {
       router={router}
       standaloneRoutes={standaloneRoutes}
     >
-      <AppSidebarLayoutContext.Provider value={props}>
-        <RouterProvider router={router} />
+      <AppSidebarLayoutContext.Provider value={{ ...props, loadingComponent }}>
+        <AppSidebarLayoutContent router={router} />
       </AppSidebarLayoutContext.Provider>
     </RouterContextProvider>
   );

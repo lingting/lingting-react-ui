@@ -111,7 +111,7 @@ export class UserStore {
     runtime = {
       ...options,
       keyPrefix: options.keyPrefix?.trim() || DEFAULT_KEY_PREFIX,
-      store: new Store<UserStoreState>({}),
+      store: new Store<UserStoreState>({ loading: true }),
     };
   }
 
@@ -134,6 +134,7 @@ export class UserStore {
     const current = getRuntime();
     if (current.refreshPromise) return current.refreshPromise;
 
+    current.store.setState((state) => ({ ...state, loading: true }));
     const request = (async () => {
       let action: UserAction;
       try {
@@ -144,11 +145,11 @@ export class UserStore {
       }
 
       if (action.type === "login" && action.value) {
-        current.store.setState(() => ({ user: action.value }));
+        current.store.setState((state) => ({ ...state, user: action.value }));
         return action.value;
       }
 
-      current.store.setState(() => ({}));
+      current.store.setState((state) => ({ ...state, user: undefined }));
       if (action.type === "redirect") await redirectByAction(current, action.url);
       throw createActionError("未获取到有效用户信息", current.keyPrefix);
     })();
@@ -157,6 +158,7 @@ export class UserStore {
     try {
       return await request;
     } finally {
+      current.store.setState((state) => ({ ...state, loading: false }));
       if (current.refreshPromise === request) current.refreshPromise = undefined;
     }
   }
@@ -172,11 +174,11 @@ export class UserStore {
     }
 
     if (action.type === "login" && action.value) {
-      current.store.setState(() => ({ user: action.value }));
+      current.store.setState((state) => ({ ...state, user: action.value }));
       return;
     }
 
-    current.store.setState(() => ({}));
+    current.store.setState((state) => ({ ...state, user: undefined }));
     if (action.type === "redirect") await redirectByAction(current, action.url);
     if (action.type === "login") {
       throw createActionError("退出登录后未返回有效用户信息", current.keyPrefix);
@@ -190,7 +192,8 @@ const refresh = UserStore.refresh.bind(UserStore);
 
 export function useUserStore(): UseUserStoreResult {
   const store = UserStore.getStore();
+  const loading = useSelector(store, (state) => state.loading);
   const user = useSelector(store, (state) => state.user);
 
-  return { allow, logout, refresh, user };
+  return { allow, loading, logout, refresh, user };
 }
