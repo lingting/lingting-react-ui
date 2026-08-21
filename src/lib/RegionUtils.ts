@@ -20,12 +20,17 @@ export function findRegionItem(value?: string | null) {
 }
 
 export const filterRegionItems: RegionFilter = (input, items) => {
-  const keyword = input.trim().toUpperCase();
-  if (!keyword) return items;
+  const trim = input?.trim();
+  if (!trim?.length) return items;
+  const upper = trim.toUpperCase();
 
-  return items.filter((item) =>
-    [item.iso, ...item.callingCodes, ...item.phonePrefixes, item.names.en, item.names.zh].some(
-      (value) => value.toUpperCase().includes(keyword),
-    ),
-  );
+  return items.filter((item) => {
+    if (item.iso.includes(upper)) return true;
+    if (item.callingCodes.some(v=> v.includes(trim))) return true;
+    if (item.phonePrefixes.some(v=> v.includes(trim))) return true;
+    if (item.names.en.includes(trim)) return true;
+    if (item.names.zh.includes(trim)) return true;
+    // noinspection RedundantIfStatementJS
+    return false;
+  });
 };
