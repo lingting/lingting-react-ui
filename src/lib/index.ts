@@ -1,3 +1,4 @@
+export * from "./RegionUtils";
 export * from "./AppHolder";
 export * from "./AuthTokenStorage";
 export * from "./ButtonUtils";

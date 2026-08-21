@@ -1,3 +1,4 @@
+export * from "./RegionTypes";
 export * from "./Menu";
 export * from "./UserStore";
 export * from "./Route";

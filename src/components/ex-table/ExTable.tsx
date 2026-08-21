@@ -1,3 +1,4 @@
+import { Space } from "antd";
 import { type ProColumns, ProTable } from "@ant-design/pro-components";
 import { useMemo } from "react";
 
@@ -11,6 +12,7 @@ import type {
   PaginationResult,
 } from "@lri/types";
 
+import { RegionSelect, RegionTag } from "../region";
 import { Dict } from "../dict";
 
 const defaultPagination = {
@@ -46,7 +48,7 @@ function readValue<T extends Record<string, unknown>>(
 }
 
 function prepareColumn<T extends Record<string, unknown>>(column: ExTableColumn<T>): ProColumns<T> {
-  const { dict, title, valueType, ...rest } = column;
+  const { dict, region, title, valueType, ...rest } = column;
   const timestampUnit =
     valueType === "timestamp"
       ? "seconds"
@@ -101,6 +103,29 @@ function prepareColumn<T extends Record<string, unknown>>(column: ExTableColumn<
         ) : (
           <Dict.Select {...dictProps} />
         );
+    }
+  } else if (region) {
+    const multipart = region === "multipart";
+
+    if (!column.render) {
+      next.render = (_text, record) => {
+        const value = readValue(record, column.dataIndex);
+        if (multipart) {
+          const values = Array.isArray(value) ? value : [];
+          return (
+            <Space size="small">
+              {values.map((item) => (
+                <RegionTag key={String(item)} value={typeof item === "string" ? item : undefined} />
+              ))}
+            </Space>
+          );
+        }
+
+        return <RegionTag value={typeof value === "string" ? value : undefined} />;
+      };
+    }
+    if (!column.formItemRender) {
+      next.formItemRender = () => <RegionSelect multipart={multipart} />;
     }
   }
 

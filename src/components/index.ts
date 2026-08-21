@@ -1,3 +1,4 @@
+export * from "./region";
 export * from "./dict";
 export * from "./ex-table";
 export * from "./ex-button";
