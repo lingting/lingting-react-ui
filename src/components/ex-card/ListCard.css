@@ -8,6 +8,10 @@
   @apply flex min-h-0 flex-1 flex-col;
 }
 
+.list-card-header{
+  @apply pe-3;
+}
+
 .list-card-content {
   @apply flex-1;
 }
