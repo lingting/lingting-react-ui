@@ -1,0 +1,20 @@
+@reference "@lri/index.css";
+
+.fixed-virtual-list {
+  @apply overflow-y-auto;
+}
+
+.fixed-virtual-list-content {
+  @apply relative;
+  height: var(--fixed-virtual-list-content-height);
+}
+
+.fixed-virtual-list-viewport {
+  @apply flex flex-col gap-1.5 pe-3;
+  transform: translateY(var(--fixed-virtual-list-offset));
+}
+
+.fixed-virtual-list-item {
+  @apply overflow-hidden;
+  height: var(--fixed-virtual-list-item-height);
+}

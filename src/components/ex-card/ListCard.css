@@ -1,0 +1,13 @@
+@reference "@lri/index.css";
+
+.list-card {
+  @apply h-full w-full;
+}
+
+.list-card .ant-pro-card-body {
+  @apply flex min-h-0 flex-1 flex-col;
+}
+
+.list-card-content {
+  @apply flex-1;
+}

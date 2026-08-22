@@ -4,3 +4,5 @@ export * from "./ex-table";
 export * from "./ex-button";
 export * from "./ex-form";
 export * from "./copy";
+export * from "./ex-card";
+export * from "./ex-list";
