@@ -3,7 +3,6 @@ import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { copy } from "@lri/lib";
 import type { CopyableProps } from "@lri/types";
-import { Button } from "@lri/components";
 
 function CopyableComponent({
   value,
@@ -14,6 +13,9 @@ function CopyableComponent({
   onCopy,
   onFailed,
   onSuccess,
+  color = "var(--ant-color-primary)",
+  style = { cursor: "pointer" },
+  styles,
 }: CopyableProps) {
   const [copied, setCopied] = useState(false);
   const isMountedRef = useRef(true);
@@ -51,14 +53,11 @@ function CopyableComponent({
     }, timeout);
   }, [copyOptions, timeout, value]);
 
-  return (
-    <Button
-      color="primary"
-      icon={copied ? <CheckOutlined /> : <CopyOutlined />}
-      onClick={handleCopy}
-      type="text"
-    />
-  );
+  if (copied) {
+    return <CheckOutlined style={{ color, ...style, ...styles?.copied }} />;
+  }
+
+  return <CopyOutlined onClick={handleCopy} style={{ color, ...style, ...styles?.copy }} />;
 }
 
 export const Copyable = memo(CopyableComponent);

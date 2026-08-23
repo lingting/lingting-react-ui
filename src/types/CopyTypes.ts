@@ -1,3 +1,5 @@
+import { CSSProperties } from "react";
+
 export type CopyMethod = "clipboard" | "execCommand";
 
 export type CopyResult =
@@ -22,4 +24,7 @@ export type CopyOptions = {
 export type CopyableProps = CopyOptions & {
   value: string;
   timeout?: number;
+  color?: string,
+  style?:Omit<CSSProperties, "color">
+  styles?:{copy?:Omit<CSSProperties, "color">, copied?:Omit<CSSProperties, "color">}
 };
