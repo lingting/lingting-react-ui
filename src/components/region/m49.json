@@ -49,7 +49,17 @@
             "en": "Middle Africa",
             "zh": "中非"
           },
-          "regions": ["AO", "CD", "CF", "CG", "CM", "GA", "GQ", "ST", "TD"]
+          "regions": [
+            "AO",
+            "CD",
+            "CF",
+            "CG",
+            "CM",
+            "GA",
+            "GQ",
+            "ST",
+            "TD"
+          ]
         },
         {
           "code": "015",
@@ -57,7 +67,15 @@
             "en": "Northern Africa",
             "zh": "北非"
           },
-          "regions": ["DZ", "EG", "EH", "LY", "MA", "SD", "TN"]
+          "regions": [
+            "DZ",
+            "EG",
+            "EH",
+            "LY",
+            "MA",
+            "SD",
+            "TN"
+          ]
         },
         {
           "code": "018",
@@ -65,7 +83,13 @@
             "en": "Southern Africa",
             "zh": "南部非洲"
           },
-          "regions": ["BW", "LS", "NA", "SZ", "ZA"]
+          "regions": [
+            "BW",
+            "LS",
+            "NA",
+            "SZ",
+            "ZA"
+          ]
         },
         {
           "code": "011",
@@ -145,7 +169,16 @@
             "en": "Central America",
             "zh": "中美洲"
           },
-          "regions": ["BZ", "CR", "GT", "HN", "MX", "NI", "PA", "SV"]
+          "regions": [
+            "BZ",
+            "CR",
+            "GT",
+            "HN",
+            "MX",
+            "NI",
+            "PA",
+            "SV"
+          ]
         },
         {
           "code": "021",
@@ -153,7 +186,13 @@
             "en": "Northern America",
             "zh": "美洲北部"
           },
-          "regions": ["BM", "CA", "GL", "PM", "US"]
+          "regions": [
+            "BM",
+            "CA",
+            "GL",
+            "PM",
+            "US"
+          ]
         },
         {
           "code": "005",
@@ -195,7 +234,13 @@
             "en": "Central Asia",
             "zh": "中亚"
           },
-          "regions": ["KG", "KZ", "TJ", "TM", "UZ"]
+          "regions": [
+            "KG",
+            "KZ",
+            "TJ",
+            "TM",
+            "UZ"
+          ]
         },
         {
           "code": "030",
@@ -203,7 +248,16 @@
             "en": "Eastern Asia",
             "zh": "东亚"
           },
-          "regions": ["CN", "HK", "JP", "KP", "KR", "MN", "MO", "TW"]
+          "regions": [
+            "CN",
+            "HK",
+            "JP",
+            "KP",
+            "KR",
+            "MN",
+            "MO",
+            "TW"
+          ]
         },
         {
           "code": "035",
@@ -211,7 +265,19 @@
             "en": "Southeast Asia",
             "zh": "东南亚"
           },
-          "regions": ["BN", "ID", "KH", "LA", "MM", "MY", "PH", "SG", "TH", "TL", "VN"]
+          "regions": [
+            "BN",
+            "ID",
+            "KH",
+            "LA",
+            "MM",
+            "MY",
+            "PH",
+            "SG",
+            "TH",
+            "TL",
+            "VN"
+          ]
         },
         {
           "code": "034",
@@ -219,7 +285,17 @@
             "en": "Southern Asia",
             "zh": "南亚"
           },
-          "regions": ["AF", "BD", "BT", "IN", "IR", "LK", "MV", "NP", "PK"]
+          "regions": [
+            "AF",
+            "BD",
+            "BT",
+            "IN",
+            "IR",
+            "LK",
+            "MV",
+            "NP",
+            "PK"
+          ]
         },
         {
           "code": "145",
@@ -263,7 +339,18 @@
             "en": "Eastern Europe",
             "zh": "东欧"
           },
-          "regions": ["BG", "BY", "CZ", "HU", "MD", "PL", "RO", "RU", "SK", "UA"]
+          "regions": [
+            "BG",
+            "BY",
+            "CZ",
+            "HU",
+            "MD",
+            "PL",
+            "RO",
+            "RU",
+            "SK",
+            "UA"
+          ]
         },
         {
           "code": "154",
@@ -321,7 +408,17 @@
             "en": "Western Europe",
             "zh": "西欧"
           },
-          "regions": ["AT", "BE", "CH", "DE", "FR", "LI", "LU", "MC", "NL"]
+          "regions": [
+            "AT",
+            "BE",
+            "CH",
+            "DE",
+            "FR",
+            "LI",
+            "LU",
+            "MC",
+            "NL"
+          ]
         }
       ]
     },
@@ -338,7 +435,14 @@
             "en": "Australasia",
             "zh": "澳大拉西亚"
           },
-          "regions": ["AU", "CC", "CX", "HM", "NF", "NZ"]
+          "regions": [
+            "AU",
+            "CC",
+            "CX",
+            "HM",
+            "NF",
+            "NZ"
+          ]
         },
         {
           "code": "054",
@@ -346,7 +450,13 @@
             "en": "Melanesia",
             "zh": "美拉尼西亚"
           },
-          "regions": ["FJ", "NC", "PG", "SB", "VU"]
+          "regions": [
+            "FJ",
+            "NC",
+            "PG",
+            "SB",
+            "VU"
+          ]
         },
         {
           "code": "057",
@@ -354,7 +464,16 @@
             "en": "Micronesian Region",
             "zh": "密克罗尼西亚地区"
           },
-          "regions": ["FM", "GU", "KI", "MH", "MP", "NR", "PW", "UM"]
+          "regions": [
+            "FM",
+            "GU",
+            "KI",
+            "MH",
+            "MP",
+            "NR",
+            "PW",
+            "UM"
+          ]
         },
         {
           "code": "061",
@@ -362,7 +481,18 @@
             "en": "Polynesia",
             "zh": "玻利尼西亚"
           },
-          "regions": ["AS", "CK", "NU", "PF", "PN", "TK", "TO", "TV", "WF", "WS"]
+          "regions": [
+            "AS",
+            "CK",
+            "NU",
+            "PF",
+            "PN",
+            "TK",
+            "TO",
+            "TV",
+            "WF",
+            "WS"
+          ]
         }
       ]
     }
