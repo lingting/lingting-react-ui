@@ -23,10 +23,7 @@ function ListCardComponent<T>({
       {...props}
       className={["list-card", props?.className].filter(Boolean).join(" ")}
       loading={loading}
-      title={<>
-        {header && <div  className={"list-card-header"} >{header}</div>}
-
-      </>}
+      title={<>{header && <div className={"list-card-header"}>{header}</div>}</>}
     >
       <FixedVirtualList
         {...contentProps}

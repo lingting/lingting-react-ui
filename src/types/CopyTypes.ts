@@ -24,7 +24,7 @@ export type CopyOptions = {
 export type CopyableProps = CopyOptions & {
   value: string;
   timeout?: number;
-  color?: string,
-  style?:Omit<CSSProperties, "color">
-  styles?:{copy?:Omit<CSSProperties, "color">, copied?:Omit<CSSProperties, "color">}
+  color?: string;
+  style?: Omit<CSSProperties, "color">;
+  styles?: { copy?: Omit<CSSProperties, "color">; copied?: Omit<CSSProperties, "color"> };
 };

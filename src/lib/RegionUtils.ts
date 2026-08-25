@@ -26,8 +26,8 @@ export const filterRegionItems: RegionFilter = (input, items) => {
 
   return items.filter((item) => {
     if (item.iso.includes(upper)) return true;
-    if (item.callingCodes.some(v=> v.includes(trim))) return true;
-    if (item.phonePrefixes.some(v=> v.includes(trim))) return true;
+    if (item.callingCodes.some((v) => v.includes(trim))) return true;
+    if (item.phonePrefixes.some((v) => v.includes(trim))) return true;
     if (item.names.en.includes(trim)) return true;
     if (item.names.zh.includes(trim)) return true;
     // noinspection RedundantIfStatementJS
