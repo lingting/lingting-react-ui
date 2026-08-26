@@ -1,4 +1,11 @@
-import { Checkbox, type BadgeProps, type GetProps, type SelectProps, type TagProps } from "antd";
+import {
+  Checkbox,
+  type BadgeProps,
+  type GetProps,
+  type SelectProps,
+  type TagProps,
+  Typography,
+} from "antd";
 import type { ReactNode } from "react";
 
 export type Primitive = string | number | boolean;
@@ -25,7 +32,7 @@ export type DictProps<T extends DictValue = DictValue> = {
 };
 export type DictScalarProps<T extends DictValue = DictValue> = DictProps<T> & { value?: T | null };
 export type DictTextProps<T extends DictValue = DictValue> = DictScalarProps<T> &
-  Omit<React.HTMLAttributes<HTMLSpanElement>, "color">;
+  Omit<GetProps<typeof Typography.Text>, "children" | "color">;
 export type DictTagProps<T extends DictValue = DictValue> = DictScalarProps<T> &
   Omit<TagProps, "color" | "children">;
 export type DictBadgeProps<T extends DictValue = DictValue> = DictScalarProps<T> &

@@ -1,3 +1,16 @@
 export { ExFormRegion } from "./ExFormRegion";
-export { ExFormDictCheckbox, ExFormDictSelect } from "./ExFormDict";
-export type { ExFormDictCheckboxProps, ExFormDictSelectProps, ExFormRegionProps } from "@lri/types";
+export {
+  ExFormDictBadge,
+  ExFormDictCheckbox,
+  ExFormDictSelect,
+  ExFormDictTag,
+  ExFormDictText,
+} from "./ExFormDict";
+export type {
+  ExFormDictBadgeProps,
+  ExFormDictCheckboxProps,
+  ExFormDictSelectProps,
+  ExFormDictTagProps,
+  ExFormDictTextProps,
+  ExFormRegionProps,
+} from "@lri/types";

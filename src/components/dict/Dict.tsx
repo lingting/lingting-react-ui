@@ -1,4 +1,4 @@
-import { Badge, Checkbox, Select, type SelectProps, Tag, theme } from "antd";
+import { Badge, Checkbox, Select, type SelectProps, Tag, theme, Typography } from "antd";
 
 import { useDictOptions, useDictValue } from "@lri/hooks";
 import { resolveDictColor } from "@lri/lib";
@@ -65,9 +65,9 @@ export function DictText<T extends DictValue>({
   const color = resolveDictColor(item.textColor, item.color, token);
 
   return (
-    <span {...props} style={{ ...props.style, color }}>
+    <Typography.Text {...props} style={{ ...props.style, color }}>
       {item.label}
-    </span>
+    </Typography.Text>
   );
 }
 
