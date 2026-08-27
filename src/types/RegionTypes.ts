@@ -58,8 +58,11 @@ export type RegionSelectMultipleProps = {
   value?: string[];
 };
 
+export type RegionFlagType = "svg" | "icon";
+
 export type RegionFlagProps = {
   className?: string;
+  type?: RegionFlagType;
   value?: string | null;
 };
 

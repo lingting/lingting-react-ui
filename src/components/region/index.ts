@@ -3,6 +3,7 @@ export { RegionSelect } from "./RegionSelect";
 export { RegionTag } from "./RegionTag";
 export type {
   RegionFilter,
+  RegionFlagType,
   RegionFlagProps,
   RegionItem,
   RegionM49,
