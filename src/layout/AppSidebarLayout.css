@@ -1,4 +1,4 @@
-@reference "../index.css";
+@reference "@lri/index.css";
 
 @layer components {
   .app-sidebar-layout__user-text {

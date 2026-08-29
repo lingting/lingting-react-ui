@@ -8,7 +8,7 @@ export const regionItems = regionData as RegionItem[];
 export const regionM49 = regionM49Data;
 export const regionPhones = regionPhoneData;
 
-const regionItemMap = new Map(regionItems.map((item) => [item.iso, item]));
+export const regionItemMap = new Map(regionItems.map((item) => [item.iso, item]));
 
 export function normalizeRegionValue(value?: string | null) {
   return value?.toUpperCase();
