@@ -50,10 +50,5 @@
   },
   "volta": {
     "node": "22.22.3"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild"
-    ]
   }
 }

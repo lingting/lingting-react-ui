@@ -34,6 +34,13 @@ export default defineConfig({
     rollupOptions: { external },
   },
   fmt: {
-    ignorePatterns: [".agents", "node_modules", "dist", "*.yaml", "src/components/region/*.json", "*.svg"],
+    ignorePatterns: [
+      ".agents",
+      "node_modules",
+      "dist",
+      "*.yaml",
+      "src/components/region/*.json",
+      "*.svg",
+    ],
   },
 });
