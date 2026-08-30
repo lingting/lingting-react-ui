@@ -2,7 +2,8 @@ import { RouterProvider } from "@tanstack/react-router";
 import { useEffect, useMemo } from "react";
 
 import { LoadingPage, NotFoundPage } from "@lri/blocks";
-import { RouterContextProvider } from "@lri/hooks";
+import type { StandaloneRouteDefinition } from "@lri/types";
+import { RouterContextProvider, useRoute } from "@lri/hooks";
 import { UserStore } from "@lri/store";
 
 import {
@@ -18,51 +19,60 @@ export type {
   AppSidebarUserPosition,
 } from "./app-sidebar/AppSidebarLayoutTypes";
 
-function AppSidebarLayoutContent({
-  router,
-}: {
-  router: ReturnType<typeof createAppSidebarRouter>;
-}) {
+const EMPTY_STANDALONE_ROUTES: readonly StandaloneRouteDefinition[] = [];
+
+function AppSidebarLayoutRouter({ router }: { router: ReturnType<typeof createAppSidebarRouter> }) {
   const { loading, props } = useAppSidebarLayout();
   const { loadingComponent: LoadingComponent = LoadingPage } = props;
 
-  if (loading) return <LoadingComponent />;
-  return <RouterProvider router={router} />;
+  return loading ? <LoadingComponent /> : <RouterProvider router={router} />;
 }
 
-export function AppSidebarLayout(props: AppSidebarLayoutProps) {
+function AppSidebarLayoutContent({ props }: { props: AppSidebarLayoutProps }) {
   const {
     loadingComponent = LoadingPage,
     menuRoutes,
     notFoundComponent = NotFoundPage,
     rootRedirectTo,
-    standaloneRoutes = [],
+    standaloneRoutes = EMPTY_STANDALONE_ROUTES,
   } = props;
+  const routeOptions = useMemo(
+    () => ({ menuRoutes, standaloneRoutes }),
+    [menuRoutes, standaloneRoutes],
+  );
+  const route = useRoute(routeOptions);
   const router = useMemo(
     () =>
       createAppSidebarRouter({
-        menuRoutes,
+        menuRoutes: route.menuRoutes,
         notFoundComponent,
         rootRedirectTo,
-        standaloneRoutes,
+        standaloneRoutes: route.standaloneRoutes,
       }),
-    [menuRoutes, notFoundComponent, rootRedirectTo, standaloneRoutes],
+    [notFoundComponent, rootRedirectTo, route.menuRoutes, route.standaloneRoutes],
   );
 
   useEffect(() => {
     UserStore.setRouter(router);
-    void UserStore.refresh().catch(() => undefined);
   }, [router]);
+
+  useEffect(() => {
+    void UserStore.refresh().catch(() => undefined);
+  }, []);
 
   return (
     <RouterContextProvider
-      menuRoutes={menuRoutes}
+      menuRoutes={route.menuRoutes}
       router={router}
-      standaloneRoutes={standaloneRoutes}
+      standaloneRoutes={route.standaloneRoutes}
     >
-      <AppSidebarLayoutContext.Provider value={{ ...props, loadingComponent }}>
-        <AppSidebarLayoutContent router={router} />
+      <AppSidebarLayoutContext.Provider value={{ props: { ...props, loadingComponent }, route }}>
+        <AppSidebarLayoutRouter router={router} />
       </AppSidebarLayoutContext.Provider>
     </RouterContextProvider>
   );
+}
+
+export function AppSidebarLayout(props: AppSidebarLayoutProps) {
+  return <AppSidebarLayoutContent props={props} />;
 }

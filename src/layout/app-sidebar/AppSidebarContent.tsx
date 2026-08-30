@@ -147,13 +147,12 @@ function AppSidebarLogoutMenu() {
 }
 
 export function AppSidebarContent() {
-  const { props } = useAppSidebarLayout();
+  const { menuRoutes, props } = useAppSidebarLayout();
   const {
     baseItems = [],
     bottomItems = [],
     headerLeftItems: sourceHeaderLeftItems,
     logoutPosition = "bottom",
-    menuRoutes,
     userPosition = "top",
     ...sidebarProps
   } = props;

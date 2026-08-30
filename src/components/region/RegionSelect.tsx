@@ -25,7 +25,7 @@ function RegionSelectComponent({
   className,
   style,
   filter = filterRegionItems,
-  multipart = false,
+  multiple = false,
   onChange,
   renderItem = renderDefaultRegionItem,
   value,
@@ -46,9 +46,9 @@ function RegionSelectComponent({
       allowClear={true}
       className={className}
       style={{ width: "100%", ...style }}
-      mode={multipart ? "multiple" : undefined}
+      mode={multiple ? "multiple" : undefined}
       onChange={(nextValue) => {
-        if (multipart) {
+        if (multiple) {
           const multipleOnChange = onChange as RegionSelectMultipleProps["onChange"];
           multipleOnChange?.((nextValue as string[]).map((item) => item.toUpperCase()));
           return;

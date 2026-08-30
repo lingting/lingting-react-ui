@@ -6,7 +6,7 @@ import type { ExFormRegionProps } from "@lri/types";
 export function ExFormRegion({
   className,
   filter,
-  multipart = false,
+  multiple = false,
   renderItem,
   ...props
 }: ExFormRegionProps) {
@@ -15,7 +15,7 @@ export function ExFormRegion({
       <RegionSelect
         className={className}
         filter={filter}
-        multipart={multipart}
+        multiple={multiple}
         renderItem={renderItem}
       />
     </ProFormField>

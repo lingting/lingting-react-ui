@@ -18,7 +18,7 @@ export type ExTableColumn<T extends Record<string, unknown> = Record<string, unk
 > & {
   valueType?: ExTableValueType;
   dict?: ExTableDict;
-  region?: false | "multipart" | "single";
+  region?: false | "multiple" | "single";
 };
 export type ExTableRequestParams = PaginationParams & {
   [key: string]: unknown;

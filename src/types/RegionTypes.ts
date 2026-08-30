@@ -42,7 +42,7 @@ export type RegionSelectProps = {
   className?: string;
   style?: CSSProperties;
   filter?: RegionFilter;
-  multipart?: false;
+  multiple?: false;
   onChange?: (value: string | undefined) => void;
   renderItem?: RegionRender;
   value?: string;
@@ -52,7 +52,7 @@ export type RegionSelectMultipleProps = {
   className?: string;
   style?: CSSProperties;
   filter?: RegionFilter;
-  multipart: true;
+  multiple: true;
   onChange?: (value: string[]) => void;
   renderItem?: RegionRender;
   value?: string[];

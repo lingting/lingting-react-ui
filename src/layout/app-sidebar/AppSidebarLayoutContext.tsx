@@ -1,18 +1,21 @@
-import { createContext, useContext, useRef } from "react";
+import { createContext, useContext } from "react";
 
-import { useUserStore } from "@lri/store";
+import type { UseRouteResult } from "@lri/types";
 
 import type { AppSidebarLayoutProps } from "./AppSidebarLayoutTypes";
 
-export const AppSidebarLayoutContext = createContext<AppSidebarLayoutProps | undefined>(undefined);
+type AppSidebarLayoutContextValue = {
+  props: AppSidebarLayoutProps;
+  route: UseRouteResult;
+};
+
+export const AppSidebarLayoutContext = createContext<AppSidebarLayoutContextValue | undefined>(
+  undefined,
+);
 
 export function useAppSidebarLayout() {
-  const props = useContext(AppSidebarLayoutContext);
-  if (!props) throw new Error("useAppSidebarLayout 必须在 AppSidebarLayout 内使用");
+  const context = useContext(AppSidebarLayoutContext);
+  if (!context) throw new Error("useAppSidebarLayout 必须在 AppSidebarLayout 内使用");
 
-  const { loading } = useUserStore();
-  const initialized = useRef(false);
-
-  if (!loading) initialized.current = true;
-  return { props, loading: loading && !initialized.current };
+  return { props: context.props, ...context.route };
 }

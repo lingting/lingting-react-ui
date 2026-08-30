@@ -39,5 +39,5 @@ type ExFormRegionBaseProps = Omit<
 };
 
 export type ExFormRegionProps =
-  | (ExFormRegionBaseProps & { multipart?: false })
-  | (ExFormRegionBaseProps & { multipart: true });
+  | (ExFormRegionBaseProps & { multiple?: false })
+  | (ExFormRegionBaseProps & { multiple: true });

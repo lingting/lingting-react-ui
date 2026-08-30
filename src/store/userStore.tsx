@@ -14,14 +14,14 @@ import type {
 
 const DEFAULT_KEY_PREFIX = `${PREFIX}/user-store`;
 
-type ProUserStoreRuntime = Omit<Required<UserStoreInitializeOptions>, "keyPrefix"> & {
+type UserStoreRuntime = Omit<Required<UserStoreInitializeOptions>, "keyPrefix"> & {
   keyPrefix: string;
   refreshPromise?: Promise<User>;
   router?: AnyRouter;
   store: Store<UserStoreState>;
 };
 
-let runtime: ProUserStoreRuntime | undefined;
+let runtime: UserStoreRuntime | undefined;
 
 function normalizeValues(values: unknown): string[] {
   if (!Array.isArray(values)) return [];
@@ -82,7 +82,7 @@ function createActionError(errorMessage: string, keyPrefix: string) {
   return error;
 }
 
-async function redirectByAction(current: ProUserStoreRuntime, url?: string) {
+async function redirectByAction(current: UserStoreRuntime, url?: string) {
   const target = url?.trim();
   if (!target) return false;
 

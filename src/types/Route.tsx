@@ -1,3 +1,4 @@
+import type { AuthRule } from "./UserStore";
 import type { NotFoundRouteComponent, RouteComponent } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
@@ -14,7 +15,8 @@ export type ProRouteStaticData = {
   };
 };
 
-type BaseRouteDefinition = {
+export type BaseRouteDefinition = {
+  auth?: AuthRule;
   icon?: ReactNode;
   path: string;
   title: string;
@@ -37,3 +39,15 @@ export type StandaloneRouteDefinition = MenuRoutePageDefinition & {
 };
 
 export type ProRouteNotFoundComponent = NotFoundRouteComponent;
+
+export type UseRouteOptions = {
+  menuRoutes: readonly MenuRouteDefinition[];
+  standaloneRoutes: readonly StandaloneRouteDefinition[];
+};
+
+export type UseRouteResult = {
+  loading: boolean;
+  menuRoutes: readonly MenuRouteDefinition[];
+  refresh: () => Promise<void>;
+  standaloneRoutes: readonly StandaloneRouteDefinition[];
+};

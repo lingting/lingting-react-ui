@@ -105,12 +105,12 @@ function prepareColumn<T extends Record<string, unknown>>(column: ExTableColumn<
         );
     }
   } else if (region) {
-    const multipart = region === "multipart";
+    const multiple = region === "multiple";
 
     if (!column.render) {
       next.render = (_text, record) => {
         const value = readValue(record, column.dataIndex);
-        if (multipart) {
+        if (multiple) {
           const values = Array.isArray(value) ? value : [];
           return (
             <Space size="small">
@@ -125,7 +125,7 @@ function prepareColumn<T extends Record<string, unknown>>(column: ExTableColumn<
       };
     }
     if (!column.formItemRender) {
-      next.formItemRender = () => <RegionSelect multipart={multipart} />;
+      next.formItemRender = () => <RegionSelect multiple={multiple} />;
     }
   }
 
