@@ -5,10 +5,7 @@ import type {
 } from "@ant-design/pro-components";
 
 import type { RegionFilter, RegionRender } from "./RegionTypes";
-import type {
-  DictProps,
-  DictValue,
-} from "./DictTypes";
+import type { DictProps, DictValue } from "./DictTypes";
 
 export type ExFormDictSelectProps<T extends DictValue = DictValue> = Omit<
   ProFormSelectProps<T>,

@@ -1,0 +1,5 @@
+@reference "@lri/index.css";
+
+.cloudflare-turnstile-root {
+  @apply flex justify-center;
+}
