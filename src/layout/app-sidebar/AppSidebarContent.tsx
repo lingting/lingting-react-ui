@@ -1,18 +1,17 @@
-import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
 import { Outlet, useRouter, useRouterState } from "@tanstack/react-router";
-import { Avatar, Dropdown, Menu, type MenuProps, Typography } from "antd";
-import { Children, type ReactNode, useCallback, useEffect, useMemo, useState } from "react";
+import { Menu, type MenuProps } from "antd";
+import { Children, useEffect, useMemo, useState } from "react";
 
 import { SidebarCollapsed, SidebarLayout, useSidebarLayout } from "@lri/layout";
 import { findMenuAncestorPaths, joinRoutePath, normalizeRoutePath } from "@lri/lib";
 import { useUserStore } from "@lri/store";
-import type { MenuRouteDefinition, User } from "@lri/types";
+import type { MenuRouteDefinition } from "@lri/types";
 
 import { useAppSidebarLayout } from "./AppSidebarLayoutContext";
-import type { AppSidebarLayoutProps } from "./AppSidebarLayoutTypes";
 import AppSidebarToggle from "./AppSidebarToggle";
 
 import "../AppSidebarLayout.css";
+import { AppSidebarUser, AppSidebarUserLogout } from "@lri/layout/app-sidebar/AppSidebarUser";
 
 const USER_ITEM_KEY = "__app-sidebar-user";
 const LOGOUT_ITEM_KEY = "__app-sidebar-logout";
@@ -32,33 +31,6 @@ function createRouteMenuItems(
       label: definition.title,
     };
   });
-}
-
-function UserText({ user }: { user: User }) {
-  return (
-    <div className="app-sidebar-layout__user-text">
-      <Typography.Text ellipsis>{user.nickname}</Typography.Text>
-      {user.desc ? (
-        <Typography.Text ellipsis type="secondary">
-          {user.desc}
-        </Typography.Text>
-      ) : null}
-    </div>
-  );
-}
-
-function UserDropdown({ children, onLogout }: { children: ReactNode; onLogout: () => void }) {
-  return (
-    <Dropdown
-      menu={{
-        items: [{ icon: <LogoutOutlined />, key: LOGOUT_ITEM_KEY, label: "退出登录" }],
-        onClick: onLogout,
-      }}
-      trigger={["click"]}
-    >
-      {children}
-    </Dropdown>
-  );
 }
 
 function AppSidebarMenu({
@@ -85,62 +57,6 @@ function AppSidebarMenu({
       onOpenChange={setOpenKeys}
       openKeys={collapsed === SidebarCollapsed.Collapsed ? [] : openKeys}
       selectedKeys={[pathname]}
-      tooltip={collapsed === SidebarCollapsed.Collapsed ? { placement: "right" } : false}
-    />
-  );
-}
-
-function AppSidebarUserMenu({
-  logoutPosition,
-  user,
-}: {
-  logoutPosition: AppSidebarLayoutProps["logoutPosition"];
-  user: User;
-}) {
-  const { collapsed } = useSidebarLayout();
-  const { logout } = useUserStore();
-  const handleLogout = useCallback(() => void logout().catch(() => undefined), [logout]);
-  const withLogout = logoutPosition === "user";
-  const avatar = (
-    <Avatar
-      className="app-sidebar-layout__user-avatar"
-      icon={!user.avatar ? <UserOutlined /> : undefined}
-      src={user.avatar}
-    />
-  );
-  const text = <UserText user={user} />;
-
-  return (
-    <Menu
-      className="app-sidebar-layout__user"
-      inlineCollapsed={collapsed === SidebarCollapsed.Collapsed}
-      items={[
-        {
-          icon: withLogout ? <UserDropdown onLogout={handleLogout}>{avatar}</UserDropdown> : avatar,
-          key: USER_ITEM_KEY,
-          label: withLogout ? <UserDropdown onLogout={handleLogout}>{text}</UserDropdown> : text,
-          title: [user.nickname, user.desc].filter(Boolean).join(" - "),
-        },
-      ]}
-      mode="inline"
-      selectable={false}
-      tooltip={collapsed === SidebarCollapsed.Collapsed ? { placement: "right" } : false}
-    />
-  );
-}
-
-function AppSidebarLogoutMenu() {
-  const { collapsed } = useSidebarLayout();
-  const { logout } = useUserStore();
-  const handleLogout = () => void logout().catch(() => undefined);
-
-  return (
-    <Menu
-      inlineCollapsed={collapsed === SidebarCollapsed.Collapsed}
-      items={[{ icon: <LogoutOutlined />, key: LOGOUT_ITEM_KEY, label: "退出登录" }]}
-      mode="inline"
-      onClick={handleLogout}
-      selectable={false}
       tooltip={collapsed === SidebarCollapsed.Collapsed ? { placement: "right" } : false}
     />
   );
@@ -186,7 +102,7 @@ export function AppSidebarContent() {
     />
   );
   const userMenu = showUser ? (
-    <AppSidebarUserMenu key={USER_ITEM_KEY} logoutPosition={logoutPosition} user={user} />
+    <AppSidebarUser key={USER_ITEM_KEY} logoutPosition={logoutPosition} user={user} />
   ) : undefined;
 
   return (
@@ -202,7 +118,7 @@ export function AppSidebarContent() {
         bottomItems,
         userMenu && userPosition === "bottom" ? userMenu : undefined,
         showUser && logoutPosition === "bottom" ? (
-          <AppSidebarLogoutMenu key={LOGOUT_ITEM_KEY} />
+          <AppSidebarUserLogout key={LOGOUT_ITEM_KEY} />
         ) : undefined,
       ])}
       headerLeftItems={headerLeftItems}

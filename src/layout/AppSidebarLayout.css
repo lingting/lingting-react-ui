@@ -1,11 +1,27 @@
 @reference "@lri/index.css";
 
 @layer components {
-  .app-sidebar-layout__user-text {
-    @apply flex min-w-0 flex-col;
+  .app-sidebar-layout__user-root {
+    @apply w-full min-w-full;
+  }
+  .app-sidebar-layout__user-item {
+    @apply flex flex-row justify-center items-center h-12 gap-3 cursor-pointer;
+    padding: 4px 8px !important;
   }
 
-  .app-sidebar-layout__user-avatar {
-    @apply shrink-0;
+  .app-sidebar-layout__user-item-icon {
+    font-size: 20px;
+  }
+
+  .app-sidebar-layout__user-item-content {
+    flex: 1;
+  }
+
+  .app-sidebar-layout__user-wrapper {
+    @apply flex flex-row min-w-full w-full;
+  }
+
+  .app-sidebar-layout__user-text {
+    @apply flex min-w-0 flex-col flex-1;
   }
 }
