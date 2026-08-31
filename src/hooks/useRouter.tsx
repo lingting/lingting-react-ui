@@ -1,11 +1,17 @@
 import { useRouterState } from "@tanstack/react-router";
-import { createContext, useContext, useMemo, type ReactNode } from "react";
+import { createContext, type ReactNode, useCallback, useContext, useMemo } from "react";
 
 import { findMenuRoute, findStandaloneRoute, normalizeRoutePath } from "@lri/lib";
 import type { MenuRouteDefinition, StandaloneRouteDefinition } from "@lri/types";
 
+type RouterNavigationOptions = {
+  replace?: boolean;
+  to: string;
+  reloadDocument?: boolean;
+};
+
 type RouterNavigation = {
-  navigate: (options: { replace?: boolean; to: string }) => void | Promise<void>;
+  navigate: (options: RouterNavigationOptions) => Promise<void>;
 };
 
 type RouterContextValue = {
@@ -49,35 +55,72 @@ export function useRouter() {
   const pathname = useRouterState({
     select: (state) => normalizeRoutePath(state.location.pathname),
   });
-  const menuRoute = findMenuRoute(context.menuRoutes, pathname);
-  const standaloneRoute = menuRoute
-    ? undefined
-    : findStandaloneRoute(context.standaloneRoutes, pathname);
-  const match: RouterMatch = menuRoute
-    ? { definition: menuRoute, type: "menu" }
-    : standaloneRoute
-      ? { definition: standaloneRoute, type: "standalone" }
-      : undefined;
-  const current: RouterCurrent = menuRoute
-    ? {
-        icon: menuRoute.icon,
+
+  const match = useMemo<RouterMatch>(() => {
+    const menuRoute = findMenuRoute(context.menuRoutes, pathname);
+
+    if (menuRoute) {
+      return {
+        definition: menuRoute,
+        type: "menu",
+      };
+    }
+
+    const standaloneRoute = findStandaloneRoute(context.standaloneRoutes, pathname);
+
+    if (standaloneRoute) {
+      return {
+        definition: standaloneRoute,
+        type: "standalone",
+      };
+    }
+
+    return undefined;
+  }, [context.menuRoutes, context.standaloneRoutes, pathname]);
+
+  const current = useMemo<RouterCurrent>(() => {
+    if (!match) {
+      return {
+        mode: "none",
+        path: pathname,
+      };
+    }
+
+    if (match.type === "menu") {
+      return {
+        icon: match.definition.icon,
         mode: "layout",
         path: pathname,
-        title: menuRoute.title,
-      }
-    : standaloneRoute
-      ? {
-          icon: standaloneRoute.icon,
-          mode: standaloneRoute.mode ?? "basic",
-          path: pathname,
-          title: standaloneRoute.title,
-        }
-      : { mode: "none", path: pathname };
+        title: match.definition.title,
+      };
+    }
+
+    return {
+      icon: match.definition.icon,
+      mode: match.definition.mode ?? "basic",
+      path: pathname,
+      title: match.definition.title,
+    };
+  }, [match, pathname]);
+
+  const navigate = useCallback(
+    (to: string, options?: Omit<RouterNavigationOptions, "to">) => {
+      return context.router.navigate({
+        ...options,
+        to,
+      });
+    },
+    [context.router],
+  );
+
+  const reload = useCallback(() => {
+    return context.router.navigate({ to: pathname, replace: true });
+  }, [context.router, pathname]);
 
   return {
     current,
     match,
-    navigate: (to: string, options?: { replace?: boolean }) =>
-      context.router.navigate({ ...options, to }),
+    navigate,
+    reload,
   };
 }
