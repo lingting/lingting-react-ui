@@ -1,0 +1,5 @@
+@reference "@lri/index.css";
+
+.region-tag{
+    @apply  flex flex-row content-center items-center gap-1;
+}

@@ -4,11 +4,14 @@ import { findRegionItem } from "@lri/lib";
 import type { RegionItem, RegionTagProps } from "@lri/types";
 
 import { RegionFlag } from "./RegionFlag";
+import { Typography } from "antd";
+import './RegionTag.css'
 
 function renderDefaultRegion(item: RegionItem) {
   return (
     <>
-      <RegionFlag value={item.iso} /> {item.names.zh}
+      <RegionFlag value={item.iso} />
+      <Typography.Text>{item.names.zh}</Typography.Text>
     </>
   );
 }
@@ -18,7 +21,7 @@ function RegionTagComponent({ className, render = renderDefaultRegion, value }: 
 
   if (!item) return null;
 
-  return <span className={className}>{render(item)}</span>;
+  return <div className={`region-tag ${className||""}`}>{render(item)}</div>;
 }
 
 export const RegionTag = memo(RegionTagComponent);
