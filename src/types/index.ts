@@ -12,3 +12,4 @@ export * from "./CopyTypes";
 export * from "./ListCardTypes";
 export * from "./CloudflareTurnstileTypes";
 export * from "./FixedVirtualListTypes";
+export * from "./PaginationSelectorTypes";

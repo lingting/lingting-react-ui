@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 
-export function formatTimestamp(value: unknown, unit: "seconds" | "milliseconds") {
+export function formatTimestamp(value: any, unit: "seconds" | "milliseconds") {
   const timestamp = typeof value === "number" ? value : Number(value);
   if (!Number.isFinite(timestamp)) return value;
 

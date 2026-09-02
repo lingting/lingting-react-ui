@@ -7,3 +7,5 @@ export * from "./copy";
 export * from "./ex-card";
 export * from "./ex-list";
 export * from "./cloudflare";
+export { PaginationSelector } from "./ex-select/PaginationSelector";
+export type { PaginationSelectorProps } from "@lri/types";
