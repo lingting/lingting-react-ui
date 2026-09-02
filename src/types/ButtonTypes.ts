@@ -13,10 +13,7 @@ export type ExButtonProps = Omit<ButtonProps, "children" | "onClick"> & {
   tooltip?: ExButtonTooltip;
 };
 
-export type TextButtonProps = Omit<
-  ExButtonProps,
-  "type" | "variant" | "color" | "classNames" | "styles"
-> & {
+export type TextButtonProps = Omit<ExButtonProps, "type" | "variant" | "color" | "styles"> & {
   type?: ButtonProps["type"];
   variant?: ButtonProps["variant"];
   color?: ButtonProps["color"];

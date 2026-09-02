@@ -45,6 +45,7 @@ function LinkButtonComponent({
     () => (
       <Typography.Link
         {...(props as ComponentProps<typeof Typography.Link>)}
+        className={`ex-button cursor-pointer ${props.className || ""}`}
         href={isDisabled ? undefined : props.href}
         type={danger ? "danger" : undefined}
         disabled={isDisabled}

@@ -46,6 +46,7 @@ function TextButtonComponent({
     () => (
       <Typography.Text
         {...(props as TypographyProps<"span">)}
+        className={`ex-button cursor-pointer ${props.className || ""}`}
         type={danger ? "danger" : undefined}
         disabled={isDisabled}
         onClick={isDisabled || hasConfirm(confirm) ? undefined : onClick}
