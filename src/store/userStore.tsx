@@ -83,6 +83,9 @@ export class UserStore {
   static setRouter(router: AnyRouter) {
     getRuntime().router = router;
   }
+  static setUser(user: User) {
+    getRuntime().store.setState((state) => ({ ...state, user }));
+  }
 
   static allow(rule: string | string[] | AuthRule) {
     const current = getRuntime();
@@ -150,11 +153,12 @@ export class UserStore {
 const allow = UserStore.allow.bind(UserStore);
 const logout = UserStore.logout.bind(UserStore);
 const refresh = UserStore.refresh.bind(UserStore);
+const setUser = UserStore.setUser.bind(UserStore);
 
 export function useUserStore(): UseUserStoreResult {
   const store = UserStore.getStore();
   const loading = useSelector(store, (state) => state.loading);
   const user = useSelector(store, (state) => state.user);
 
-  return { allow, loading, logout, refresh, user };
+  return { allow, loading, logout, refresh, setUser, user };
 }

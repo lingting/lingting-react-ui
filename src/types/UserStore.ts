@@ -43,6 +43,7 @@ export type UserStoreState = {
 export type UseUserStoreResult = {
   allow: (rule: string | string[] | AuthRule) => boolean;
   logout: () => Promise<void>;
+  setUser: (user: User) => void;
   refresh: () => Promise<User>;
   loading: boolean;
   user?: User;
