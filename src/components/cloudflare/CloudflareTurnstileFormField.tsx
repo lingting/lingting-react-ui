@@ -1,17 +1,15 @@
 import { ProFormField } from "@ant-design/pro-components";
+import { forwardRef } from "react";
 
 import { CloudflareTurnstile } from "@lri/components";
-import type { CloudflareTurnstileFormFieldProps } from "@lri/types";
-
-export function CloudflareTurnstileFormField({
-  siteKey,
-  onError,
-  fieldProps,
-  ...props
-}: CloudflareTurnstileFormFieldProps) {
+import type { CloudflareTurnstileFormFieldProps, CloudflareTurnstileInstance } from "@lri/types";
+export const CloudflareTurnstileFormField = forwardRef<
+  CloudflareTurnstileInstance,
+  CloudflareTurnstileFormFieldProps
+>(({ siteKey, onError, fieldProps, ...props }, ref) => {
   return (
     <ProFormField {...props}>
-      <CloudflareTurnstile {...fieldProps} siteKey={siteKey} onError={onError} />
+      <CloudflareTurnstile {...fieldProps} ref={ref} siteKey={siteKey} onError={onError} />
     </ProFormField>
   );
-}
+});

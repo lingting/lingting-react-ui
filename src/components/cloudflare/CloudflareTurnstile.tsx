@@ -1,7 +1,11 @@
 import { Turnstile, type TurnstileProps } from "@marsidev/react-turnstile";
-import { memo, useRef } from "react";
+import { forwardRef, memo, useRef } from "react";
 
-import type { CloudflareTurnstileOptions, CloudflareTurnstileProps } from "@lri/types";
+import type {
+  CloudflareTurnstileInstance,
+  CloudflareTurnstileOptions,
+  CloudflareTurnstileProps,
+} from "@lri/types";
 
 import "./CloudflareTurnstile.css";
 
@@ -15,15 +19,10 @@ export const CLOUDFLARE_TURNSTILE_DEFAULT_OPTIONS: CloudflareTurnstileOptions = 
   theme: "auto",
 };
 
-function CloudflareTurnstileComponent({
-  onChange,
-  className,
-  onError,
-  options,
-  refreshKey,
-  siteKey,
-  ...props
-}: CloudflareTurnstileProps) {
+const CloudflareTurnstileComponent = forwardRef<
+  CloudflareTurnstileInstance,
+  CloudflareTurnstileProps
+>(({ onChange, className, onError, options, siteKey, ...props }, ref) => {
   const onChangeRef = useRef(onChange);
   const onErrorRef = useRef(onError);
 
@@ -43,6 +42,6 @@ function CloudflareTurnstileComponent({
     onSuccess: (token) => onChangeRef.current?.(token),
   };
 
-  return <Turnstile key={refreshKey} {...turnstileProps} />;
-}
+  return <Turnstile ref={ref} {...turnstileProps} />;
+});
 export const CloudflareTurnstile = memo(CloudflareTurnstileComponent);
