@@ -1,4 +1,4 @@
-import { Outlet, useRouter, useRouterState } from "@tanstack/react-router";
+import { Outlet, useRouterState } from "@tanstack/react-router";
 import { Menu, type MenuProps } from "antd";
 import { Children, useEffect, useMemo, useState } from "react";
 
@@ -9,9 +9,9 @@ import type { MenuRouteDefinition } from "@lri/types";
 
 import { useAppSidebarLayout } from "./AppSidebarLayoutContext";
 import AppSidebarToggle from "./AppSidebarToggle";
-
 import "../AppSidebarLayout.css";
 import { AppSidebarUser, AppSidebarUserLogout } from "@lri/layout/app-sidebar/AppSidebarUser";
+import { useRouter } from "@lri/hooks";
 
 const USER_ITEM_KEY = "__app-sidebar-user";
 const LOGOUT_ITEM_KEY = "__app-sidebar-logout";
@@ -53,7 +53,7 @@ function AppSidebarMenu({
       inlineCollapsed={collapsed === SidebarCollapsed.Collapsed}
       items={routeItems}
       mode="inline"
-      onClick={({ key }) => void router.navigate({ to: key })}
+      onClick={({ key }) => void router.navigate(key)}
       onOpenChange={setOpenKeys}
       openKeys={collapsed === SidebarCollapsed.Collapsed ? [] : openKeys}
       selectedKeys={[pathname]}
@@ -65,6 +65,7 @@ function AppSidebarMenu({
 export function AppSidebarContent() {
   const { menuRoutes, props } = useAppSidebarLayout();
   const {
+    title,
     baseItems = [],
     bottomItems = [],
     headerLeftItems: sourceHeaderLeftItems,
@@ -101,9 +102,27 @@ export function AppSidebarContent() {
       setOpenKeys={setOpenKeys}
     />
   );
-  const userMenu = showUser ? (
-    <AppSidebarUser key={USER_ITEM_KEY} logoutPosition={logoutPosition} user={user} />
-  ) : undefined;
+  const userMenu = useMemo(
+    () =>
+      showUser ? (
+        <AppSidebarUser key={USER_ITEM_KEY} logoutPosition={logoutPosition} user={user} />
+      ) : undefined,
+    [logoutPosition, showUser, user],
+  );
+
+  const documentTitle = useMemo(() => document.title, []);
+  const prefixTitle = useMemo(() => title || documentTitle, [title, documentTitle]);
+
+  const { current } = useRouter();
+
+  useEffect(() => {
+    let title = prefixTitle.trim();
+    let subTitle = current.title?.trim();
+    if (subTitle) {
+      title = `${title} - ${subTitle}`;
+    }
+    document.title = title;
+  }, [current, prefixTitle]);
 
   return (
     <SidebarLayout

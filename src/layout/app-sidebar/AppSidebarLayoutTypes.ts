@@ -19,4 +19,5 @@ export type AppSidebarLayoutProps = Omit<SidebarLayoutProps, "children"> & {
   rootRedirectTo?: string;
   standaloneRoutes?: readonly StandaloneRouteDefinition[];
   userPosition?: AppSidebarUserPosition;
+  title?: string
 };
