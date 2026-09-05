@@ -1,7 +1,8 @@
 import { Outlet, useRouterState } from "@tanstack/react-router";
 import { Menu, type MenuProps } from "antd";
-import { Children, useEffect, useMemo, useState } from "react";
+import { Children, Suspense, useEffect, useMemo, useState } from "react";
 
+import { LoadingPage } from "@lri/blocks";
 import { SidebarCollapsed, SidebarLayout, useSidebarLayout } from "@lri/layout";
 import { findMenuAncestorPaths, joinRoutePath, normalizeRoutePath } from "@lri/lib";
 import { useUserStore } from "@lri/store";
@@ -69,6 +70,7 @@ export function AppSidebarContent() {
     baseItems = [],
     bottomItems = [],
     headerLeftItems: sourceHeaderLeftItems,
+    loadingComponent: LoadingComponent = LoadingPage,
     logoutPosition = "bottom",
     userPosition = "top",
     ...sidebarProps
@@ -146,7 +148,9 @@ export function AppSidebarContent() {
       ])}
       headerLeftItems={headerLeftItems}
     >
-      <Outlet />
+      <Suspense fallback={<LoadingComponent />}>
+        <Outlet />
+      </Suspense>
     </SidebarLayout>
   );
 }
