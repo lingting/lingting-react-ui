@@ -12,6 +12,7 @@ import {
 } from "./app-sidebar/AppSidebarLayoutContext";
 import { createAppSidebarRouter } from "./app-sidebar/AppSidebarRouter";
 import type { AppSidebarLayoutProps } from "./app-sidebar/AppSidebarLayoutTypes";
+import { AppHolder } from "@lri/lib";
 
 export type {
   AppSidebarLayoutProps,
@@ -53,7 +54,7 @@ function AppSidebarLayoutContent({ props }: { props: AppSidebarLayoutProps }) {
   );
 
   useEffect(() => {
-    UserStore.setRouter(router);
+    AppHolder.mount({ router });
   }, [router]);
 
   useEffect(() => {

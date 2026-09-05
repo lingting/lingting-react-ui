@@ -4,6 +4,7 @@ import { QueryClient } from "@tanstack/react-query";
 import type { MessageInstance } from "antd/es/message/interface";
 import type { NotificationInstance } from "antd/es/notification/interface";
 import type { HookAPI as ModalHookAPI } from "antd/es/modal/useModal";
+import type { AnyRouter } from "@tanstack/react-router";
 
 type AntdAppInstance = ReturnType<typeof App.useApp>;
 
@@ -17,6 +18,7 @@ type AppHolderBasicValues<I> = {
   modal: ModalHookAPI;
   query: QueryClient;
   intl: I;
+  router: AnyRouter | null;
 };
 
 export type AppHolderValues = AppHolderBasicValues<IntlType>;
@@ -45,10 +47,12 @@ const stacks: { [TKey in AppHolderKey]: Array<{ token: symbol; value: AppStackVa
       }),
     },
   ],
+  router: [{ token: initToken, value: null }],
 };
 
-function getMounted<TKey extends AppHolderKey>(key: TKey): AppStackValues[TKey] | undefined {
-  return stacks[key].at(-1)?.value;
+function getMounted<TKey extends AppHolderKey>(key: TKey): AppStackValues[TKey] | null {
+  let value = stacks[key].at(-1)?.value;
+  return value === undefined ? null : value;
 }
 
 function getRequiredMounted<TKey extends AppHolderKey>(
@@ -56,7 +60,7 @@ function getRequiredMounted<TKey extends AppHolderKey>(
   message: string,
 ): AppStackValues[TKey] {
   const value = getMounted(key);
-  if (value === undefined) throw new Error(message);
+  if (value === null) throw new Error(message);
   return value;
 }
 
@@ -135,6 +139,7 @@ export const query = createInstanceProxy(() =>
     "AppHolder.query is unavailable. Mount it inside QueryClientProvider and BasicLayout first.",
   ),
 );
+export const router = (): AnyRouter | null => getMounted("router");
 
 const consumerQueries = (consumer: (query: QueryClient) => void) => {
   for (let query of stacks.query) {
@@ -142,4 +147,4 @@ const consumerQueries = (consumer: (query: QueryClient) => void) => {
   }
 };
 
-export const AppHolder = { mount, message, modal, notification, intl, query, consumerQueries };
+export const AppHolder = { mount, message, modal, notification, intl, query, router, consumerQueries };

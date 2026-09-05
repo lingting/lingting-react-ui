@@ -1,8 +1,7 @@
-import type { AnyRouter } from "@tanstack/react-router";
 import { Store, useSelector } from "@tanstack/react-store";
 
 import { PREFIX } from "@lri/global";
-import { allowUser, message } from "@lri/lib";
+import { allowUser, AppHolder, message } from "@lri/lib";
 import type {
   AuthRule,
   User,
@@ -17,7 +16,6 @@ const DEFAULT_KEY_PREFIX = `${PREFIX}/user-store`;
 type UserStoreRuntime = Omit<Required<UserStoreInitializeOptions>, "keyPrefix"> & {
   keyPrefix: string;
   refreshPromise?: Promise<User>;
-  router?: AnyRouter;
   store: Store<UserStoreState>;
 };
 
@@ -59,11 +57,12 @@ async function redirectByAction(current: UserStoreRuntime, url?: string) {
   }
 
   if (!target.startsWith("/") || target.startsWith("//")) return false;
-  if (!current.router) {
-    throw new Error("ProUserStore 尚未设置 router，请先渲染 AppSidebarLayout");
+  let router = AppHolder.router();
+  if (!router) {
+    throw new Error("AppHolder 尚未设置 router，请先渲染 AppSidebarLayout");
   }
 
-  await current.router.navigate({ to: target });
+  await router.navigate({ to: target });
   return true;
 }
 
@@ -80,9 +79,6 @@ export class UserStore {
     return getRuntime().store;
   }
 
-  static setRouter(router: AnyRouter) {
-    getRuntime().router = router;
-  }
   static setUser(user: User) {
     getRuntime().store.setState((state) => ({ ...state, user }));
   }
