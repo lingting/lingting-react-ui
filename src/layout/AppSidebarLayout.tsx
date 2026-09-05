@@ -1,5 +1,5 @@
 import { RouterProvider } from "@tanstack/react-router";
-import { useEffect, useMemo } from "react";
+import { Suspense, useEffect, useMemo } from "react";
 
 import { LoadingPage, NotFoundPage } from "@lri/blocks";
 import type { StandaloneRouteDefinition } from "@lri/types";
@@ -26,7 +26,14 @@ function AppSidebarLayoutRouter({ router }: { router: ReturnType<typeof createAp
   const { loading, props } = useAppSidebarLayout();
   const { loadingComponent: LoadingComponent = LoadingPage } = props;
 
-  return loading ? <LoadingComponent /> : <RouterProvider router={router} />;
+  if (loading) {
+    return <LoadingComponent />;
+  }
+  return (
+    <Suspense fallback={<LoadingComponent />}>
+      <RouterProvider router={router} />
+    </Suspense>
+  );
 }
 
 function AppSidebarLayoutContent({ props }: { props: AppSidebarLayoutProps }) {

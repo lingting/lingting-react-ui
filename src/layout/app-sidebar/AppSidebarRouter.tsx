@@ -40,8 +40,9 @@ function createMenuRoute(
   const staticData: ProRouteStaticData = {
     menu: { icon: definition.icon, title: definition.title },
   };
+  const Component = definition.component;
   const route = createRoute({
-    component: definition.component ?? Outlet,
+    component: Component ? () => <Component /> : Outlet,
     getParentRoute: () => parentRoute,
     path: definition.path,
     staticData,

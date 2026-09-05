@@ -1,6 +1,6 @@
 import type { AuthRule } from "./UserStore";
 import type { NotFoundRouteComponent, RouteComponent } from "@tanstack/react-router";
-import type { ReactNode } from "react";
+import type { ComponentType, LazyExoticComponent, ReactNode } from "react";
 
 export type ProRouteMenuMetadata = {
   icon?: ReactNode;
@@ -10,7 +10,7 @@ export type ProRouteMenuMetadata = {
 export type ProRouteStaticData = {
   menu?: ProRouteMenuMetadata;
   standalone?: {
-    component: RouteComponent;
+    component: RoutePageComponent;
     mode: "basic" | "none";
   };
 };
@@ -26,10 +26,14 @@ type MenuRouteDirectoryDefinition = BaseRouteDefinition & {
   children: readonly MenuRouteDefinition[];
   component?: never;
 };
+export type RoutePageComponent =
+  | ComponentType
+  | LazyExoticComponent<ComponentType>
+  | RouteComponent;
 
 type MenuRoutePageDefinition = BaseRouteDefinition & {
   children?: never;
-  component: RouteComponent;
+  component: RoutePageComponent;
 };
 
 export type MenuRouteDefinition = MenuRouteDirectoryDefinition | MenuRoutePageDefinition;
