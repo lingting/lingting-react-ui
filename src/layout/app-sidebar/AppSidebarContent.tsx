@@ -110,7 +110,7 @@ export function AppSidebarContent() {
     [logoutPosition, showUser, user],
   );
 
-  const documentTitle = useMemo(() => document.title, []);
+  const documentTitle = useMemo(() => document.title?.split("-")[0] || "", []);
   const prefixTitle = useMemo(() => title || documentTitle, [title, documentTitle]);
 
   const { current } = useRouter();
@@ -118,10 +118,14 @@ export function AppSidebarContent() {
   useEffect(() => {
     let title = prefixTitle.trim();
     let subTitle = current.title?.trim();
-    if (subTitle) {
-      title = `${title} - ${subTitle}`;
+    let value = title;
+    if (value) {
+      value = `${value} -`;
     }
-    document.title = title;
+    if (subTitle) {
+      value = `${value} ${subTitle}`;
+    }
+    document.title = value;
   }, [current, prefixTitle]);
 
   return (
