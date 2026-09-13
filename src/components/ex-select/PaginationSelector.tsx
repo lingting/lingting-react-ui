@@ -119,6 +119,7 @@ function PaginationSelectorComponent<T>({
   return (
     <Select
       {...props}
+      style={props?.style || { width: "100%" }}
       allowClear
       loading={loading}
       maxCount={multiple ? undefined : 1}
