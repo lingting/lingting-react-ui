@@ -1,0 +1,5 @@
+@reference "@lri/index.css";
+
+.ex-form-control {
+  @apply w-full;
+}

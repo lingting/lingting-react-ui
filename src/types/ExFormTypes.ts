@@ -1,33 +1,18 @@
-import type {
-  ProFormCheckboxGroupProps,
-  ProFormFieldProps,
-  ProFormSelectProps,
-} from "@ant-design/pro-components";
-
+import type { ProFormFieldProps } from "@ant-design/pro-components";
 import type { RegionFilter, RegionRender } from "./RegionTypes";
 import type { DictProps, DictValue } from "./DictTypes";
 
-export type ExFormDictSelectProps<T extends DictValue = DictValue> = Omit<
-  ProFormSelectProps<T>,
-  "options"
-> &
-  DictProps<T>;
-
-export type ExFormDictCheckboxProps<T extends DictValue = DictValue> = Omit<
-  ProFormCheckboxGroupProps,
-  "options"
-> &
-  DictProps<T>;
-
-type ExFormDictDisplayProps<T extends DictValue = DictValue> = Omit<
+type ExFormDictFieldProps<T extends DictValue = DictValue> = Omit<
   ProFormFieldProps,
   "children" | "render" | "renderFormItem" | "valueType"
 > &
   DictProps<T>;
 
-export type ExFormDictBadgeProps<T extends DictValue = DictValue> = ExFormDictDisplayProps<T>;
-export type ExFormDictTagProps<T extends DictValue = DictValue> = ExFormDictDisplayProps<T>;
-export type ExFormDictTextProps<T extends DictValue = DictValue> = ExFormDictDisplayProps<T>;
+export type ExFormDictSelectProps<T extends DictValue = DictValue> = ExFormDictFieldProps<T>;
+export type ExFormDictCheckboxProps<T extends DictValue = DictValue> = ExFormDictFieldProps<T>;
+export type ExFormDictBadgeProps<T extends DictValue = DictValue> = ExFormDictFieldProps<T>;
+export type ExFormDictTagProps<T extends DictValue = DictValue> = ExFormDictFieldProps<T>;
+export type ExFormDictTextProps<T extends DictValue = DictValue> = ExFormDictFieldProps<T>;
 
 type ExFormRegionBaseProps = Omit<
   ProFormFieldProps,
