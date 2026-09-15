@@ -62,7 +62,7 @@ export function ExFormDictBadge<T extends DictValue>({
 }: ExFormDictBadgeProps<T>) {
   return (
     <ProFormField {...props}>
-      <DictBadge dict={dict} fallback={fallback} className="ex-form-control" />
+      <DictBadge dict={dict} fallback={fallback} />
     </ProFormField>
   );
 }
@@ -74,7 +74,7 @@ export function ExFormDictTag<T extends DictValue>({
 }: ExFormDictTagProps<T>) {
   return (
     <ProFormField {...props}>
-      <DictTag dict={dict} fallback={fallback} className="ex-form-control" />
+      <DictTag dict={dict} fallback={fallback} />
     </ProFormField>
   );
 }
