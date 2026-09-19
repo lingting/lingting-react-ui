@@ -1,11 +1,15 @@
+import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar, Popconfirm, Typography } from "antd";
 import React, { useCallback, useMemo } from "react";
-import { AppSidebarLogoutPosition, useSidebarLayout } from "@lri/layout";
-import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
-import type { User } from "@lri/types";
-import { useUserStore } from "@lri/store";
 
-export type AppSidebarUserItemProps = {
+import { useUserStore } from "@lri/store";
+import type { User } from "@lri/types";
+
+import { SidebarCollapsed, useSidebarLayout } from "../SidebarLayout";
+import type { SidebarLogoutPosition } from "./SidebarTypes";
+import "./SidebarUser.css";
+
+export type SidebarUserItemProps = {
   className?: string;
   icon?: React.ReactNode;
   content?: React.ReactNode;
@@ -15,29 +19,29 @@ export type AppSidebarUserItemProps = {
   "content" | "onClick" | "className"
 >;
 
-export const AppSidebarUserItem = React.forwardRef<HTMLDivElement, AppSidebarUserItemProps>(
+export const SidebarUserItem = React.forwardRef<HTMLDivElement, SidebarUserItemProps>(
   ({ className, onClick, icon, content, ...props }, ref) => {
     return (
       <div
         {...props}
         ref={ref}
-        className={`app-sidebar-layout__user-item ${className || ""}`}
+        className={`sidebar-user-item ${className || ""}`}
         onClick={onClick}
       >
-        <div className={"app-sidebar-layout__user-item-icon"}>{icon}</div>
-        {content && <div className={"app-sidebar-layout__user-item-content"}>{content}</div>}
+        <div className={"sidebar-user-item-icon"}>{icon}</div>
+        {content && <div className={"sidebar-user-item-content"}>{content}</div>}
       </div>
     );
   },
 );
-AppSidebarUserItem.displayName = "AppSidebarUserItem";
+SidebarUserItem.displayName = "SidebarUserItem";
 
-export type AppSidebarUserProps = {
+export type SidebarUserProps = {
   user: User;
-  logoutPosition?: AppSidebarLogoutPosition;
+  logoutPosition?: SidebarLogoutPosition;
 };
 
-export const AppSidebarUser = ({ user, logoutPosition }: AppSidebarUserProps) => {
+export const SidebarUser = ({ user, logoutPosition }: SidebarUserProps) => {
   const { collapsed } = useSidebarLayout();
   const icon = useMemo(
     () => <Avatar icon={!user.avatar ? <UserOutlined /> : undefined} src={user.avatar} size={32} />,
@@ -46,7 +50,7 @@ export const AppSidebarUser = ({ user, logoutPosition }: AppSidebarUserProps) =>
 
   const content = useMemo(() => {
     const text = (
-      <div className="app-sidebar-layout__user-text">
+      <div className="sidebar-user-text">
         <Typography.Text ellipsis>{user.nickname}</Typography.Text>
         {user.desc ? (
           <Typography.Text ellipsis type="secondary">
@@ -61,27 +65,27 @@ export const AppSidebarUser = ({ user, logoutPosition }: AppSidebarUserProps) =>
     }
 
     return (
-      <div className={"app-sidebar-layout__user-wrapper"}>
+      <div className={"sidebar-user-wrapper"}>
         {text}
-        <AppSidebarUserLogout onlyIcon={true} />
+        <SidebarUserLogout onlyIcon={true} />
       </div>
     );
   }, [user, logoutPosition]);
 
   return (
-    <AppSidebarUserItem
-      className={"app-sidebar-layout__user-root"}
+    <SidebarUserItem
+      className={"sidebar-user-root"}
       icon={icon}
-      content={collapsed === "expanded" ? content : undefined}
+      content={collapsed === SidebarCollapsed.Expanded ? content : undefined}
     />
   );
 };
 
-export type AppSidebarUserLogoutProps = {
+export type SidebarUserLogoutProps = {
   onlyIcon?: boolean;
 };
 
-export const  AppSidebarUserLogout = ({ onlyIcon }: AppSidebarUserLogoutProps) => {
+export const SidebarUserLogout = ({ onlyIcon }: SidebarUserLogoutProps) => {
   const { collapsed } = useSidebarLayout();
   const { logout } = useUserStore();
   const handleLogout = useCallback(() => void logout().catch(() => undefined), [logout]);
@@ -94,9 +98,9 @@ export const  AppSidebarUserLogout = ({ onlyIcon }: AppSidebarUserLogoutProps) =
       title="退出登录"
       trigger={["click"]}
     >
-      <AppSidebarUserItem
+      <SidebarUserItem
         icon={<LogoutOutlined />}
-        content={collapsed === "expanded" && !onlyIcon ? content : undefined}
+        content={collapsed === SidebarCollapsed.Expanded && !onlyIcon ? content : undefined}
       />
     </Popconfirm>
   );

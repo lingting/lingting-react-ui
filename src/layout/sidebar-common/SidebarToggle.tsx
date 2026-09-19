@@ -1,12 +1,13 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-import { Button } from "antd";
 
-import { SidebarCollapsed, useSidebarLayout } from "@lri/layout";
+import { AntdButton } from "@lri/components";
 
-export default function AppSidebarToggle() {
+import { SidebarCollapsed, useSidebarLayout } from "../SidebarLayout";
+
+export function SidebarToggle() {
   const { collapsed, toggleCollapsed } = useSidebarLayout();
   return (
-    <Button
+    <AntdButton
       aria-label="切换侧边栏"
       icon={
         collapsed === SidebarCollapsed.Collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />

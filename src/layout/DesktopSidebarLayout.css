@@ -1,0 +1,24 @@
+@reference "@lri/index.css";
+
+.desktop-sidebar-layout__root {
+  @apply relative h-full w-full overflow-hidden rounded-lg ring-1 ring-(--ant-color-border) ring-inset;
+  @apply bg-(--ant-color-bg-container);
+  transition: border-radius 300ms ease;
+}
+
+.desktop-sidebar-layout__root--maximized {
+  @apply rounded-none;
+}
+
+.desktop-sidebar-layout__brand {
+  @apply flex h-14 shrink-0 items-center gap-2 overflow-hidden px-4;
+  @apply border-e border-b border-solid border-(--ant-color-border-secondary);
+}
+
+.desktop-sidebar-layout__window-actions {
+  @apply shrink-0;
+}
+
+.desktop-sidebar-layout__window-close:hover {
+  @apply bg-(--ant-color-error)! text-(--ant-color-text-light-solid)!;
+}

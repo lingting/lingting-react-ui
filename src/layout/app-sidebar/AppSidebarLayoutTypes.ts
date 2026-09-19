@@ -7,17 +7,18 @@ import type {
 } from "@lri/types";
 
 import type { SidebarLayoutProps } from "@lri/layout";
+import type { SidebarLogoutPosition, SidebarUserPosition } from "../sidebar-common/SidebarTypes";
 
-export type AppSidebarUserPosition = "hidden" | "top" | "bottom";
-export type AppSidebarLogoutPosition = "hidden" | "user" | "bottom";
+export type AppSidebarUserPosition = SidebarUserPosition;
+export type AppSidebarLogoutPosition = SidebarLogoutPosition;
 
 export type AppSidebarLayoutProps = Omit<SidebarLayoutProps, "children"> & {
   loadingComponent?: ComponentType;
-  logoutPosition?: AppSidebarLogoutPosition;
+  logoutPosition?: SidebarLogoutPosition;
   menuRoutes: readonly MenuRouteDefinition[];
   notFoundComponent?: ProRouteNotFoundComponent;
   rootRedirectTo?: string;
   standaloneRoutes?: readonly StandaloneRouteDefinition[];
-  userPosition?: AppSidebarUserPosition;
-  title?: string
+  userPosition?: SidebarUserPosition;
+  title?: string;
 };

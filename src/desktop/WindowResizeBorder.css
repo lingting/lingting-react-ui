@@ -1,0 +1,41 @@
+@reference "@lri/index.css";
+
+.window-resize-border {
+  @apply pointer-events-none absolute inset-0 z-50;
+}
+
+.window-resize-border__item {
+  @apply pointer-events-auto absolute;
+}
+
+.window-resize-border__item--north {
+  @apply top-0 right-2 left-2 h-1.5 cursor-n-resize;
+}
+
+.window-resize-border__item--south {
+  @apply right-2 bottom-0 left-2 h-1.5 cursor-s-resize;
+}
+
+.window-resize-border__item--west {
+  @apply top-2 bottom-2 left-0 w-1.5 cursor-w-resize;
+}
+
+.window-resize-border__item--east {
+  @apply top-2 right-0 bottom-2 w-1.5 cursor-e-resize;
+}
+
+.window-resize-border__item--north-west {
+  @apply top-0 left-0 size-3 cursor-nw-resize;
+}
+
+.window-resize-border__item--north-east {
+  @apply top-0 right-0 size-3 cursor-ne-resize;
+}
+
+.window-resize-border__item--south-west {
+  @apply bottom-0 left-0 size-3 cursor-sw-resize;
+}
+
+.window-resize-border__item--south-east {
+  @apply right-0 bottom-0 size-3 cursor-se-resize;
+}

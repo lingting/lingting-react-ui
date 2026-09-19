@@ -5,19 +5,19 @@ import type {
 } from "@lri/types";
 
 import { createLayoutRouter } from "../sidebar-common";
-import { AppSidebarContent } from "./AppSidebarContent";
+import { DesktopSidebarContent } from "./DesktopSidebarContent";
 
-type CreateAppSidebarRouterOptions = {
+type CreateDesktopSidebarRouterOptions = {
   menuRoutes: readonly MenuRouteDefinition[];
   notFoundComponent: ProRouteNotFoundComponent;
   rootRedirectTo?: string;
   standaloneRoutes: readonly StandaloneRouteDefinition[];
 };
 
-export function createAppSidebarRouter(options: CreateAppSidebarRouterOptions) {
+export function createDesktopSidebarRouter(options: CreateDesktopSidebarRouterOptions) {
   return createLayoutRouter({
     ...options,
-    appRouteComponent: AppSidebarContent,
-    appRouteId: "app-sidebar",
+    appRouteComponent: DesktopSidebarContent,
+    appRouteId: "desktop-sidebar",
   });
 }

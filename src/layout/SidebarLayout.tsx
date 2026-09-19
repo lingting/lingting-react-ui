@@ -33,6 +33,7 @@ export type SidebarLayoutClassNames = {
   main?: string;
   root?: string;
   sidebar?: string;
+  sidebarHeader?: string;
 };
 
 export type SidebarLayoutProps = Omit<BasicLayoutProps, "children" | "className"> & {
@@ -44,6 +45,7 @@ export type SidebarLayoutProps = Omit<BasicLayoutProps, "children" | "className"
   collapsedWidth?: number | string;
   headerLeftItems?: readonly ReactNode[];
   headerRightItems?: readonly ReactNode[];
+  sidebarHeader?: ReactNode;
   width?: number | string;
 };
 
@@ -58,7 +60,10 @@ export function useSidebarLayout() {
   return value;
 }
 
-function SidebarLayoutContent({
+/**
+ * 侧边栏布局主体，不含 BasicLayout 主题容器，供需要自定义外层容器的布局复用。
+ */
+export function SidebarLayoutContent({
   baseItems = [],
   bottomItems = [],
   children,
@@ -66,6 +71,7 @@ function SidebarLayoutContent({
   collapsedWidth = DEFAULT_COLLAPSED_WIDTH,
   headerLeftItems = [],
   headerRightItems = [],
+  sidebarHeader,
   width = DEFAULT_WIDTH,
 }: Omit<SidebarLayoutProps, "className" | "defaultTheme">) {
   const [display, setDisplay] = useState(SidebarCollapsed.Expanded);
@@ -97,6 +103,11 @@ function SidebarLayoutContent({
             trigger={null}
             width={collapsed ? collapsedWidth : width}
           >
+            {sidebarHeader && (
+              <div className={clsx("sidebar-layout__sidebar-header", classNames?.sidebarHeader)}>
+                {sidebarHeader}
+              </div>
+            )}
             {baseItems.length > 0 && (
               <div className={clsx("sidebar-layout__base-items", classNames?.baseItems)}>
                 {Children.toArray(baseItems)}
