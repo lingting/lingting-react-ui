@@ -147,4 +147,13 @@ const consumerQueries = (consumer: (query: QueryClient) => void) => {
   }
 };
 
-export const AppHolder = { mount, message, modal, notification, intl, query, router, consumerQueries };
+export const AppHolder = {
+  mount,
+  message,
+  modal,
+  notification,
+  intl,
+  query,
+  router,
+  consumerQueries,
+};

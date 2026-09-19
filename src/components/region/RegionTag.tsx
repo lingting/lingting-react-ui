@@ -5,7 +5,7 @@ import type { RegionItem, RegionTagProps } from "@lri/types";
 
 import { RegionFlag } from "./RegionFlag";
 import { Typography } from "antd";
-import './RegionTag.css'
+import "./RegionTag.css";
 
 function renderDefaultRegion(item: RegionItem) {
   return (
@@ -21,7 +21,7 @@ function RegionTagComponent({ className, render = renderDefaultRegion, value }: 
 
   if (!item) return null;
 
-  return <div className={`region-tag ${className||""}`}>{render(item)}</div>;
+  return <div className={`region-tag ${className || ""}`}>{render(item)}</div>;
 }
 
 export const RegionTag = memo(RegionTagComponent);

@@ -8,4 +8,4 @@ export * from "./ImageUtils";
 export * from "./MenuUtils";
 export * from "./RouteUtils";
 export * from "./CopyUtils";
-export *  from './UserUtils';
+export * from "./UserUtils";
