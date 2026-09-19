@@ -5,7 +5,9 @@ import { useRouter } from "@lri/hooks";
 import { joinRoutePath } from "@lri/lib";
 import type { MenuRouteDefinition } from "@lri/types";
 
-import { SidebarCollapsed, useSidebarLayout } from "../SidebarLayout";
+import { SidebarCollapsed, useSidebarLayout } from "@lri/layout";
+
+import './SidebarMenu.css'
 
 function createRouteMenuItems(
   definitions: readonly MenuRouteDefinition[],
@@ -38,6 +40,7 @@ export function SidebarMenu({ menuRoutes, openKeys, pathname, setOpenKeys }: Sid
 
   return (
     <Menu
+      className={"sidebar-layout__menu"}
       inlineCollapsed={collapsed === SidebarCollapsed.Collapsed}
       items={routeItems}
       mode="inline"

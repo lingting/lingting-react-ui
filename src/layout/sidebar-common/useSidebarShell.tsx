@@ -21,6 +21,7 @@ export type UseSidebarShellOptions = {
   headerLeftItems?: readonly ReactNode[];
   logoutPosition?: SidebarLogoutPosition;
   menuRoutes: readonly MenuRouteDefinition[];
+  showSidebarToggle?: boolean;
   title?: string;
   userPosition?: SidebarUserPosition;
 };
@@ -34,6 +35,7 @@ export function useSidebarShell({
   headerLeftItems: sourceHeaderLeftItems = [],
   logoutPosition = "bottom",
   menuRoutes,
+  showSidebarToggle = true,
   title,
   userPosition = "top",
 }: UseSidebarShellOptions) {
@@ -48,8 +50,12 @@ export function useSidebarShell({
   );
   const [openKeys, setOpenKeys] = useState<string[]>(ancestorPaths);
   const headerLeftItems = useMemo(
-    () => Children.toArray([<SidebarToggle key="__sidebar-toggle" />, sourceHeaderLeftItems]),
-    [sourceHeaderLeftItems],
+    () =>
+      Children.toArray([
+        showSidebarToggle ? <SidebarToggle key="__sidebar-toggle" /> : undefined,
+        sourceHeaderLeftItems,
+      ]),
+    [showSidebarToggle, sourceHeaderLeftItems],
   );
 
   useEffect(() => {

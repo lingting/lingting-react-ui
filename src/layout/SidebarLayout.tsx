@@ -7,6 +7,7 @@ import {
   useContext,
   useMemo,
   useState,
+  type ComponentProps,
   type ReactNode,
 } from "react";
 
@@ -18,6 +19,8 @@ export enum SidebarCollapsed {
   Expanded = "expanded",
   Hidden = "hidden",
 }
+
+export type SidebarLayoutMode = "left" | "bottom";
 
 export type SidebarLayoutState = {
   collapsed: SidebarCollapsed;
@@ -33,7 +36,6 @@ export type SidebarLayoutClassNames = {
   main?: string;
   root?: string;
   sidebar?: string;
-  sidebarHeader?: string;
 };
 
 export type SidebarLayoutProps = Omit<BasicLayoutProps, "children" | "className"> & {
@@ -44,8 +46,9 @@ export type SidebarLayoutProps = Omit<BasicLayoutProps, "children" | "className"
   classNames?: SidebarLayoutClassNames;
   collapsedWidth?: number | string;
   headerLeftItems?: readonly ReactNode[];
+  headerProps?: Omit<ComponentProps<typeof Layout.Header>, "children" | "className">;
   headerRightItems?: readonly ReactNode[];
-  sidebarHeader?: ReactNode;
+  layout?: SidebarLayoutMode;
   width?: number | string;
 };
 
@@ -70,8 +73,9 @@ export function SidebarLayoutContent({
   classNames,
   collapsedWidth = DEFAULT_COLLAPSED_WIDTH,
   headerLeftItems = [],
+  headerProps,
   headerRightItems = [],
-  sidebarHeader,
+  layout = "left",
   width = DEFAULT_WIDTH,
 }: Omit<SidebarLayoutProps, "className" | "defaultTheme">) {
   const [display, setDisplay] = useState(SidebarCollapsed.Expanded);
@@ -90,46 +94,77 @@ export function SidebarLayoutContent({
     [display, toggleCollapsed],
   );
 
+  const rootClassName = clsx(
+    "sidebar-layout",
+    `sidebar-layout--${layout}`,
+    `sidebar-layout-${display}`,
+    classNames?.root,
+  );
+  // 侧边栏始终渲染，仅通过 display 控制可见性
+  const sidebar = (
+    <Layout.Sider
+      className={clsx(
+        "sidebar-layout__sidebar",
+        !sidebarVisible && "sidebar-layout__sidebar--hidden",
+        classNames?.sidebar,
+      )}
+      theme="light"
+      trigger={null}
+      width={collapsed ? collapsedWidth : width}
+    >
+      {baseItems.length > 0 && (
+        <div className={clsx("sidebar-layout__base-items", classNames?.baseItems)}>
+          {Children.toArray(baseItems)}
+        </div>
+      )}
+      {bottomItems.length > 0 && (
+        <div className={clsx("sidebar-layout__bottom-items", classNames?.bottomItems)}>
+          {Children.toArray(bottomItems)}
+        </div>
+      )}
+    </Layout.Sider>
+  );
+  const header = (
+    <Layout.Header {...headerProps} className={clsx("sidebar-layout__header", classNames?.header)}>
+      <div className="sidebar-layout__header-left">{Children.toArray(headerLeftItems)}</div>
+      <div className="sidebar-layout__header-right">{Children.toArray(headerRightItems)}</div>
+    </Layout.Header>
+  );
+  const content = (
+    <Layout.Content className={clsx("sidebar-layout__content", classNames?.content)}>
+      {children}
+    </Layout.Content>
+  );
+  const main = (
+    <Layout className={clsx("sidebar-layout__main", classNames?.main)}>
+      {layout === "bottom" ? (
+        <>
+          {sidebar}
+          {content}
+        </>
+      ) : (
+        <>
+          {header}
+          {content}
+        </>
+      )}
+    </Layout>
+  );
+
   return (
     <SidebarLayoutContext.Provider value={state}>
-      <Layout
-        className={clsx("sidebar-layout", `sidebar-layout-${display}`, classNames?.root)}
-        hasSider={sidebarVisible}
-      >
-        {sidebarVisible && (
-          <Layout.Sider
-            className={clsx("sidebar-layout__sidebar", classNames?.sidebar)}
-            theme="light"
-            trigger={null}
-            width={collapsed ? collapsedWidth : width}
-          >
-            {sidebarHeader && (
-              <div className={clsx("sidebar-layout__sidebar-header", classNames?.sidebarHeader)}>
-                {sidebarHeader}
-              </div>
-            )}
-            {baseItems.length > 0 && (
-              <div className={clsx("sidebar-layout__base-items", classNames?.baseItems)}>
-                {Children.toArray(baseItems)}
-              </div>
-            )}
-            {bottomItems.length > 0 && (
-              <div className={clsx("sidebar-layout__bottom-items", classNames?.bottomItems)}>
-                {Children.toArray(bottomItems)}
-              </div>
-            )}
-          </Layout.Sider>
+      <Layout className={rootClassName} hasSider={layout === "left"}>
+        {layout === "bottom" ? (
+          <>
+            {header}
+            {main}
+          </>
+        ) : (
+          <>
+            {sidebar}
+            {main}
+          </>
         )}
-
-        <Layout className={clsx("sidebar-layout__main", classNames?.main)}>
-          <Layout.Header className={clsx("sidebar-layout__header", classNames?.header)}>
-            <div className="sidebar-layout__header-left">{Children.toArray(headerLeftItems)}</div>
-            <div className="sidebar-layout__header-right">{Children.toArray(headerRightItems)}</div>
-          </Layout.Header>
-          <Layout.Content className={clsx("sidebar-layout__content", classNames?.content)}>
-            {children}
-          </Layout.Content>
-        </Layout>
       </Layout>
     </SidebarLayoutContext.Provider>
   );

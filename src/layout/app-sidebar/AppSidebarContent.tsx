@@ -14,9 +14,12 @@ export function AppSidebarContent() {
     collapsedWidth,
     defaultTheme,
     headerLeftItems: sourceHeaderLeftItems,
+    headerProps,
     headerRightItems,
+    layout = "left",
     loadingComponent,
     logoutPosition,
+    showSidebarToggle = layout === "left",
     title,
     userPosition,
     width,
@@ -31,6 +34,7 @@ export function AppSidebarContent() {
     headerLeftItems: sourceHeaderLeftItems,
     logoutPosition,
     menuRoutes,
+    showSidebarToggle,
     title,
     userPosition,
   });
@@ -43,7 +47,9 @@ export function AppSidebarContent() {
         classNames={classNames}
         collapsedWidth={collapsedWidth}
         headerLeftItems={headerLeftItems}
+        headerProps={headerProps}
         headerRightItems={headerRightItems}
+        layout={layout}
         loadingComponent={loadingComponent}
         width={width}
       />

@@ -1,5 +1,5 @@
 import { Outlet } from "@tanstack/react-router";
-import { Suspense, type ComponentType, type ReactNode } from "react";
+import { Suspense, type ComponentType } from "react";
 
 import { LoadingPage } from "@lri/blocks";
 
@@ -10,7 +10,6 @@ export type SidebarShellProps = Omit<
   "children" | "className" | "defaultTheme"
 > & {
   loadingComponent?: ComponentType;
-  sidebarHeader?: ReactNode;
 };
 
 /**

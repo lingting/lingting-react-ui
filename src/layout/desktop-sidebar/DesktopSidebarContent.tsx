@@ -1,18 +1,21 @@
 import { Flex } from "antd";
 import clsx from "clsx";
-import { Children, useMemo } from "react";
+import { Children, useCallback, useMemo, type MouseEvent } from "react";
 
 import "../DesktopSidebarLayout.css";
 import { WindowResizeBorder } from "@lri/desktop";
 
-import { BasicLayout, type LayoutTheme } from "../BasicLayout";
+import { BasicLayout } from "@lri/layout";
 import { SidebarShell, useSidebarShell } from "../sidebar-common";
-import { DesktopSidebarBrand } from "./DesktopSidebarBrand";
 import { useDesktopSidebarLayout } from "./DesktopSidebarLayoutContext";
 import { DesktopWindowActions } from "./DesktopWindowActions";
 
-// 窗口本身透明且无边框，由根容器负责圆角卡片外观
-const DESKTOP_LAYOUT_BG_TOKEN = { colorBgLayout: "transparent" } as const;
+const DEFAULT_WIDTH = "180px";
+const INTERACTIVE_SELECTOR = "button, a, input, textarea, select, [role='button']";
+
+function isInteractiveTarget(target: EventTarget | null) {
+  return target instanceof Element && target.closest(INTERACTIVE_SELECTOR) !== null;
+}
 
 export function DesktopSidebarContent() {
   const { maximized, props } = useDesktopSidebarLayout();
@@ -24,8 +27,8 @@ export function DesktopSidebarContent() {
     collapsedWidth,
     defaultTheme,
     headerLeftItems: sourceHeaderLeftItems,
+    headerProps,
     headerRightItems,
-    icon,
     loadingComponent,
     logoutPosition,
     menuRoutes,
@@ -36,48 +39,62 @@ export function DesktopSidebarContent() {
     onToggleMaximize,
     title,
     userPosition,
-    width,
+    width =DEFAULT_WIDTH,
   } = props;
   const {
     baseItems: shellBaseItems,
     bottomItems: shellBottomItems,
     headerLeftItems,
-    title: shellTitle,
   } = useSidebarShell({
     baseItems,
     bottomItems,
     headerLeftItems: sourceHeaderLeftItems,
     logoutPosition,
     menuRoutes,
+    showSidebarToggle: false,
     title,
     userPosition,
   });
-  const theme = useMemo<Partial<LayoutTheme>>(
+
+  const handleHeaderMouseDown = useCallback(
+    (event: MouseEvent<HTMLElement>) => {
+      if (event.button !== 0 || event.detail >= 2 || isInteractiveTarget(event.target)) {
+        return;
+      }
+
+      onStartDrag();
+    },
+    [onStartDrag],
+  );
+  const handleHeaderDoubleClick = useCallback(
+    (event: MouseEvent<HTMLElement>) => {
+      if (isInteractiveTarget(event.target)) {
+        return;
+      }
+
+      onToggleMaximize();
+    },
+    [onToggleMaximize],
+  );
+  const mergedHeaderProps = useMemo(
     () => ({
-      ...defaultTheme,
-      antd: {
-        ...defaultTheme?.antd,
-        token: { ...DESKTOP_LAYOUT_BG_TOKEN, ...defaultTheme?.antd?.token },
-      },
+      ...headerProps,
+      onDoubleClick: handleHeaderDoubleClick,
+      onMouseDown: handleHeaderMouseDown,
     }),
-    [defaultTheme],
+    [handleHeaderDoubleClick, handleHeaderMouseDown, headerProps],
   );
 
   return (
-    <BasicLayout className={clsx("desktop-sidebar-layout", className)} defaultTheme={theme}>
-      <Flex
-        className={clsx(
-          "desktop-sidebar-layout__root",
-          maximized && "desktop-sidebar-layout__root--maximized",
-        )}
-        vertical
-      >
+    <BasicLayout className={clsx("desktop-sidebar-layout", className)} defaultTheme={defaultTheme}>
+      <Flex className="desktop-sidebar-layout__root" vertical>
         <SidebarShell
           baseItems={shellBaseItems}
           bottomItems={shellBottomItems}
           classNames={classNames}
           collapsedWidth={collapsedWidth}
           headerLeftItems={headerLeftItems}
+          headerProps={mergedHeaderProps}
           headerRightItems={Children.toArray([
             headerRightItems,
             <DesktopWindowActions
@@ -88,15 +105,8 @@ export function DesktopSidebarContent() {
               onToggleMaximize={onToggleMaximize}
             />,
           ])}
+          layout="bottom"
           loadingComponent={loadingComponent}
-          sidebarHeader={
-            <DesktopSidebarBrand
-              icon={icon}
-              onStartDrag={onStartDrag}
-              onToggleMaximize={onToggleMaximize}
-              title={shellTitle}
-            />
-          }
           width={width}
         />
         {!maximized && <WindowResizeBorder onStartResize={onStartResize} />}

@@ -18,6 +18,7 @@ export type AppSidebarLayoutProps = Omit<SidebarLayoutProps, "children"> & {
   menuRoutes: readonly MenuRouteDefinition[];
   notFoundComponent?: ProRouteNotFoundComponent;
   rootRedirectTo?: string;
+  showSidebarToggle?: boolean;
   standaloneRoutes?: readonly StandaloneRouteDefinition[];
   userPosition?: SidebarUserPosition;
   title?: string;
