@@ -4,12 +4,16 @@
   @apply h-full w-full;
 }
 
+.list-card .ant-pro-card-title {
+  @apply w-full;
+}
+
 .list-card .ant-pro-card-body {
   @apply flex min-h-0 flex-1 flex-col;
 }
 
 .list-card-header {
-  @apply pe-3;
+  @apply pe-3 w-full;
 }
 
 .list-card-content {
