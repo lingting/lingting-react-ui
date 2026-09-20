@@ -1,46 +1,113 @@
 # lingting-react-ui
 
-`lingting-react-ui` 是基于 React、Vite、pnpm、Ant Design v6 与 Ant Design Pro Components 构建的专用高级组件库。
+基于 React 19、Ant Design v6、Ant Design Pro Components、TanStack Router/Query 与 Tailwind CSS v4 构建的专用高级组件库。
 
 ## 定位
 
-- 提供领域无关、可组合、可迁移的基础组件、高级组件、布局、Block、Hook、工具与类型。
-- 高级组件通过泛型、配置和回调接收数据源、字段与渲染策略；可提供通用路由、布局、登录表单及抽象权限认证，但不包含业务实体、接口或具体业务状态。
-- 所有公开模块从 `src/index.ts` 导出；各分类目录通过自身 `index.ts` 维护公开边界。
-- `src/components/region` 的区域数据源来自 [lingting-geo-data](https://github.com/lingting/lingting-geo-data)。
+- 提供**领域无关、可组合、可迁移**的基础组件、高级组件、布局、Block、Hook、工具与类型。
+- 高级组件通过泛型、配置、回调或适配接口接收数据源、字段、路由与权限规则，**不包含业务实体、接口地址或具体业务状态**。
+- 通用路由、菜单、路由状态与权限认证以类型、配置和回调形式对外提供，不绑定具体领域页面。
+- 唯一的根导出入口是 `src/index.ts`；各分类目录通过自身 `index.ts` 维护公开边界。
 
-## 布局
+## 宿主接入
 
-`src/layout` 提供 `BasicLayout`、`SidebarLayout`、`AppSidebarLayout` 与 `DesktopSidebarLayout`。
+如果本库以**源码符号链接**方式被宿主项目引用，写入 `dependencies` 的运行时依赖不会被宿主解析，因此需要遵循以下两条强制约定。
 
-### 屏幕模式
+### 1. 运行时依赖由宿主提供
 
-- `BasicLayout` 统一识别屏幕模式并写入布局上下文，默认以 768px 为宽度阈值，可通过 `smallScreenBreakpoint` 调整。
-- **在 `BasicLayout` 内必须通过布局上下文读取屏幕模式**，不要自行调用 `useScreenMode`：
+所有第三方运行时依赖（`react`、`antd`、`@ant-design/pro-components`、`@tanstack/react-router`、`clsx`、`dayjs` 等）都声明在 `peerDependencies`，由宿主提供实际实例。不要把它们装进本库的 `dependencies`。
+
+### 2. 宿主构建必须去重
+
+`peerDependencies` 是宿主构建去重列表的**唯一来源**。宿主必须把其中全部包名写入构建配置的去重项（Vite 为 `resolve.dedupe`）：
+
+```ts
+// 宿主的 vite.config.ts
+export default defineConfig({
+  resolve: {
+    dedupe: [
+      "@ant-design/icons",
+      "@ant-design/pro-components",
+      "@marsidev/react-turnstile",
+      "@tanstack/react-query",
+      "@tanstack/react-router",
+      "@tanstack/react-store",
+      "antd",
+      "clsx",
+      "dayjs",
+      "react",
+      "react-dom",
+    ],
+  },
+});
+```
+
+缺少任一条目时，构建产物会包含同一包的两份实现，React Context 与模块级单例无法跨实例共享。该问题在 dev 下常被预打包掩盖，**仅在构建产物中复现**；宿主出现「dev 正常、构建异常」的组件行为差异时，应优先排查此项。
+
+## 快速开始
 
 ```tsx
-import { useLayout } from "lingting-react-ui";
+import { AppSidebarLayout, LoadingPage, NotFoundPage } from "lingting-react-ui";
+import "lingting-react-ui/index.css";
 
-function Content() {
-  const { screenMode } = useLayout(); // "default" | "small"
-  // ...
+const menuRoutes = [
+  {
+    path: "/dashboard",
+    title: "仪表盘",
+    component: () => import("./pages/Dashboard"),
+  },
+];
+
+function App() {
+  return (
+    <AppSidebarLayout
+      loadingComponent={LoadingPage}
+      menuRoutes={menuRoutes}
+      notFoundComponent={NotFoundPage}
+    />
+  );
 }
 ```
 
-- `useScreenMode` 的阈值由调用方传入，在 `BasicLayout` 内自行调用可能与 `BasicLayout` 的判定不一致，因此仅用于 `BasicLayout` 之外。
-- `SidebarLayout`、`AppSidebarLayout`、`DesktopSidebarLayout` 会把 `smallScreenBreakpoint` 传给内部 `BasicLayout`，宿主只需在布局组件上传入一次。
+> 样式由根入口 `src/index.ts` 自动引入（`import "./index.css"`），宿主无需单独引入 CSS。
+> 宿主以源码符号链接方式引用本库时，上述包名应替换为宿主自身配置的路径别名（如 `@lri`）。
 
-### 侧边栏展示方式
+权限认证与用户数据通过初始化 `UserStore` 注入，本库不内置任何业务接口：
 
-`SidebarLayoutProps.sidebarDisplay` 控制侧栏展示方式：
+```tsx
+import { UserStore } from "lingting-react-ui";
 
-| 取值           | 行为                         |
-| -------------- | ---------------------------- |
-| `auto`（默认） | 小屏幕使用抽屉，其余使用平铺 |
-| `inline`       | 始终平铺                     |
-| `drawer`       | 始终使用抽屉                 |
+UserStore.initialize({
+  getUser: () => api.getCurrentUser(),
+  logout: () => api.logout(),
+});
+```
 
-抽屉展示方式下侧栏默认隐藏，`SidebarToggle` 在隐藏与展示之间切换，并且始终渲染。
+## 模块索引
+
+`src` 下每个一级目录都有自己的说明文档，点击进入查看详细职责、公开导出与用法。
+
+| 目录              | 职责                                                         | 文档                                               |
+| ----------------- | ------------------------------------------------------------ | -------------------------------------------------- |
+| `src/components/` | 基础组件与通用高级组件（表格、表单、字典、区域、按钮、复制） | [components/README.md](./src/components/README.md) |
+| `src/blocks/`     | 由组件与布局组合而成的通用界面区块与页面壳                   | [blocks/README.md](./src/blocks/README.md)         |
+| `src/layout/`     | 通用应用布局、侧边栏布局与布局级路由                         | [layout/README.md](./src/layout/README.md)         |
+| `src/hooks/`      | 领域无关的通用 Hook                                          | [hooks/README.md](./src/hooks/README.md)           |
+| `src/lib/`        | 组件库共享工具、运行时单例与数据访问辅助                     | [lib/README.md](./src/lib/README.md)               |
+| `src/store/`      | 基于 `@tanstack/react-store` 的通用 Store                    | [store/README.md](./src/store/README.md)           |
+| `src/types/`      | 组件库公开类型                                               | [types/README.md](./src/types/README.md)           |
+| `src/desktop/`    | 桌面端窗口能力组件                                           | [desktop/README.md](./src/desktop/README.md)       |
+
+依赖方向（不可逆向）：
+
+```text
+components ─┐
+blocks ─────┼─→ hooks / lib / types
+layout ─────┤
+store ──────┘
+```
+
+`src/components/` 内部选择既有组件时必须严格依次复用：**本项目 `src/components/` → Ant Design Pro Components → Ant Design 原生组件**。禁止绕过高优先级组件直接选用低优先级组件，也禁止用低优先级组件重复实现高优先级已有能力。
 
 ## 开发
 
@@ -48,7 +115,12 @@ function Content() {
 pnpm install
 pnpm dev
 pnpm build
-pnpm format
+pnpm lint
 ```
 
-开发约束见 [AGENTS.md](./AGENTS.md)。涉及 Ant Design API、示例、token 或语义结构时，先使用 `.agents/skills/antd/SKILL.md` 规定的 MCP 工具。
+- `pnpm build` 会执行 `vp build` 并通过 `tsc -p tsconfig.build.json` 生成类型声明。
+- `pnpm lint` 等于 `vp fmt && vp check --fix`，会自动修复常规问题。
+
+## 约束
+
+完整开发约束见 [AGENTS.md](./AGENTS.md)，设计规范见 [DESIGN.md](./DESIGN.md)。涉及 Ant Design API、示例、token 或语义结构时，先使用 `.agents/skills/antd/SKILL.md` 规定的 MCP 工具。
