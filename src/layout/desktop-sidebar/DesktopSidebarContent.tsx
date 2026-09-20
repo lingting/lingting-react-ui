@@ -37,6 +37,7 @@ export function DesktopSidebarContent() {
     onStartDrag,
     onStartResize,
     onToggleMaximize,
+    smallScreenBreakpoint,
     title,
     userPosition,
     width = DEFAULT_WIDTH,
@@ -86,7 +87,11 @@ export function DesktopSidebarContent() {
   );
 
   return (
-    <BasicLayout className={clsx("desktop-sidebar-layout", className)} defaultTheme={defaultTheme}>
+    <BasicLayout
+      className={clsx("desktop-sidebar-layout", className)}
+      defaultTheme={defaultTheme}
+      smallScreenBreakpoint={smallScreenBreakpoint}
+    >
       <Flex className="desktop-sidebar-layout__root" vertical>
         <SidebarShell
           baseItems={shellBaseItems}
