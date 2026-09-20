@@ -5,7 +5,7 @@ import React, { useCallback, useMemo } from "react";
 import { useUserStore } from "@lri/store";
 import type { User } from "@lri/types";
 
-import { SidebarCollapsed, useSidebarLayout } from "../SidebarLayout";
+import { SidebarCollapsed, useSidebarLayout } from "@lri/layout";
 import type { SidebarLogoutPosition } from "./SidebarTypes";
 import "./SidebarUser.css";
 
@@ -42,7 +42,7 @@ export type SidebarUserProps = {
 };
 
 export const SidebarUser = ({ user, logoutPosition }: SidebarUserProps) => {
-  const { collapsed } = useSidebarLayout();
+  const { collapsed, sidebarDisplay } = useSidebarLayout();
   const icon = useMemo(
     () => <Avatar icon={!user.avatar ? <UserOutlined /> : undefined} src={user.avatar} size={32} />,
     [user],
@@ -72,11 +72,13 @@ export const SidebarUser = ({ user, logoutPosition }: SidebarUserProps) => {
     );
   }, [user, logoutPosition]);
 
+  const showContent = collapsed === SidebarCollapsed.Expanded || sidebarDisplay === "drawer";
+
   return (
     <SidebarUserItem
       className={"sidebar-user-root"}
       icon={icon}
-      content={collapsed === SidebarCollapsed.Expanded ? content : undefined}
+      content={showContent ? content : undefined}
     />
   );
 };
@@ -86,7 +88,7 @@ export type SidebarUserLogoutProps = {
 };
 
 export const SidebarUserLogout = ({ onlyIcon }: SidebarUserLogoutProps) => {
-  const { collapsed } = useSidebarLayout();
+  const { collapsed, sidebarDisplay } = useSidebarLayout();
   const { logout } = useUserStore();
   const handleLogout = useCallback(() => void logout().catch(() => undefined), [logout]);
   const content = useMemo(() => <Typography.Text>退出登录</Typography.Text>, []);
@@ -100,7 +102,11 @@ export const SidebarUserLogout = ({ onlyIcon }: SidebarUserLogoutProps) => {
     >
       <SidebarUserItem
         icon={<LogoutOutlined />}
-        content={collapsed === SidebarCollapsed.Expanded && !onlyIcon ? content : undefined}
+        content={
+          !onlyIcon && (collapsed === SidebarCollapsed.Expanded || sidebarDisplay === "drawer")
+            ? content
+            : undefined
+        }
       />
     </Popconfirm>
   );

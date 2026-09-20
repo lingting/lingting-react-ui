@@ -3,11 +3,11 @@ import { Suspense, type ComponentType } from "react";
 
 import { LoadingPage } from "@lri/blocks";
 
-import { SidebarLayoutContent, type SidebarLayoutProps } from "../SidebarLayout";
+import { SidebarLayoutContent, type SidebarLayoutProps } from "@lri/layout";
 
 export type SidebarShellProps = Omit<
   SidebarLayoutProps,
-  "children" | "className" | "defaultTheme"
+  "children" | "className" | "defaultTheme" | "smallScreenBreakpoint"
 > & {
   loadingComponent?: ComponentType;
 };

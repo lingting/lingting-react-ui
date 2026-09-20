@@ -19,6 +19,11 @@
   @apply flex h-full min-h-0 flex-col;
 }
 
+/* 抽屉主体作为侧栏容器，去掉默认内边距后与平铺侧栏保持一致的纵向排列 */
+.sidebar-layout__drawer .ant-drawer-body {
+  @apply flex min-h-0 flex-1 flex-col p-0;
+}
+
 .sidebar-layout__base-items {
   @apply min-h-0 flex-1 overflow-x-hidden overflow-y-auto;
   padding: 2px 0 0 2px;
@@ -42,6 +47,11 @@
 
 .sidebar-layout--bottom .sidebar-layout__main {
   @apply flex-row;
+}
+
+/* 抽屉展示方式下侧栏脱离文档流，主体始终纵向排列 */
+.sidebar-layout--drawer .sidebar-layout__main {
+  @apply flex-col;
 }
 
 .sidebar-layout__header {

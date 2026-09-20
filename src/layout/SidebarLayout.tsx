@@ -1,70 +1,28 @@
 import { Layout } from "antd";
 import clsx from "clsx";
-import {
-  Children,
-  createContext,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-  type ComponentProps,
-  type ReactNode,
-} from "react";
 
-import { BasicLayout, type BasicLayoutProps } from "./BasicLayout";
+import { BasicLayout } from "@lri/layout/index";
+import { SidebarLayoutContext } from "@lri/layout/index";
+import { SidebarLayoutDrawer } from "./sidebar-layout/SidebarLayoutDrawer";
+import { SidebarLayoutHeader } from "./sidebar-layout/SidebarLayoutHeader";
+import { SidebarLayoutInline } from "./sidebar-layout/SidebarLayoutInline";
+import { SidebarLayoutItems } from "./sidebar-layout/SidebarLayoutItems";
+import type { SidebarLayoutContentProps, SidebarLayoutProps } from "@lri/layout/index";
+import { useSidebarLayoutState } from "./sidebar-layout/useSidebarLayoutState";
+
 import "./SidebarLayout.css";
 
-export enum SidebarCollapsed {
-  Collapsed = "collapsed",
-  Expanded = "expanded",
-  Hidden = "hidden",
-}
-
-export type SidebarLayoutMode = "left" | "bottom";
-
-export type SidebarLayoutState = {
-  collapsed: SidebarCollapsed;
-  setCollapsed: (display: SidebarCollapsed) => void;
-  toggleCollapsed: () => void;
-};
-
-export type SidebarLayoutClassNames = {
-  baseItems?: string;
-  bottomItems?: string;
-  content?: string;
-  header?: string;
-  main?: string;
-  root?: string;
-  sidebar?: string;
-};
-
-export type SidebarLayoutProps = Omit<BasicLayoutProps, "children" | "className"> & {
-  baseItems?: readonly ReactNode[];
-  bottomItems?: readonly ReactNode[];
-  children: ReactNode;
-  className?: string;
-  classNames?: SidebarLayoutClassNames;
-  collapsedWidth?: number | string;
-  headerLeftItems?: readonly ReactNode[];
-  headerProps?: Omit<ComponentProps<typeof Layout.Header>, "children" | "className">;
-  headerRightItems?: readonly ReactNode[];
-  layout?: SidebarLayoutMode;
-  width?: number | string;
-};
+export * from "./sidebar-layout/SidebarLayoutContext";
+export * from "./sidebar-layout/SidebarLayoutTypes";
+export { resolveSidebarDisplay } from "./sidebar-layout/resolveSidebarDisplay";
 
 const DEFAULT_WIDTH = "240px";
 const DEFAULT_COLLAPSED_WIDTH = "64px";
 
-const SidebarLayoutContext = createContext<SidebarLayoutState | undefined>(undefined);
-
-export function useSidebarLayout() {
-  const value = useContext(SidebarLayoutContext);
-  if (!value) throw new Error("useSidebarLayout 必须在 SidebarLayout 内使用");
-  return value;
-}
-
 /**
  * 侧边栏布局主体，不含 BasicLayout 主题容器，供需要自定义外层容器的布局复用。
+ *
+ * 展示方式由屏幕模式与 `sidebarDisplay` 共同决定，具体排布交给对应场景的实现文件。
  */
 export function SidebarLayoutContent({
   baseItems = [],
@@ -76,103 +34,67 @@ export function SidebarLayoutContent({
   headerProps,
   headerRightItems = [],
   layout = "left",
+  sidebarDisplay = "auto",
   width = DEFAULT_WIDTH,
-}: Omit<SidebarLayoutProps, "className" | "defaultTheme">) {
-  const [display, setDisplay] = useState(SidebarCollapsed.Expanded);
-  const collapsed = display === SidebarCollapsed.Collapsed;
-  const sidebarVisible = display !== SidebarCollapsed.Hidden;
-
-  const toggleCollapsed = useCallback(() => {
-    setDisplay((current) =>
-      current === SidebarCollapsed.Collapsed
-        ? SidebarCollapsed.Expanded
-        : SidebarCollapsed.Collapsed,
-    );
-  }, []);
-  const state = useMemo<SidebarLayoutState>(
-    () => ({ collapsed: display, setCollapsed: setDisplay, toggleCollapsed }),
-    [display, toggleCollapsed],
-  );
-
+}: SidebarLayoutContentProps) {
+  const state = useSidebarLayoutState(sidebarDisplay);
+  const isDrawer = state.sidebarDisplay === "drawer";
   const rootClassName = clsx(
     "sidebar-layout",
     `sidebar-layout--${layout}`,
-    `sidebar-layout-${display}`,
+    `sidebar-layout-${state.collapsed}`,
+    isDrawer && "sidebar-layout--drawer",
     classNames?.root,
   );
-  // 侧边栏始终渲染，仅通过 display 控制可见性
-  const sidebar = (
-    <Layout.Sider
-      className={clsx(
-        "sidebar-layout__sidebar",
-        !sidebarVisible && "sidebar-layout__sidebar--hidden",
-        classNames?.sidebar,
-      )}
-      theme="light"
-      trigger={null}
-      width={collapsed ? collapsedWidth : width}
-    >
-      {baseItems.length > 0 && (
-        <div className={clsx("sidebar-layout__base-items", classNames?.baseItems)}>
-          {Children.toArray(baseItems)}
-        </div>
-      )}
-      {bottomItems.length > 0 && (
-        <div className={clsx("sidebar-layout__bottom-items", classNames?.bottomItems)}>
-          {Children.toArray(bottomItems)}
-        </div>
-      )}
-    </Layout.Sider>
+  const items = (
+    <SidebarLayoutItems baseItems={baseItems} bottomItems={bottomItems} classNames={classNames} />
   );
   const header = (
-    <Layout.Header {...headerProps} className={clsx("sidebar-layout__header", classNames?.header)}>
-      <div className="sidebar-layout__header-left">{Children.toArray(headerLeftItems)}</div>
-      <div className="sidebar-layout__header-right">{Children.toArray(headerRightItems)}</div>
-    </Layout.Header>
+    <SidebarLayoutHeader
+      className={classNames?.header}
+      headerProps={headerProps}
+      leftItems={headerLeftItems}
+      rightItems={headerRightItems}
+    />
   );
   const content = (
     <Layout.Content className={clsx("sidebar-layout__content", classNames?.content)}>
       {children}
     </Layout.Content>
   );
-  const main = (
-    <Layout className={clsx("sidebar-layout__main", classNames?.main)}>
-      {layout === "bottom" ? (
-        <>
-          {sidebar}
-          {content}
-        </>
-      ) : (
-        <>
-          {header}
-          {content}
-        </>
-      )}
-    </Layout>
-  );
+  const scenarioProps = {
+    classNames,
+    content,
+    display: state.collapsed,
+    header,
+    items,
+    rootClassName,
+    width,
+  };
 
   return (
     <SidebarLayoutContext.Provider value={state}>
-      <Layout className={rootClassName} hasSider={layout === "left"}>
-        {layout === "bottom" ? (
-          <>
-            {header}
-            {main}
-          </>
-        ) : (
-          <>
-            {sidebar}
-            {main}
-          </>
-        )}
-      </Layout>
+      {isDrawer ? (
+        <SidebarLayoutDrawer {...scenarioProps} />
+      ) : (
+        <SidebarLayoutInline {...scenarioProps} collapsedWidth={collapsedWidth} layout={layout} />
+      )}
     </SidebarLayoutContext.Provider>
   );
 }
 
-export function SidebarLayout({ className, defaultTheme, ...props }: SidebarLayoutProps) {
+export function SidebarLayout({
+  className,
+  defaultTheme,
+  smallScreenBreakpoint,
+  ...props
+}: SidebarLayoutProps) {
   return (
-    <BasicLayout className={className} defaultTheme={defaultTheme}>
+    <BasicLayout
+      className={className}
+      defaultTheme={defaultTheme}
+      smallScreenBreakpoint={smallScreenBreakpoint}
+    >
       <SidebarLayoutContent {...props} />
     </BasicLayout>
   );

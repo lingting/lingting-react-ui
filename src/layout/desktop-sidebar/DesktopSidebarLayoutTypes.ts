@@ -1,10 +1,10 @@
 import type { WindowResizeDirection } from "@lri/desktop";
 
-import type { AppSidebarLayoutProps } from "../app-sidebar/AppSidebarLayoutTypes";
+import type { AppSidebarLayoutProps } from "@lri/layout";
 
 export type DesktopSidebarLayoutProps = Omit<
   AppSidebarLayoutProps,
-  "layout" | "showSidebarToggle"
+  "layout" | "showSidebarToggle" | "sidebarDisplay"
 > & {
   isMaximized: () => Promise<boolean>;
   onClose: () => void;

@@ -1,5 +1,5 @@
 import { Menu, type MenuProps } from "antd";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 
 import { useRouter } from "@lri/hooks";
 import { joinRoutePath } from "@lri/lib";
@@ -7,7 +7,7 @@ import type { MenuRouteDefinition } from "@lri/types";
 
 import { SidebarCollapsed, useSidebarLayout } from "@lri/layout";
 
-import './SidebarMenu.css'
+import "./SidebarMenu.css";
 
 function createRouteMenuItems(
   definitions: readonly MenuRouteDefinition[],
@@ -35,8 +35,18 @@ export type SidebarMenuProps = {
 
 export function SidebarMenu({ menuRoutes, openKeys, pathname, setOpenKeys }: SidebarMenuProps) {
   const router = useRouter();
-  const { collapsed } = useSidebarLayout();
+  const { collapsed, setCollapsed, sidebarDisplay } = useSidebarLayout();
+  const isDrawer = sidebarDisplay === "drawer";
   const routeItems = useMemo(() => createRouteMenuItems(menuRoutes), [menuRoutes]);
+  const handleClick = useCallback<NonNullable<MenuProps["onClick"]>>(
+    ({ key }) => {
+      void router.navigate(key);
+      if (isDrawer) {
+        setCollapsed(SidebarCollapsed.Hidden);
+      }
+    },
+    [isDrawer, router, setCollapsed],
+  );
 
   return (
     <Menu
@@ -44,7 +54,7 @@ export function SidebarMenu({ menuRoutes, openKeys, pathname, setOpenKeys }: Sid
       inlineCollapsed={collapsed === SidebarCollapsed.Collapsed}
       items={routeItems}
       mode="inline"
-      onClick={({ key }) => void router.navigate(key)}
+      onClick={handleClick}
       onOpenChange={setOpenKeys}
       openKeys={collapsed === SidebarCollapsed.Collapsed ? [] : openKeys}
       selectedKeys={[pathname]}

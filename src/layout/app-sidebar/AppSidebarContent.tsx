@@ -1,6 +1,7 @@
 import clsx from "clsx";
 
-import { BasicLayout } from "../BasicLayout";
+import { useScreenMode } from "@lri/hooks/useScreenMode";
+import { BasicLayout, resolveSidebarDisplay } from "@lri/layout";
 import { SidebarShell, useSidebarShell } from "../sidebar-common";
 import { useAppSidebarLayout } from "./AppSidebarLayoutContext";
 
@@ -19,11 +20,18 @@ export function AppSidebarContent() {
     layout = "left",
     loadingComponent,
     logoutPosition,
-    showSidebarToggle = layout === "left",
+    showSidebarToggle,
+    sidebarDisplay = "auto",
+    smallScreenBreakpoint,
     title,
     userPosition,
     width,
   } = props;
+  const screenMode = useScreenMode(smallScreenBreakpoint);
+  // 抽屉展示方式下没有侧栏本体，切换按钮必须渲染
+  const toggleVisible =
+    resolveSidebarDisplay(sidebarDisplay, screenMode) === "drawer" ||
+    (showSidebarToggle ?? layout === "left");
   const {
     baseItems: shellBaseItems,
     bottomItems: shellBottomItems,
@@ -34,7 +42,7 @@ export function AppSidebarContent() {
     headerLeftItems: sourceHeaderLeftItems,
     logoutPosition,
     menuRoutes,
-    showSidebarToggle,
+    showSidebarToggle: toggleVisible,
     title,
     userPosition,
   });
@@ -50,6 +58,7 @@ export function AppSidebarContent() {
         headerProps={headerProps}
         headerRightItems={headerRightItems}
         layout={layout}
+        sidebarDisplay={sidebarDisplay}
         loadingComponent={loadingComponent}
         width={width}
       />

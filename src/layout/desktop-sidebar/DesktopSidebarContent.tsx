@@ -39,7 +39,7 @@ export function DesktopSidebarContent() {
     onToggleMaximize,
     title,
     userPosition,
-    width =DEFAULT_WIDTH,
+    width = DEFAULT_WIDTH,
   } = props;
   const {
     baseItems: shellBaseItems,
@@ -106,6 +106,7 @@ export function DesktopSidebarContent() {
             />,
           ])}
           layout="bottom"
+          sidebarDisplay="inline"
           loadingComponent={loadingComponent}
           width={width}
         />
