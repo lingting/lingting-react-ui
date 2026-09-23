@@ -164,13 +164,23 @@ export function ExTable<
       params: ExTableRequestParams & { pageSize?: number },
       sort: Record<string, "ascend" | "descend" | null>,
     ) => {
-      const { current, pageSize, size: paramSize, sorts: _sorts, ...query } = params;
+      const { current, pageSize, size: paramSize, sorts: parasmSorts, ...query } = params;
+      let sorts: PaginationParams["sorts"] = [];
+
+      if (sort && Object.keys(sort).length) {
+        sorts = Object.entries(sort)
+          .filter(([, order]) => order === "ascend" || order === "descend")
+          .map(([field, order]) => ({ desc: order === "descend", field }));
+      } else if (parasmSorts?.length) {
+        sorts = parasmSorts;
+      } else {
+        sorts = [{ field: rowKey, desc: true }];
+      }
+
       const paginationParams: PaginationParams = {
         current: current ?? 1,
         size: pageSize ?? paramSize ?? 10,
-        sorts: Object.entries(sort)
-          .filter(([, order]) => order === "ascend" || order === "descend")
-          .map(([field, order]) => ({ desc: order === "descend", field })),
+        sorts,
       };
       const response = await request(paginationParams, query as Q);
       return toRequestData(response);

@@ -33,7 +33,7 @@ export type ExTableProps<
 > & {
   columns: ExTableColumn<T>[];
   request?: (p: PaginationParams, qo: Q) => Promise<PaginationResult<T> | T[]>;
-  rowKey?: string | ((record: T) => string);
+  rowKey?: string;
   scroll?: ProTableProps<T, ExTableRequestParams>["scroll"] | false;
   tableAlertRender?: ProTableProps<T, ExTableRequestParams>["tableAlertRender"] | boolean;
 };
