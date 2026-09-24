@@ -33,6 +33,7 @@ export function SidebarLayoutContent({
   headerLeftItems = [],
   headerProps,
   headerRightItems = [],
+  headerShow = true,
   layout = "left",
   sidebarDisplay = "auto",
   width = DEFAULT_WIDTH,
@@ -49,14 +50,14 @@ export function SidebarLayoutContent({
   const items = (
     <SidebarLayoutItems baseItems={baseItems} bottomItems={bottomItems} classNames={classNames} />
   );
-  const header = (
+  const header = headerShow ? (
     <SidebarLayoutHeader
       className={classNames?.header}
       headerProps={headerProps}
       leftItems={headerLeftItems}
       rightItems={headerRightItems}
     />
-  );
+  ) : null;
   const content = (
     <Layout.Content className={clsx("sidebar-layout__content", classNames?.content)}>
       {children}

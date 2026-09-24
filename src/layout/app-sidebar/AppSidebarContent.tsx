@@ -20,6 +20,7 @@ function AppSidebarContentBody() {
     headerLeftItems: sourceHeaderLeftItems,
     headerProps,
     headerRightItems,
+    headerShow,
     layout = "left",
     loadingComponent,
     logoutPosition,
@@ -57,6 +58,7 @@ function AppSidebarContentBody() {
       headerLeftItems={headerLeftItems}
       headerProps={headerProps}
       headerRightItems={headerRightItems}
+      headerShow={headerShow}
       layout={layout}
       sidebarDisplay={sidebarDisplay}
       loadingComponent={loadingComponent}

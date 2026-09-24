@@ -83,6 +83,7 @@ import { SidebarLayout } from "lingting-react-ui";
 | `headerLeftItems`       | 头部左侧节点数组                                                                             |
 | `headerRightItems`      | 头部右侧节点数组                                                                             |
 | `headerProps`           | 透传给 `Layout.Header`，不可覆盖 `children` / `className`                                    |
+| `headerShow`            | 是否渲染头部，默认 `true`；设为 `false` 时不渲染头部，`layout` 为 `left` / `bottom` 时均生效 |
 | `classNames`            | 语义化类名：`root` / `main` / `sidebar` / `header` / `content` / `baseItems` / `bottomItems` |
 | `className`             | 根容器类名                                                                                   |
 | `defaultTheme`          | 透传给 `BasicLayout`                                                                         |
@@ -105,6 +106,12 @@ import { SidebarLayout } from "lingting-react-ui";
 - 侧栏内文本内容（用户信息、退出登录等）始终完整展示。
 
 平铺展示方式下，`SidebarToggle` 在**折叠与展开**之间切换，且 `layout="bottom"` 时默认不渲染。
+
+### 隐藏头部
+
+`headerShow={false}` 时不渲染头部，`layout` 为 `left` / `bottom` 时均生效，侧栏与内容区布局保持不变。
+
+> 注意：头部内的交互入口会一并隐藏 —— `AppSidebarLayout` 的 `SidebarToggle`（抽屉展示方式下将失去打开抽屉的入口）、`DesktopSidebarLayout` 的窗口控制按钮（最小化 / 最大化 / 关闭）与拖动热区。隐藏头部时需由调用方另行提供对应入口。
 
 ### 侧栏状态
 

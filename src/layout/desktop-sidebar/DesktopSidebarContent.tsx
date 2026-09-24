@@ -29,6 +29,7 @@ export function DesktopSidebarContent() {
     headerLeftItems: sourceHeaderLeftItems,
     headerProps,
     headerRightItems,
+    headerShow,
     loadingComponent,
     logoutPosition,
     menuRoutes,
@@ -110,6 +111,7 @@ export function DesktopSidebarContent() {
               onToggleMaximize={onToggleMaximize}
             />,
           ])}
+          headerShow={headerShow}
           layout="bottom"
           sidebarDisplay="inline"
           loadingComponent={loadingComponent}

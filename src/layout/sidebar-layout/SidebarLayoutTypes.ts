@@ -47,6 +47,8 @@ export type SidebarLayoutProps = Omit<BasicLayoutProps, "children" | "className"
   headerLeftItems?: readonly ReactNode[];
   headerProps?: Omit<ComponentProps<typeof Layout.Header>, "children" | "className">;
   headerRightItems?: readonly ReactNode[];
+  /** 是否渲染头部，默认为 `true`；设为 `false` 时不渲染头部，仍保留侧栏与内容区 */
+  headerShow?: boolean;
   layout?: SidebarLayoutMode;
   sidebarDisplay?: SidebarDisplay;
   width?: number | string;
