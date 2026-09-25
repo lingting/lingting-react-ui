@@ -159,6 +159,7 @@ import { AppSidebarLayout } from "lingting-react-ui";
 | `notFoundComponent` | 404 组件，默认 `NotFoundPage`                                                |
 | `loadingComponent`  | 加载组件，默认 `LoadingPage`                                                 |
 | `rootRedirectTo`    | 根路径重定向目标，缺省时取第一个菜单叶子路径                                 |
+| `routeType`         | 路由类型：`"browser"`（默认）\| `"hash"`，见下文                             |
 | `title`             | 文档标题前缀，缺省时取 `document.title` 的第一段                             |
 | `showSidebarToggle` | 是否渲染侧栏切换按钮；平铺方式下默认 `layout === "left"`，抽屉方式下强制渲染 |
 | `userPosition`      | 用户项位置：`"hidden"` \| `"top"`（默认）\| `"bottom"`                       |
@@ -170,6 +171,15 @@ import { AppSidebarLayout } from "lingting-react-ui";
 - 通过 [`useRoute`](../hooks/README.md) 按用户权限过滤路由。
 - 通过 [`UserStore`](../store/README.md) 拉取用户信息，并把用户项与退出登录渲染进侧栏。
 - 侧栏展开时同步文档标题为 `标题 - 当前菜单标题`。
+
+### 路由类型
+
+| 取值      | 行为                                                                        |
+| --------- | --------------------------------------------------------------------------- |
+| `browser` | 浏览器 history 路由（默认），地址形如 `/dashboard`                          |
+| `hash`    | hash 路由，地址形如 `/#/dashboard`，适用于 `file://` 或静态托管的桌面端场景 |
+
+切换为 `hash` 后，路由跳转、菜单选中与重定向均由路由历史自动处理，无需调用方改写路径。
 
 ## `DesktopSidebarLayout`
 
@@ -186,6 +196,8 @@ import { AppSidebarLayout } from "lingting-react-ui";
 
 该布局**不参与小屏适配**：窗口尺寸变化不会让它切换到抽屉展示方式。
 
+路由属性（如 `routeType`）继承自 `AppSidebarLayout`；以 `file://` 加载页面时需传入 `routeType="hash"`。
+
 ## 布局级路由
 
 `sidebar-common/createLayoutRouter.tsx` 提供 `createLayoutRouter`，被 `AppSidebarLayout` 与 `DesktopSidebarLayout` 内部使用。它负责：
@@ -193,6 +205,7 @@ import { AppSidebarLayout } from "lingting-react-ui";
 - 由 `menuRoutes` 生成嵌套路由，目录路由自动重定向到第一个叶子路径。
 - 由 `standaloneRoutes` 生成独立路由，交由 [`StandaloneRoute`](../blocks/README.md) 渲染。
 - 按 `rootRedirectTo` 或第一个菜单叶子路径生成根重定向。
+- 按 `routeType` 选择路由历史：`browser` 使用浏览器 history，`hash` 使用 hash 历史（地址形如 `/#/path`）。
 
 ## 相关文档
 

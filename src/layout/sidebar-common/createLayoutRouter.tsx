@@ -1,6 +1,7 @@
 import {
   Navigate,
   Outlet,
+  createHashHistory,
   createRootRoute,
   createRoute,
   createRouter,
@@ -13,6 +14,7 @@ import { findFirstMenuLeafPath, joinRoutePath } from "@lri/lib";
 import type {
   MenuRouteDefinition,
   ProRouteNotFoundComponent,
+  ProRouteType,
   ProRouteStaticData,
   StandaloneRouteDefinition,
 } from "@lri/types";
@@ -23,6 +25,7 @@ export type CreateLayoutRouterOptions = {
   menuRoutes: readonly MenuRouteDefinition[];
   notFoundComponent: ProRouteNotFoundComponent;
   rootRedirectTo?: string;
+  routeType?: ProRouteType;
   standaloneRoutes: readonly StandaloneRouteDefinition[];
 };
 
@@ -91,6 +94,7 @@ export function createLayoutRouter({
   menuRoutes,
   notFoundComponent,
   rootRedirectTo,
+  routeType = "browser",
   standaloneRoutes,
 }: CreateLayoutRouterOptions) {
   const rootRoute = createRootRoute({ component: Outlet, notFoundComponent });
@@ -117,5 +121,8 @@ export function createLayoutRouter({
     );
   }
 
-  return createRouter({ routeTree: rootRoute.addChildren(rootChildren) });
+  return createRouter({
+    history: routeType === "hash" ? createHashHistory() : undefined,
+    routeTree: rootRoute.addChildren(rootChildren),
+  });
 }

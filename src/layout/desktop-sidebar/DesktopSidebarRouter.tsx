@@ -1,6 +1,7 @@
 import type {
   MenuRouteDefinition,
   ProRouteNotFoundComponent,
+  ProRouteType,
   StandaloneRouteDefinition,
 } from "@lri/types";
 
@@ -11,6 +12,7 @@ type CreateDesktopSidebarRouterOptions = {
   menuRoutes: readonly MenuRouteDefinition[];
   notFoundComponent: ProRouteNotFoundComponent;
   rootRedirectTo?: string;
+  routeType?: ProRouteType;
   standaloneRoutes: readonly StandaloneRouteDefinition[];
 };
 

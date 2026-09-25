@@ -42,6 +42,7 @@ function AppSidebarLayoutContent({ props }: { props: AppSidebarLayoutProps }) {
     menuRoutes,
     notFoundComponent = NotFoundPage,
     rootRedirectTo,
+    routeType = "browser",
     standaloneRoutes = EMPTY_STANDALONE_ROUTES,
   } = props;
   const routeOptions = useMemo(
@@ -55,9 +56,10 @@ function AppSidebarLayoutContent({ props }: { props: AppSidebarLayoutProps }) {
         menuRoutes: route.menuRoutes,
         notFoundComponent,
         rootRedirectTo,
+        routeType,
         standaloneRoutes: route.standaloneRoutes,
       }),
-    [notFoundComponent, rootRedirectTo, route.menuRoutes, route.standaloneRoutes],
+    [notFoundComponent, rootRedirectTo, route.menuRoutes, route.standaloneRoutes, routeType],
   );
 
   useEffect(() => {

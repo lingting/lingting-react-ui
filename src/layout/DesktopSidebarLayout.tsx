@@ -43,6 +43,7 @@ function DesktopSidebarLayoutContent({ props }: { props: DesktopSidebarLayoutPro
     menuRoutes,
     notFoundComponent = NotFoundPage,
     rootRedirectTo,
+    routeType = "browser",
     standaloneRoutes = EMPTY_STANDALONE_ROUTES,
   } = props;
   const routeOptions = useMemo(
@@ -56,9 +57,10 @@ function DesktopSidebarLayoutContent({ props }: { props: DesktopSidebarLayoutPro
         menuRoutes: route.menuRoutes,
         notFoundComponent,
         rootRedirectTo,
+        routeType,
         standaloneRoutes: route.standaloneRoutes,
       }),
-    [notFoundComponent, rootRedirectTo, route.menuRoutes, route.standaloneRoutes],
+    [notFoundComponent, rootRedirectTo, route.menuRoutes, route.standaloneRoutes, routeType],
   );
   const maximized = useWindowMaximized(isMaximized);
 

@@ -2,6 +2,13 @@ import type { AuthRule } from "./UserStore";
 import type { NotFoundRouteComponent, RouteComponent } from "@tanstack/react-router";
 import type { ComponentType, LazyExoticComponent, ReactNode } from "react";
 
+/**
+ * 布局级路由类型。
+ * - `browser`（默认）：浏览器 history 路由
+ * - `hash`：hash 路由（地址形如 `/#/path`）
+ */
+export type ProRouteType = "browser" | "hash";
+
 export type ProRouteMenuMetadata = {
   icon?: ReactNode;
   title: string;

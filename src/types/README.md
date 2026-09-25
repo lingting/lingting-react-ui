@@ -47,6 +47,7 @@ type R<T> = { code: number; message: string; data?: T | null };
 - `component` 支持同步组件、`React.lazy` 与 TanStack Router 的 `RouteComponent`。
 - `auth` 为可选的 `AuthRule`，由 [`useRoute`](../hooks/README.md) 用于过滤。
 - `StandaloneRouteDefinition` 额外支持 `mode`：`"basic"` 渲染在 `BasicLayout` 内，`"none"` 不套布局。
+- `ProRouteType` 为布局级路由类型：`"browser"`（默认）\| `"hash"`，由 `AppSidebarLayout` / `DesktopSidebarLayout` 的 `routeType` 接收。
 
 ### 权限规则（`UserStore.ts`）
 
