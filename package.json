@@ -1,6 +1,6 @@
 {
   "name": "lingting-react-ui",
-  "version": "2026.9.26",
+  "version": "2026.9.261",
   "description": "基于 React 与 Ant Design 的专用高级组件库",
   "license": "MIT",
   "files": [
@@ -9,14 +9,17 @@
   "sideEffects": [
     "**/*.css"
   ],
-  "main": "./dist/lingting-react-ui.umd.cjs",
-  "module": "./dist/lingting-react-ui.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
   "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
-      "import": "./dist/lingting-react-ui.js",
-      "require": "./dist/lingting-react-ui.umd.cjs"
+      "import": "./dist/index.js"
+    },
+    "./*": {
+      "types": "./dist/types/*/index.d.ts",
+      "import": "./dist/*.js"
     }
   },
   "scripts": {

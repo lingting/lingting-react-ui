@@ -1,3 +1,4 @@
+import { readdirSync, statSync } from "node:fs";
 import { resolve } from "node:path";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
@@ -17,6 +18,33 @@ const external = [
   "dayjs",
 ];
 
+function getLibraryEntries() {
+  const src = resolve(import.meta.dirname, "src");
+
+  const entries: Record<string, string> = {
+    index: resolve(src, "index.ts"),
+  };
+
+  for (const name of readdirSync(src)) {
+    const directory = resolve(src, name);
+
+    if (!statSync(directory).isDirectory()) {
+      continue;
+    }
+
+    const entry = resolve(directory, "index.ts");
+
+    try {
+      statSync(entry);
+      entries[name] = entry;
+    } catch {
+      // 没有 index.ts 的目录不是 package entry
+    }
+  }
+
+  return entries;
+}
+
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
@@ -26,12 +54,15 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: resolve(import.meta.dirname, "src/index.ts"),
-      fileName: "lingting-react-ui",
+      entry: getLibraryEntries(),
       formats: ["es"],
-      name: "LingtingReactUi",
     },
-    rollupOptions: { external },
+    rollupOptions: {
+      external,
+      output: {
+        entryFileNames: "[name].js",
+      },
+    },
   },
   fmt: {
     ignorePatterns: [
