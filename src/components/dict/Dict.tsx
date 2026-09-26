@@ -11,6 +11,8 @@ import type {
   DictValue,
 } from "@lri/types";
 
+import "./Dict.css";
+
 export function DictBadge<T extends DictValue>({
   dict,
   fallback,
@@ -65,7 +67,11 @@ export function DictText<T extends DictValue>({
   const color = resolveDictColor(item.textColor, item.color, token);
 
   return (
-    <Typography.Text {...props} style={{ ...props.style, color }}>
+    <Typography.Text
+      {...props}
+      className={`dict-w-full ${props.className || ""}`}
+      style={{ ...props.style, color }}
+    >
       {item.label}
     </Typography.Text>
   );
@@ -73,7 +79,14 @@ export function DictText<T extends DictValue>({
 
 export function DictCheckBox<T extends DictValue>({ dict, value, ...props }: DictCheckBoxProps<T>) {
   const options = useDictOptions(dict);
-  return <Checkbox.Group {...props} options={options} value={value ?? undefined} />;
+  return (
+    <Checkbox.Group
+      {...props}
+      className={`dict-w-full ${props.className || ""}`}
+      options={options}
+      value={value ?? undefined}
+    />
+  );
 }
 
 export function DictSelect<T extends DictValue>({ dict, ...props }: DictSelectProps<T>) {
@@ -82,6 +95,7 @@ export function DictSelect<T extends DictValue>({ dict, ...props }: DictSelectPr
     <Select
       allowClear={true}
       {...(props as SelectProps<T | T[]>)}
+      className={`dict-w-full ${props.className || ""}`}
       options={options as SelectProps["options"]}
     />
   );

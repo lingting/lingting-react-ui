@@ -1,0 +1,5 @@
+@reference "@lri/index.css";
+
+.dict-w-full {
+    @apply w-full;
+}
