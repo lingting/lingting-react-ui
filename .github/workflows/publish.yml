@@ -25,4 +25,5 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
+      - run: echo "workflow=${GITHUB_WORKFLOW} ref=${GITHUB_REF} repository=${GITHUB_REPOSITORY}"
       - run: npm publish --registry=https://registry.npmjs.org/ --provenance --access public
