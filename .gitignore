@@ -16,6 +16,7 @@ task_plan.md
 task.md
 
 /.agents/*
+!/.mcp.json
 !/.agents/skills
 /.agents/skills/*
 !/.agents/skills/antd
