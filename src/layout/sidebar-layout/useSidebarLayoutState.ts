@@ -9,9 +9,34 @@ import {
 } from "./SidebarLayoutTypes";
 import { resolveSidebarDisplay } from "./resolveSidebarDisplay";
 
+export type UseSidebarLayoutStateOptions = {
+  /** 侧栏初始折叠状态，`Default` 表示取展示方式的内置默认值 */
+  sidebarCollapsedDefault?: SidebarCollapsed;
+  sidebarDisplay?: SidebarDisplay;
+  /** 侧栏不渲染时折叠状态恒为 `Hidden`，设置与切换均为空操作 */
+  sidebarShow?: boolean;
+};
+
 /** 抽屉展示方式下侧栏默认隐藏，平铺展示方式下侧栏默认展开 */
-function getDefaultCollapsed(sidebarDisplay: ResolvedSidebarDisplay) {
+function getDisplayDefaultCollapsed(sidebarDisplay: ResolvedSidebarDisplay) {
   return sidebarDisplay === "drawer" ? SidebarCollapsed.Hidden : SidebarCollapsed.Expanded;
+}
+
+/**
+ * 把折叠状态归一为当前展示方式下可用的状态。
+ *
+ * `Default` 取展示方式的内置默认值，抽屉展示方式下折叠语义进一步归一到隐藏。
+ */
+function resolveCollapsed(
+  collapsed: SidebarCollapsed,
+  sidebarDisplay: ResolvedSidebarDisplay,
+): SidebarCollapsed {
+  const value =
+    collapsed === SidebarCollapsed.Default ? getDisplayDefaultCollapsed(sidebarDisplay) : collapsed;
+
+  if (sidebarDisplay !== "drawer") return value;
+
+  return value === SidebarCollapsed.Collapsed ? SidebarCollapsed.Hidden : value;
 }
 
 /**
@@ -19,26 +44,35 @@ function getDefaultCollapsed(sidebarDisplay: ResolvedSidebarDisplay) {
  *
  * 抽屉展示方式只有隐藏与展示两种状态，折叠语义归一到隐藏。
  */
-export function useSidebarLayoutState(sidebarDisplay: SidebarDisplay = "auto"): SidebarLayoutState {
+export function useSidebarLayoutState({
+  sidebarCollapsedDefault = SidebarCollapsed.Default,
+  sidebarDisplay = "auto",
+  sidebarShow = true,
+}: UseSidebarLayoutStateOptions = {}): SidebarLayoutState {
   const { screenMode } = useLayout();
   const resolvedDisplay = resolveSidebarDisplay(sidebarDisplay, screenMode);
   const isDrawer = resolvedDisplay === "drawer";
-  const [collapsed, setCollapsedState] = useState(() => getDefaultCollapsed(resolvedDisplay));
+  const [collapsed, setCollapsedState] = useState(() =>
+    resolveCollapsed(sidebarCollapsedDefault, resolvedDisplay),
+  );
 
+  // 展示方式变化时回到初始折叠状态；`sidebarCollapsedDefault` 仅作初始值，故不参与依赖
   useEffect(() => {
-    setCollapsedState(getDefaultCollapsed(resolvedDisplay));
+    setCollapsedState(resolveCollapsed(sidebarCollapsedDefault, resolvedDisplay));
   }, [resolvedDisplay]);
 
   const setCollapsed = useCallback(
     (next: SidebarCollapsed) => {
-      setCollapsedState(
-        isDrawer && next === SidebarCollapsed.Collapsed ? SidebarCollapsed.Hidden : next,
-      );
+      if (!sidebarShow) return;
+
+      setCollapsedState(resolveCollapsed(next, resolvedDisplay));
     },
-    [isDrawer],
+    [resolvedDisplay, sidebarShow],
   );
 
   const toggleCollapsed = useCallback(() => {
+    if (!sidebarShow) return;
+
     setCollapsedState((current) => {
       if (isDrawer) {
         return current === SidebarCollapsed.Expanded
@@ -50,16 +84,16 @@ export function useSidebarLayoutState(sidebarDisplay: SidebarDisplay = "auto"): 
         ? SidebarCollapsed.Expanded
         : SidebarCollapsed.Collapsed;
     });
-  }, [isDrawer]);
+  }, [isDrawer, sidebarShow]);
 
   return useMemo(
     () => ({
-      collapsed,
+      collapsed: sidebarShow ? collapsed : SidebarCollapsed.Hidden,
       screenMode,
       setCollapsed,
       sidebarDisplay: resolvedDisplay,
       toggleCollapsed,
     }),
-    [collapsed, resolvedDisplay, screenMode, setCollapsed, toggleCollapsed],
+    [collapsed, resolvedDisplay, screenMode, setCollapsed, sidebarShow, toggleCollapsed],
   );
 }

@@ -12,6 +12,7 @@ type SidebarLayoutDrawerProps = {
   header: ReactNode;
   items: ReactNode;
   rootClassName: string;
+  sidebarShow: boolean;
   width: number | string;
 };
 
@@ -19,6 +20,8 @@ type SidebarLayoutDrawerProps = {
  * 抽屉展示方式：侧栏脱离文档流，仅通过 `SidebarToggle` 打开与关闭。
  *
  * 抽屉统一从左侧滑出，遮罩与 Esc 关闭复用 antd 默认行为。
+ *
+ * `sidebarShow` 为 `false` 时不渲染抽屉，仅保留头部与内容区。
  */
 export function SidebarLayoutDrawer({
   classNames,
@@ -27,6 +30,7 @@ export function SidebarLayoutDrawer({
   header,
   items,
   rootClassName,
+  sidebarShow,
   width,
 }: SidebarLayoutDrawerProps) {
   const { setCollapsed } = useSidebarLayout();
@@ -40,16 +44,18 @@ export function SidebarLayoutDrawer({
           {content}
         </Layout>
       </Layout>
-      <Drawer
-        rootClassName={clsx("sidebar-layout__drawer", classNames?.sidebar)}
-        closable={false}
-        onClose={handleClose}
-        open={display === SidebarCollapsed.Expanded}
-        placement="left"
-        width={width}
-      >
-        {items}
-      </Drawer>
+      {sidebarShow && (
+        <Drawer
+          rootClassName={clsx("sidebar-layout__drawer", classNames?.sidebar)}
+          closable={false}
+          onClose={handleClose}
+          open={display === SidebarCollapsed.Expanded}
+          placement="left"
+          width={width}
+        >
+          {items}
+        </Drawer>
+      )}
     </>
   );
 }

@@ -17,6 +17,7 @@ type SidebarLayoutInlineProps = {
   items: ReactNode;
   layout: SidebarLayoutMode;
   rootClassName: string;
+  sidebarShow: boolean;
   width: number | string;
 };
 
@@ -24,6 +25,8 @@ type SidebarLayoutInlineProps = {
  * 平铺展示方式：侧栏与内容同层排布。
  *
  * `left` 时头部位于内容之上，`bottom` 时头部独占一行、侧栏与内容并排。
+ *
+ * `sidebarShow` 为 `false` 时不渲染侧栏，仅保留头部与内容区。
  */
 export function SidebarLayoutInline({
   classNames,
@@ -34,10 +37,11 @@ export function SidebarLayoutInline({
   items,
   layout,
   rootClassName,
+  sidebarShow,
   width,
 }: SidebarLayoutInlineProps) {
   const isBottom = layout === "bottom";
-  const sidebar = (
+  const sidebar = sidebarShow ? (
     <Layout.Sider
       className={clsx(
         "sidebar-layout__sidebar",
@@ -50,10 +54,10 @@ export function SidebarLayoutInline({
     >
       {items}
     </Layout.Sider>
-  );
+  ) : null;
 
   return (
-    <Layout className={rootClassName} hasSider={!isBottom}>
+    <Layout className={rootClassName} hasSider={sidebarShow && !isBottom}>
       {isBottom ? header : sidebar}
       <Layout className={clsx("sidebar-layout__main", classNames?.main)}>
         {isBottom ? sidebar : header}

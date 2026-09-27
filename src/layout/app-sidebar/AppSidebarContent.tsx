@@ -25,15 +25,18 @@ function AppSidebarContentBody() {
     loadingComponent,
     logoutPosition,
     showSidebarToggle,
+    sidebarCollapsedDefault,
     sidebarDisplay = "auto",
+    sidebarShow = true,
     title,
     userPosition,
     width,
   } = props;
-  // 抽屉展示方式下没有侧栏本体，切换按钮必须渲染
+  // 侧栏整体不渲染时不提供切换按钮；抽屉展示方式下没有侧栏本体，切换按钮必须渲染
   const toggleVisible =
-    resolveSidebarDisplay(sidebarDisplay, screenMode) === "drawer" ||
-    (showSidebarToggle ?? layout === "left");
+    sidebarShow &&
+    (resolveSidebarDisplay(sidebarDisplay, screenMode) === "drawer" ||
+      (showSidebarToggle ?? layout === "left"));
   const {
     baseItems: shellBaseItems,
     bottomItems: shellBottomItems,
@@ -60,7 +63,9 @@ function AppSidebarContentBody() {
       headerRightItems={headerRightItems}
       headerShow={headerShow}
       layout={layout}
+      sidebarCollapsedDefault={sidebarCollapsedDefault}
       sidebarDisplay={sidebarDisplay}
+      sidebarShow={sidebarShow}
       loadingComponent={loadingComponent}
       width={width}
     />

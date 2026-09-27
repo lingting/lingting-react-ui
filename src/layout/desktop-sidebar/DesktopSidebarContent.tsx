@@ -38,6 +38,8 @@ export function DesktopSidebarContent() {
     onStartDrag,
     onStartResize,
     onToggleMaximize,
+    sidebarCollapsedDefault,
+    sidebarShow,
     smallScreenBreakpoint,
     title,
     userPosition,
@@ -113,7 +115,9 @@ export function DesktopSidebarContent() {
           ])}
           headerShow={headerShow}
           layout="bottom"
+          sidebarCollapsedDefault={sidebarCollapsedDefault}
           sidebarDisplay="inline"
+          sidebarShow={sidebarShow}
           loadingComponent={loadingComponent}
           width={width}
         />

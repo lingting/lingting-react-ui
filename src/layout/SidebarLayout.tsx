@@ -35,10 +35,12 @@ export function SidebarLayoutContent({
   headerRightItems = [],
   headerShow = true,
   layout = "left",
+  sidebarCollapsedDefault,
   sidebarDisplay = "auto",
+  sidebarShow = true,
   width = DEFAULT_WIDTH,
 }: SidebarLayoutContentProps) {
-  const state = useSidebarLayoutState(sidebarDisplay);
+  const state = useSidebarLayoutState({ sidebarCollapsedDefault, sidebarDisplay, sidebarShow });
   const isDrawer = state.sidebarDisplay === "drawer";
   const rootClassName = clsx(
     "sidebar-layout",
@@ -70,6 +72,7 @@ export function SidebarLayoutContent({
     header,
     items,
     rootClassName,
+    sidebarShow,
     width,
   };
 

@@ -7,6 +7,8 @@ import type { BasicLayoutProps } from "../BasicLayoutTypes";
 
 export enum SidebarCollapsed {
   Collapsed = "collapsed",
+  /** 使用展示方式的内置默认值：抽屉隐藏、平铺展开 */
+  Default = "default",
   Expanded = "expanded",
   Hidden = "hidden",
 }
@@ -20,6 +22,7 @@ export type SidebarDisplay = "auto" | "drawer" | "inline";
 export type ResolvedSidebarDisplay = Exclude<SidebarDisplay, "auto">;
 
 export type SidebarLayoutState = {
+  /** 当前折叠状态，恒不为 `Default`；侧栏不渲染时恒为 `Hidden` */
   collapsed: SidebarCollapsed;
   screenMode: LayoutScreenMode;
   sidebarDisplay: ResolvedSidebarDisplay;
@@ -50,7 +53,14 @@ export type SidebarLayoutProps = Omit<BasicLayoutProps, "children" | "className"
   /** 是否渲染头部，默认为 `true`；设为 `false` 时不渲染头部，仍保留侧栏与内容区 */
   headerShow?: boolean;
   layout?: SidebarLayoutMode;
+  /**
+   * 侧栏初始折叠状态，默认为 `SidebarCollapsed.Default`（抽屉隐藏、平铺展开）；
+   * 传入其他值时抽屉与平铺均以其为初始状态，此后不再随该值变化
+   */
+  sidebarCollapsedDefault?: SidebarCollapsed;
   sidebarDisplay?: SidebarDisplay;
+  /** 是否渲染侧栏，默认为 `true`；设为 `false` 时不渲染侧栏，折叠状态恒为 `SidebarCollapsed.Hidden` */
+  sidebarShow?: boolean;
   width?: number | string;
 };
 

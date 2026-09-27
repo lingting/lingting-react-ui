@@ -72,22 +72,24 @@ import { SidebarLayout } from "lingting-react-ui";
 
 ### 属性
 
-| 属性                    | 说明                                                                                         |
-| ----------------------- | -------------------------------------------------------------------------------------------- |
-| `layout`                | `"left"`（默认）\| `"bottom"`，决定侧栏与头部的相对位置                                      |
-| `sidebarDisplay`        | `"auto"`（默认）\| `"inline"` \| `"drawer"`，见下文                                          |
-| `width`                 | 侧栏展开宽度，默认 `240px`                                                                   |
-| `collapsedWidth`        | 侧栏折叠宽度，默认 `64px`                                                                    |
-| `baseItems`             | 侧栏主区域节点数组                                                                           |
-| `bottomItems`           | 侧栏底部区域节点数组                                                                         |
-| `headerLeftItems`       | 头部左侧节点数组                                                                             |
-| `headerRightItems`      | 头部右侧节点数组                                                                             |
-| `headerProps`           | 透传给 `Layout.Header`，不可覆盖 `children` / `className`                                    |
-| `headerShow`            | 是否渲染头部，默认 `true`；设为 `false` 时不渲染头部，`layout` 为 `left` / `bottom` 时均生效 |
-| `classNames`            | 语义化类名：`root` / `main` / `sidebar` / `header` / `content` / `baseItems` / `bottomItems` |
-| `className`             | 根容器类名                                                                                   |
-| `defaultTheme`          | 透传给 `BasicLayout`                                                                         |
-| `smallScreenBreakpoint` | 透传给 `BasicLayout`                                                                         |
+| 属性                      | 说明                                                                                         |
+| ------------------------- | -------------------------------------------------------------------------------------------- |
+| `layout`                  | `"left"`（默认）\| `"bottom"`，决定侧栏与头部的相对位置                                      |
+| `sidebarDisplay`          | `"auto"`（默认）\| `"inline"` \| `"drawer"`，见下文                                          |
+| `sidebarShow`             | 是否渲染侧栏，默认 `true`；设为 `false` 时不渲染侧栏，折叠状态恒为 `Hidden`                  |
+| `sidebarCollapsedDefault` | 侧栏初始折叠状态，默认 `SidebarCollapsed.Default`；传入其他值时抽屉与平铺均以其为初始状态    |
+| `width`                   | 侧栏展开宽度，默认 `240px`                                                                   |
+| `collapsedWidth`          | 侧栏折叠宽度，默认 `64px`                                                                    |
+| `baseItems`               | 侧栏主区域节点数组                                                                           |
+| `bottomItems`             | 侧栏底部区域节点数组                                                                         |
+| `headerLeftItems`         | 头部左侧节点数组                                                                             |
+| `headerRightItems`        | 头部右侧节点数组                                                                             |
+| `headerProps`             | 透传给 `Layout.Header`，不可覆盖 `children` / `className`                                    |
+| `headerShow`              | 是否渲染头部，默认 `true`；设为 `false` 时不渲染头部，`layout` 为 `left` / `bottom` 时均生效 |
+| `classNames`              | 语义化类名：`root` / `main` / `sidebar` / `header` / `content` / `baseItems` / `bottomItems` |
+| `className`               | 根容器类名                                                                                   |
+| `defaultTheme`            | 透传给 `BasicLayout`                                                                         |
+| `smallScreenBreakpoint`   | 透传给 `BasicLayout`                                                                         |
 
 ### 侧边栏展示方式
 
@@ -99,7 +101,7 @@ import { SidebarLayout } from "lingting-react-ui";
 
 抽屉展示方式的行为：
 
-- 侧栏默认隐藏，脱离文档流，统一从左侧滑出（`placement="left"`）。
+- 侧栏默认隐藏（`sidebarCollapsedDefault` 传入其他值时以该值为初始状态），脱离文档流，统一从左侧滑出（`placement="left"`）。
 - 保留 antd 默认遮罩，点击遮罩或按 Esc 关闭。
 - `SidebarToggle` 在**隐藏与展示**之间切换，并始终渲染。
 - 菜单项在抽屉内被点击后自动关闭抽屉。
@@ -121,13 +123,20 @@ import { SidebarCollapsed, useSidebarLayout } from "lingting-react-ui";
 const { collapsed, screenMode, sidebarDisplay, setCollapsed, toggleCollapsed } = useSidebarLayout();
 ```
 
-| 字段              | 说明                                                   |
-| ----------------- | ------------------------------------------------------ |
-| `collapsed`       | `SidebarCollapsed.Collapsed` \| `Expanded` \| `Hidden` |
-| `screenMode`      | 当前屏幕模式                                           |
-| `sidebarDisplay`  | 解析后的展示方式：`"inline"` \| `"drawer"`             |
-| `setCollapsed`    | 设置状态；抽屉方式下 `Collapsed` 会被归一为 `Hidden`   |
-| `toggleCollapsed` | 切换状态；抽屉方式下在 `Hidden` ↔ `Expanded` 间切换    |
+| 字段              | 说明                                                                                                                    |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `collapsed`       | `SidebarCollapsed.Collapsed` \| `Expanded` \| `Hidden`；`sidebarShow` 为 `false` 时恒为 `Hidden`                        |
+| `screenMode`      | 当前屏幕模式                                                                                                            |
+| `sidebarDisplay`  | 解析后的展示方式：`"inline"` \| `"drawer"`                                                                              |
+| `setCollapsed`    | 设置状态；`Default` 取展示方式内置默认值，抽屉方式下 `Collapsed` 会被归一为 `Hidden`；`sidebarShow` 为 `false` 时不生效 |
+| `toggleCollapsed` | 切换状态；抽屉方式下在 `Hidden` ↔ `Expanded` 间切换；`sidebarShow` 为 `false` 时不生效                                  |
+
+### 隐藏侧栏
+
+`sidebarShow={false}` 时不渲染侧栏本体（不使用隐藏状态下的 `display: none` 收起），仅保留头部与内容区，此时：
+
+- `useSidebarLayout()` 的 `collapsed` 恒为 `SidebarCollapsed.Hidden`，`setCollapsed` 与 `toggleCollapsed` 均为空操作。
+- `AppSidebarLayout` 不再渲染 `SidebarToggle`，`showSidebarToggle` 不生效。
 
 ### `SidebarLayoutContent`
 
@@ -152,18 +161,18 @@ import { AppSidebarLayout } from "lingting-react-ui";
 
 ### 额外属性（在 `SidebarLayout` 属性之上）
 
-| 属性                | 说明                                                                         |
-| ------------------- | ---------------------------------------------------------------------------- |
-| `menuRoutes`        | 菜单路由定义，必填                                                           |
-| `standaloneRoutes`  | 独立路由定义，不进入菜单                                                     |
-| `notFoundComponent` | 404 组件，默认 `NotFoundPage`                                                |
-| `loadingComponent`  | 加载组件，默认 `LoadingPage`                                                 |
-| `rootRedirectTo`    | 根路径重定向目标，缺省时取第一个菜单叶子路径                                 |
-| `routeType`         | 路由类型：`"browser"`（默认）\| `"hash"`，见下文                             |
-| `title`             | 文档标题前缀，缺省时取 `document.title` 的第一段                             |
-| `showSidebarToggle` | 是否渲染侧栏切换按钮；平铺方式下默认 `layout === "left"`，抽屉方式下强制渲染 |
-| `userPosition`      | 用户项位置：`"hidden"` \| `"top"`（默认）\| `"bottom"`                       |
-| `logoutPosition`    | 退出登录位置：`"hidden"` \| `"user"` \| `"bottom"`（默认）                   |
+| 属性                | 说明                                                                                                            |
+| ------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `menuRoutes`        | 菜单路由定义，必填                                                                                              |
+| `standaloneRoutes`  | 独立路由定义，不进入菜单                                                                                        |
+| `notFoundComponent` | 404 组件，默认 `NotFoundPage`                                                                                   |
+| `loadingComponent`  | 加载组件，默认 `LoadingPage`                                                                                    |
+| `rootRedirectTo`    | 根路径重定向目标，缺省时取第一个菜单叶子路径                                                                    |
+| `routeType`         | 路由类型：`"browser"`（默认）\| `"hash"`，见下文                                                                |
+| `title`             | 文档标题前缀，缺省时取 `document.title` 的第一段                                                                |
+| `showSidebarToggle` | 是否渲染侧栏切换按钮；平铺方式下默认 `layout === "left"`，抽屉方式下强制渲染，`sidebarShow` 为 `false` 时不渲染 |
+| `userPosition`      | 用户项位置：`"hidden"` \| `"top"`（默认）\| `"bottom"`                                                          |
+| `logoutPosition`    | 退出登录位置：`"hidden"` \| `"user"` \| `"bottom"`（默认）                                                      |
 
 ### 行为
 
