@@ -23,6 +23,7 @@ jobs:
           node-version: 22.22.3
           registry-url: https://registry.npmjs.org
 
+      - run: npm install --global npm@latest
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - name: Debug npm trusted publishing
