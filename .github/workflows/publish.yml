@@ -25,4 +25,4 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
-      - run: npm publish --registry=https://registry.npmjs.org/
+      - run: npm publish --registry=https://registry.npmjs.org/ --provenance --access public
