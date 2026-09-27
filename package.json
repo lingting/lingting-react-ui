@@ -1,6 +1,6 @@
 {
   "name": "lingting-react-ui",
-  "version": "2026.9.261",
+  "version": "2026.9.262",
   "description": "基于 React 与 Ant Design 的专用高级组件库",
   "license": "MIT",
   "files": [
@@ -24,7 +24,7 @@
   },
   "scripts": {
     "dev": "vp dev",
-    "build": "vp build && tsc -p tsconfig.build.json",
+    "build": "vp build && tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
     "lint": "vp fmt && vp check --fix"
   },
   "devDependencies": {
@@ -35,6 +35,7 @@
     "@types/react-dom": "~19.2.3",
     "@vitejs/plugin-react": "~5.1.1",
     "tailwindcss": "~4.1.18",
+    "tsc-alias": "~1.9.5",
     "typescript": "~5.9.3",
     "vite": "catalog:",
     "vite-plus": "catalog:"
