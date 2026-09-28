@@ -48,7 +48,6 @@ export default defineConfig({
 
 ```tsx
 import { AppSidebarLayout, LoadingPage, NotFoundPage } from "lingting-react-ui";
-import "lingting-react-ui/index.css";
 
 const menuRoutes = [
   {
@@ -69,7 +68,7 @@ function App() {
 }
 ```
 
-> 样式由根入口 `src/index.ts` 自动引入（`import "./index.css"`），宿主无需单独引入 CSS。
+> 样式由根入口自动引入：源码模式下由 `src/index.ts` 的 `import "./index.css"` 引入；构建产物由 `vite.config.ts` 的 `injectLibCss` 插件为每个入口前置 CSS import。宿主无需单独引入 CSS。
 > 宿主以源码符号链接方式引用本库时，上述包名应替换为宿主自身配置的路径别名（如 `@lri`）。
 
 权限认证与用户数据通过初始化 `UserStore` 注入，本库不内置任何业务接口：
