@@ -3,6 +3,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { App, ConfigProvider } from "antd";
 import clsx from "clsx";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
+ import { XProvider } from '@ant-design/x';
 
 import { useToken } from "@lri/hooks/useAntdExt";
 import { useScreenMode } from "@lri/hooks/useScreenMode";
@@ -62,13 +63,13 @@ export function BasicLayout({
   return (
     <QueryClientProvider client={AppHolder.query}>
       <LayoutContext.Provider value={contextValue}>
-        <ConfigProvider theme={theme.antd}>
+        <XProvider theme={theme.antd}>
           <ProConfigProvider {...theme.pro}>
             <App className={"basic-layout-app"}>
               <Main className={className}>{children}</Main>
             </App>
           </ProConfigProvider>
-        </ConfigProvider>
+        </XProvider>
       </LayoutContext.Provider>
     </QueryClientProvider>
   );

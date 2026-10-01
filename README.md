@@ -26,8 +26,13 @@
 export default defineConfig({
   resolve: {
     dedupe: [
+      "@ant-design/cssinjs",
       "@ant-design/icons",
+      "@ant-design/plots",
       "@ant-design/pro-components",
+      "@ant-design/x",
+      "@ant-design/x-markdown",
+      "@ant-design/x-sdk",
       "@marsidev/react-turnstile",
       "@tanstack/react-query",
       "@tanstack/react-router",
