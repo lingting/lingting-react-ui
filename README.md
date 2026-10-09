@@ -73,7 +73,8 @@ function App() {
 }
 ```
 
-> 样式由根入口自动引入：源码模式下由 `src/index.ts` 的 `import "./index.css"` 引入；构建产物由 `vite.config.ts` 的 `injectLibCss` 插件为每个入口前置 CSS import。宿主无需单独引入 CSS。
+> 样式由入口自动引入：源码模式下由 `src/index.ts` 的 `import "./index.css"` 引入全局样式，各组件由自身文件引入自己的 CSS；构建产物由 `vite.config.ts` 的 `injectCssImports` 插件把样式引用回填到对应模块，并为每个目录入口补上全局样式。按目录入口或根入口导入时宿主无需单独引入 CSS。
+> 本库只提供组件自身样式，**不注入任何页面级样式**。宿主需要自行保证 `html`、`body`、`#root` 的高度链（例如 `height: 100%`），否则 `BasicLayout`、`SidebarLayout` 等使用 `h-full` 的布局组件会塌陷；`body` 的外边距与页面滚动行为同样由宿主决定。
 > 宿主以源码符号链接方式引用本库时，上述包名应替换为宿主自身配置的路径别名（如 `@lri`）。
 
 权限认证与用户数据通过初始化 `UserStore` 注入，本库不内置任何业务接口：
@@ -86,6 +87,27 @@ UserStore.initialize({
   logout: () => api.logout(),
 });
 ```
+
+## 按需导入
+
+构建产物按模块拆分，导入说明符支持三种粒度，三者都只加载实际用到的代码：
+
+```tsx
+// 1. 根入口：依赖宿主构建的 tree-shaking 剔除未使用的组件
+import { Dict, ExTable } from "lingting-react-ui";
+
+// 2. 目录入口：直接命中该目录的产物文件
+import { RegionFlag, RegionSelect } from "lingting-react-ui/components/region";
+
+// 3. 单文件入口：只命中该组件文件
+import { RegionFlag } from "lingting-react-ui/components/region/RegionFlag";
+```
+
+`package.json` 已声明 `"sideEffects": ["**/*.css"]`，这是 tree-shaking 与本库样式引入能同时生效的前提，宿主不要覆盖它。
+
+样式随入口引入：目录入口会自动引入全局样式（`lingting-react-ui/index.css`，含 Tailwind preflight 与主题变量），组件自身的样式由所在模块引入。**只使用单文件入口时不会带上全局样式**，此时需要宿主自行引入 `lingting-react-ui/index.css`。
+
+`components/region/RegionFlag` 会加载全部 246 个旗帜 SVG（约 2MB），它本身无法更细粒度拆分；不需要旗帜时请从 `components` 或 `components/region` 导入并依赖 tree-shaking。
 
 ## 模块索引
 

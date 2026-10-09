@@ -27,6 +27,12 @@
 - 该问题在 dev 下常被预打包掩盖（裸模块说明符被统一改写为同一 chunk），仅在构建产物中复现；宿主出现“dev 正常、构建异常”的组件行为差异时，应优先排查此项。
 - 新增第三方运行时依赖时，必须同步更新 `peerDependencies`，并通知宿主补齐其去重列表。
 
+## 构建产物与 exports（强制）
+
+构建按模块产出，`src` 下每个含 `index.ts` 的目录都是一个 package entry（`dist/<目录>.js`，类型声明 `dist/types/<目录>/index.d.ts`），其余模块保持 `src` 目录结构。
+
+- 新增含 `index.ts` 的目录时，必须同步在 `package.json` 的 `exports` 中补一条目录入口（`import` 指向 `dist/<目录>.js`，`types` 指向 `dist/types/<目录>/index.d.ts`）。`exports` 的 `"./*"` 通配只覆盖单文件路径，无法覆盖目录。
+
 ## 工具与类型约束
 
 - 新增或修改组件前，先检查 `src/lib/` 与 `src/types/` 是否已有可复用能力；存在时必须复用或完善，禁止在组件中重复实现。
@@ -45,7 +51,7 @@
 
 ## 命名与导出
 
-- `src` 下普通 TypeScript、TSX 与样式文件使用小驼峰；组件文件与导出组件使用 PascalCase。
+- `src` 下普通 TypeScript 与 TSX 文件使用小驼峰；组件文件、导出组件与样式文件使用 PascalCase。
 - 目录使用小写 kebab-case；`index.ts` 等约定入口保持既有名称。
 - 只在修改或新增文件时执行命名迁移，不批量改动无关文件。
 - `src/lib`、`src/types`、`src/hooks` 与每个组件分类目录必须维护只导出公开模块的 `index.ts`；`src/components/index.ts` 聚合组件分类入口。

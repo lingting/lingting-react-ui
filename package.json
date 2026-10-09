@@ -3,6 +3,10 @@
   "version": "2026.9.263",
   "description": "基于 React 与 Ant Design 的专用高级组件库",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lingting/lingting-react-ui.git"
+  },
   "files": [
     "dist"
   ],
@@ -17,8 +21,82 @@
       "types": "./dist/types/index.d.ts",
       "import": "./dist/index.js"
     },
+    "./package.json": "./package.json",
+    "./index.css": "./dist/index.css",
+    "./blocks": {
+      "types": "./dist/types/blocks/index.d.ts",
+      "import": "./dist/blocks.js"
+    },
+    "./components": {
+      "types": "./dist/types/components/index.d.ts",
+      "import": "./dist/components.js"
+    },
+    "./components/cloudflare": {
+      "types": "./dist/types/components/cloudflare/index.d.ts",
+      "import": "./dist/components/cloudflare.js"
+    },
+    "./components/copy": {
+      "types": "./dist/types/components/copy/index.d.ts",
+      "import": "./dist/components/copy.js"
+    },
+    "./components/dict": {
+      "types": "./dist/types/components/dict/index.d.ts",
+      "import": "./dist/components/dict.js"
+    },
+    "./components/ex-button": {
+      "types": "./dist/types/components/ex-button/index.d.ts",
+      "import": "./dist/components/ex-button.js"
+    },
+    "./components/ex-card": {
+      "types": "./dist/types/components/ex-card/index.d.ts",
+      "import": "./dist/components/ex-card.js"
+    },
+    "./components/ex-form": {
+      "types": "./dist/types/components/ex-form/index.d.ts",
+      "import": "./dist/components/ex-form.js"
+    },
+    "./components/ex-list": {
+      "types": "./dist/types/components/ex-list/index.d.ts",
+      "import": "./dist/components/ex-list.js"
+    },
+    "./components/ex-table": {
+      "types": "./dist/types/components/ex-table/index.d.ts",
+      "import": "./dist/components/ex-table.js"
+    },
+    "./components/region": {
+      "types": "./dist/types/components/region/index.d.ts",
+      "import": "./dist/components/region.js"
+    },
+    "./desktop": {
+      "types": "./dist/types/desktop/index.d.ts",
+      "import": "./dist/desktop.js"
+    },
+    "./hooks": {
+      "types": "./dist/types/hooks/index.d.ts",
+      "import": "./dist/hooks.js"
+    },
+    "./layout": {
+      "types": "./dist/types/layout/index.d.ts",
+      "import": "./dist/layout.js"
+    },
+    "./layout/sidebar-common": {
+      "types": "./dist/types/layout/sidebar-common/index.d.ts",
+      "import": "./dist/layout/sidebar-common.js"
+    },
+    "./lib": {
+      "types": "./dist/types/lib/index.d.ts",
+      "import": "./dist/lib.js"
+    },
+    "./store": {
+      "types": "./dist/types/store/index.d.ts",
+      "import": "./dist/store.js"
+    },
+    "./types": {
+      "types": "./dist/types/types/index.d.ts",
+      "import": "./dist/types.js"
+    },
     "./*": {
-      "types": "./dist/types/*/index.d.ts",
+      "types": "./dist/types/*.d.ts",
       "import": "./dist/*.js"
     }
   },
@@ -60,9 +138,5 @@
   },
   "volta": {
     "node": "22.22.3"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/lingting/lingting-react-ui.git"
   }
 }
