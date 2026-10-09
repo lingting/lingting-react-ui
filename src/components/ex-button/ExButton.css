@@ -1,0 +1,11 @@
+@reference "@lri/index.css";
+
+.ex-button {
+  @apply cursor-pointer;
+}
+
+/* antd 的 Typography 禁用态自带 cursor: not-allowed，但与上面的规则同优先级，
+   加载顺序不保证，这里显式提高选择器优先级。 */
+.ex-button.ant-typography-disabled {
+  @apply cursor-not-allowed;
+}

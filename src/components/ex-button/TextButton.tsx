@@ -11,6 +11,7 @@ import {
   resolveButtonDisabled,
 } from "@lri/lib";
 import type { TextButtonProps } from "@lri/types";
+import "./ExButton.css";
 
 function TextButtonComponent({
   children,
@@ -46,7 +47,7 @@ function TextButtonComponent({
     () => (
       <Typography.Text
         {...(props as TypographyProps<"span">)}
-        className={`ex-button cursor-pointer ${props.className || ""}`}
+        className={`ex-button ${props.className || ""}`}
         type={danger ? "danger" : undefined}
         disabled={isDisabled}
         onClick={isDisabled || hasConfirm(confirm) ? undefined : onClick}

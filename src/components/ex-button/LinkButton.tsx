@@ -11,6 +11,7 @@ import {
   resolveButtonDisabled,
 } from "@lri/lib";
 import type { LinkButtonProps } from "@lri/types";
+import "./ExButton.css";
 
 function LinkButtonComponent({
   children,
@@ -45,7 +46,7 @@ function LinkButtonComponent({
     () => (
       <Typography.Link
         {...(props as ComponentProps<typeof Typography.Link>)}
-        className={`ex-button cursor-pointer ${props.className || ""}`}
+        className={`ex-button ${props.className || ""}`}
         href={isDisabled ? undefined : props.href}
         type={danger ? "danger" : undefined}
         disabled={isDisabled}
