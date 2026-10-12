@@ -1,4 +1,4 @@
-import { lazy, useMemo, type ReactNode } from "react";
+import { lazy, type ComponentType, type LazyExoticComponent, type ReactNode } from "react";
 
 import type {
   MenuRoutePageDefinition,
@@ -15,6 +15,9 @@ const loaderPageMap = new WeakMap<object, RoutePageLoader>();
 /** loader 字段的定义 → 已包装的页面组件，保证同一份定义解析出的组件身份稳定 */
 const loaderDefinitionMap = new WeakMap<object, RoutePageComponent>();
 
+/** loader → 已创建的页面组件，同一 loader 只发起一次动态导入 */
+const loaderPageModuleMap = new WeakMap<RoutePageLoader, LazyExoticComponent<ComponentType>>();
+
 function toLazyModule(loader: RoutePageLoader) {
   return loader().then((module: RoutePageModule) => ({
     default: typeof module === "function" ? module : module.default,
@@ -22,11 +25,30 @@ function toLazyModule(loader: RoutePageLoader) {
 }
 
 /**
- * loader 页面渲染器：每次挂载都新建 lazy，重挂载即重新发起动态导入，
- * 因此页内重试（路由替换 + 重挂载）能真正重新加载模块。
+ * 取 loader 对应的页面组件。
+ *
+ * 按 loader 缓存：重复进入同一路由直接复用已加载的模块（与 React.lazy 行为一致，仅首次加载会整页 loading）；
+ * 导入失败时丢弃缓存，页内重试重挂载后才会重新发起动态导入。
  */
+function getLoaderPageModule(loader: RoutePageLoader) {
+  const cached = loaderPageModuleMap.get(loader);
+  if (cached) return cached;
+
+  const Page = lazy(() =>
+    toLazyModule(loader).catch((error: unknown) => {
+      loaderPageModuleMap.delete(loader);
+      throw error;
+    }),
+  );
+
+  loaderPageModuleMap.set(loader, Page);
+
+  return Page;
+}
+
+/** loader 页面渲染器 */
 function LoaderPageView({ loader }: { loader: RoutePageLoader }): ReactNode {
-  const Page = useMemo(() => lazy(() => toLazyModule(loader)), [loader]);
+  const Page = getLoaderPageModule(loader);
 
   return <Page />;
 }
