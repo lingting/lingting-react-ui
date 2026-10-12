@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 
+import { isRoutePageDefinition } from "@lri/lib";
 import { useUserStore } from "@lri/store";
 import type { MenuRouteDefinition, UseRouteOptions, UseRouteResult } from "@lri/types";
 
@@ -14,7 +15,7 @@ function filterMenuRoutes(
   for (const route of routes) {
     if (route.auth ? !allow(route.auth) : !userLoggedIn) continue;
 
-    if (route.component) {
+    if (isRoutePageDefinition(route)) {
       filteredRoutes.push(route);
       continue;
     }

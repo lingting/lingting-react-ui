@@ -1,7 +1,7 @@
 import { RouterProvider } from "@tanstack/react-router";
 import { Suspense, useEffect, useMemo } from "react";
 
-import { LoadingPage, NotFoundPage } from "@lri/blocks";
+import { DynamicLoadErrorBoundary, LoadingPage, NotFoundPage } from "@lri/blocks";
 import { RouterContextProvider, useRoute, useWindowMaximized } from "@lri/hooks";
 import { AppHolder } from "@lri/lib";
 import { UserStore } from "@lri/store";
@@ -24,15 +24,21 @@ function DesktopSidebarLayoutRouter({
   router: ReturnType<typeof createDesktopSidebarRouter>;
 }) {
   const { loading, props } = useDesktopSidebarLayout();
-  const { loadingComponent: LoadingComponent = LoadingPage } = props;
+  const {
+    dynamicLoadErrorComponent,
+    loadingComponent: LoadingComponent = LoadingPage,
+    title,
+  } = props;
 
   if (loading) {
     return <LoadingComponent />;
   }
   return (
-    <Suspense fallback={<LoadingComponent />}>
-      <RouterProvider router={router} />
-    </Suspense>
+    <DynamicLoadErrorBoundary errorComponent={dynamicLoadErrorComponent} target={title}>
+      <Suspense fallback={<LoadingComponent />}>
+        <RouterProvider router={router} />
+      </Suspense>
+    </DynamicLoadErrorBoundary>
   );
 }
 

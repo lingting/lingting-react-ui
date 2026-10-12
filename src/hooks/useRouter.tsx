@@ -1,8 +1,17 @@
 import { useRouterState } from "@tanstack/react-router";
 import { createContext, type ReactNode, useCallback, useContext, useMemo } from "react";
 
-import { findMenuRoute, findStandaloneRoute, normalizeRoutePath } from "@lri/lib";
-import type { MenuRouteDefinition, StandaloneRouteDefinition } from "@lri/types";
+import {
+  findMenuRoute,
+  findStandaloneRoute,
+  normalizeRoutePath,
+  resolveRoutePageKind,
+} from "@lri/lib";
+import type {
+  MenuRouteDefinition,
+  MenuRoutePageDefinition,
+  StandaloneRouteDefinition,
+} from "@lri/types";
 
 type RouterNavigationOptions = {
   replace?: boolean;
@@ -24,11 +33,13 @@ export type RouterCurrent = {
   icon?: ReactNode;
   mode: "layout" | "basic" | "none";
   path?: string;
+  /** 页内重试加载当前页面（compose/loader 页面为路由替换）；lazy 页面只能整页刷新，不提供 */
+  retry?: () => void;
   title?: string;
 };
 
 export type RouterMatch =
-  | { definition: MenuRouteDefinition; type: "menu" }
+  | { definition: MenuRoutePageDefinition; type: "menu" }
   | { definition: StandaloneRouteDefinition; type: "standalone" }
   | undefined;
 
@@ -78,7 +89,14 @@ export function useRouter() {
     return undefined;
   }, [context.menuRoutes, context.standaloneRoutes, pathname]);
 
+  const reload = useCallback(() => {
+    return context.router.navigate({ to: pathname, replace: true });
+  }, [context.router, pathname]);
+
   const current = useMemo<RouterCurrent>(() => {
+    // lazy 页面失败过的 import 会被 React.lazy 缓存，页内重试无法重新加载，只能整页刷新
+    const retry = match && resolveRoutePageKind(match.definition) !== "lazy" ? reload : undefined;
+
     if (!match) {
       return {
         mode: "none",
@@ -91,6 +109,7 @@ export function useRouter() {
         icon: match.definition.icon,
         mode: "layout",
         path: pathname,
+        retry,
         title: match.definition.title,
       };
     }
@@ -99,9 +118,10 @@ export function useRouter() {
       icon: match.definition.icon,
       mode: match.definition.mode ?? "basic",
       path: pathname,
+      retry,
       title: match.definition.title,
     };
-  }, [match, pathname]);
+  }, [match, pathname, reload]);
 
   const navigate = useCallback(
     (to: string, options?: Omit<RouterNavigationOptions, "to">) => {
@@ -112,10 +132,6 @@ export function useRouter() {
     },
     [context.router],
   );
-
-  const reload = useCallback(() => {
-    return context.router.navigate({ to: pathname, replace: true });
-  }, [context.router, pathname]);
 
   return {
     current,

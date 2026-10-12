@@ -29,19 +29,35 @@ export type BaseRouteDefinition = {
   title: string;
 };
 
-type MenuRouteDirectoryDefinition = BaseRouteDefinition & {
-  children: readonly MenuRouteDefinition[];
-  component?: never;
-};
+/** 动态导入的页面模块：`{ default: 组件 }` 或直接返回组件 */
+export type RoutePageModule = ComponentType | { default: ComponentType };
+
+/** 页面加载器：返回动态导入的页面模块 */
+export type RoutePageLoader = () => Promise<RoutePageModule>;
+
+/** 页面加载方式：`compose` 直接组件、`lazy` 为 React.lazy 组件、`loader` 为加载器 */
+export type RoutePageKind = "compose" | "lazy" | "loader";
+
 export type RoutePageComponent =
   | ComponentType
   | LazyExoticComponent<ComponentType>
   | RouteComponent;
 
-type MenuRoutePageDefinition = BaseRouteDefinition & {
-  children?: never;
-  component: RoutePageComponent;
+type MenuRouteDirectoryDefinition = BaseRouteDefinition & {
+  children: readonly MenuRouteDefinition[];
+  component?: never;
+  loader?: never;
 };
+
+/** 页面来源：`component`（直接组件 / lazy 组件 / loaderPage 包装）与 `loader` 二选一 */
+type MenuRoutePageSource =
+  | { component: RoutePageComponent; loader?: never }
+  | { component?: never; loader: RoutePageLoader };
+
+export type MenuRoutePageDefinition = BaseRouteDefinition &
+  MenuRoutePageSource & {
+    children?: never;
+  };
 
 export type MenuRouteDefinition = MenuRouteDirectoryDefinition | MenuRoutePageDefinition;
 

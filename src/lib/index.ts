@@ -10,6 +10,8 @@ export * from "./IconUtils";
 export * from "./ImageUtils";
 export * from "./MenuUtils";
 export * from "./RouteUtils";
+export * from "./RoutePageUtils";
 export * from "./CopyUtils";
+export * from "./DynamicLoadUtils";
 export * from "./UserUtils";
 export const DocumentUtils = InnerDocumentUtils;

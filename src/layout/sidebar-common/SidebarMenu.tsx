@@ -2,7 +2,7 @@ import { Menu, type MenuProps } from "antd";
 import { useCallback, useMemo } from "react";
 
 import { useRouter } from "@lri/hooks";
-import { joinRoutePath } from "@lri/lib";
+import { isRoutePageDefinition, joinRoutePath } from "@lri/lib";
 import type { MenuRouteDefinition } from "@lri/types";
 
 import { SidebarCollapsed, useSidebarLayout } from "@lri/layout";
@@ -16,7 +16,7 @@ function createRouteMenuItems(
   return definitions.map((definition) => {
     const fullPath = joinRoutePath(parentPath, definition.path);
     return {
-      children: definition.component
+      children: isRoutePageDefinition(definition)
         ? undefined
         : createRouteMenuItems(definition.children, fullPath),
       icon: definition.icon,

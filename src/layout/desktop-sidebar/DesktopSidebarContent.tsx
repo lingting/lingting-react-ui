@@ -26,6 +26,7 @@ export function DesktopSidebarContent() {
     classNames,
     collapsedWidth,
     defaultTheme,
+    dynamicLoadErrorComponent,
     headerLeftItems: sourceHeaderLeftItems,
     headerProps,
     headerRightItems,
@@ -118,6 +119,7 @@ export function DesktopSidebarContent() {
           sidebarCollapsedDefault={sidebarCollapsedDefault}
           sidebarDisplay="inline"
           sidebarShow={sidebarShow}
+          dynamicLoadErrorComponent={dynamicLoadErrorComponent}
           loadingComponent={loadingComponent}
           width={width}
         />

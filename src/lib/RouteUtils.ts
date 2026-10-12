@@ -1,4 +1,15 @@
-import type { MenuRouteDefinition, StandaloneRouteDefinition } from "@lri/types";
+import type {
+  MenuRouteDefinition,
+  MenuRoutePageDefinition,
+  StandaloneRouteDefinition,
+} from "@lri/types";
+
+/** 判断路由定义是否为页面（叶子）定义 */
+export function isRoutePageDefinition(
+  definition: MenuRouteDefinition,
+): definition is MenuRoutePageDefinition {
+  return definition.component !== undefined || definition.loader !== undefined;
+}
 
 export function joinRoutePath(parentPath: string, path: string) {
   return `/${[parentPath, path]
@@ -16,12 +27,14 @@ export function findMenuRoute(
   definitions: readonly MenuRouteDefinition[],
   pathname: string,
   parentPath = "",
-): MenuRouteDefinition | undefined {
+): MenuRoutePageDefinition | undefined {
   for (const definition of definitions) {
     const fullPath = joinRoutePath(parentPath, definition.path);
-    if (definition.component && normalizeRoutePath(fullPath) === pathname) return definition;
+    if (isRoutePageDefinition(definition) && normalizeRoutePath(fullPath) === pathname) {
+      return definition;
+    }
 
-    if (!definition.component) {
+    if (!isRoutePageDefinition(definition)) {
       const child = findMenuRoute(definition.children, pathname, fullPath);
       if (child) return child;
     }
@@ -41,7 +54,7 @@ export function findFirstMenuLeafPath(
 ): string | undefined {
   for (const definition of definitions) {
     const fullPath = joinRoutePath(parentPath, definition.path);
-    if (definition.component) return fullPath;
+    if (isRoutePageDefinition(definition)) return fullPath;
 
     const childPath = findFirstMenuLeafPath(definition.children, fullPath);
     if (childPath) return childPath;
@@ -55,9 +68,12 @@ export function findMenuAncestorPaths(
 ): string[] {
   for (const definition of definitions) {
     const fullPath = joinRoutePath(parentPath, definition.path);
-    if (definition.component && normalizeRoutePath(fullPath) === pathname) return [];
+    if (isRoutePageDefinition(definition) && normalizeRoutePath(fullPath) === pathname) return [];
 
-    if (!definition.component && pathname.startsWith(`${normalizeRoutePath(fullPath)}/`)) {
+    if (
+      !isRoutePageDefinition(definition) &&
+      pathname.startsWith(`${normalizeRoutePath(fullPath)}/`)
+    ) {
       return [fullPath, ...findMenuAncestorPaths(definition.children, pathname, fullPath)];
     }
   }

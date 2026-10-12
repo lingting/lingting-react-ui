@@ -10,7 +10,12 @@ import {
 import type { ComponentType } from "react";
 
 import { StandaloneRoute } from "@lri/blocks";
-import { findFirstMenuLeafPath, joinRoutePath } from "@lri/lib";
+import {
+  findFirstMenuLeafPath,
+  isRoutePageDefinition,
+  joinRoutePath,
+  resolveRoutePageComponent,
+} from "@lri/lib";
 import type {
   MenuRouteDefinition,
   ProRouteNotFoundComponent,
@@ -44,7 +49,9 @@ function createMenuRoute(
   const staticData: ProRouteStaticData = {
     menu: { icon: definition.icon, title: definition.title },
   };
-  const Component = definition.component;
+  const Component = isRoutePageDefinition(definition)
+    ? resolveRoutePageComponent(definition)
+    : undefined;
   const route = createRoute({
     component: Component ? () => <Component /> : Outlet,
     getParentRoute: () => parentRoute,
@@ -52,7 +59,7 @@ function createMenuRoute(
     staticData,
   });
 
-  if (definition.component) return route;
+  if (isRoutePageDefinition(definition)) return route;
 
   const children = definition.children.map((child) => createMenuRoute(route, child, fullPath));
   const firstLeafPath = findFirstMenuLeafPath(definition.children, fullPath);
@@ -72,7 +79,7 @@ function createMenuRoute(
 function createStandaloneRoute(parentRoute: AnyRoute, definition: StandaloneRouteDefinition) {
   const staticData: ProRouteStaticData = {
     standalone: {
-      component: definition.component,
+      component: resolveRoutePageComponent(definition),
       mode: definition.mode ?? "basic",
     },
   };

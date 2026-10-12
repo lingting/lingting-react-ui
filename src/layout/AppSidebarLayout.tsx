@@ -1,7 +1,7 @@
 import { RouterProvider } from "@tanstack/react-router";
 import { Suspense, useEffect, useMemo } from "react";
 
-import { LoadingPage, NotFoundPage } from "@lri/blocks";
+import { DynamicLoadErrorBoundary, LoadingPage, NotFoundPage } from "@lri/blocks";
 import type { StandaloneRouteDefinition } from "@lri/types";
 import { RouterContextProvider, useRoute } from "@lri/hooks";
 import { UserStore } from "@lri/store";
@@ -24,15 +24,21 @@ const EMPTY_STANDALONE_ROUTES: readonly StandaloneRouteDefinition[] = [];
 
 function AppSidebarLayoutRouter({ router }: { router: ReturnType<typeof createAppSidebarRouter> }) {
   const { loading, props } = useAppSidebarLayout();
-  const { loadingComponent: LoadingComponent = LoadingPage } = props;
+  const {
+    dynamicLoadErrorComponent,
+    loadingComponent: LoadingComponent = LoadingPage,
+    title,
+  } = props;
 
   if (loading) {
     return <LoadingComponent />;
   }
   return (
-    <Suspense fallback={<LoadingComponent />}>
-      <RouterProvider router={router} />
-    </Suspense>
+    <DynamicLoadErrorBoundary errorComponent={dynamicLoadErrorComponent} target={title}>
+      <Suspense fallback={<LoadingComponent />}>
+        <RouterProvider router={router} />
+      </Suspense>
+    </DynamicLoadErrorBoundary>
   );
 }
 

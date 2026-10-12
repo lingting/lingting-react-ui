@@ -1,6 +1,7 @@
 import type { ComponentType } from "react";
 
 import type {
+  DynamicLoadErrorProps,
   MenuRouteDefinition,
   ProRouteNotFoundComponent,
   ProRouteType,
@@ -14,6 +15,7 @@ export type AppSidebarUserPosition = SidebarUserPosition;
 export type AppSidebarLogoutPosition = SidebarLogoutPosition;
 
 export type AppSidebarLayoutProps = Omit<SidebarLayoutProps, "children"> & {
+  dynamicLoadErrorComponent?: ComponentType<DynamicLoadErrorProps>;
   loadingComponent?: ComponentType;
   logoutPosition?: SidebarLogoutPosition;
   menuRoutes: readonly MenuRouteDefinition[];

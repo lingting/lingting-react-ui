@@ -17,6 +17,7 @@ function AppSidebarContentBody() {
     bottomItems,
     classNames,
     collapsedWidth,
+    dynamicLoadErrorComponent,
     headerLeftItems: sourceHeaderLeftItems,
     headerProps,
     headerRightItems,
@@ -66,6 +67,7 @@ function AppSidebarContentBody() {
       sidebarCollapsedDefault={sidebarCollapsedDefault}
       sidebarDisplay={sidebarDisplay}
       sidebarShow={sidebarShow}
+      dynamicLoadErrorComponent={dynamicLoadErrorComponent}
       loadingComponent={loadingComponent}
       width={width}
     />
