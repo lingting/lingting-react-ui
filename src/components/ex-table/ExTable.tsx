@@ -1,8 +1,7 @@
-import { Space } from "antd";
 import { type ProColumns, ProTable } from "@ant-design/pro-components";
 import { useMemo } from "react";
 
-import { AppHolder, formatTimestamp } from "@lri/lib";
+import { AppHolder, ExTableRegionHolder, formatTimestamp } from "@lri/lib";
 import type {
   ExDictProps,
   ExTableColumn,
@@ -12,7 +11,6 @@ import type {
   PaginationResult,
 } from "@lri/types";
 
-import { RegionSelect, RegionTag } from "../region";
 import { Dict } from "../dict";
 
 const defaultPagination = {
@@ -108,24 +106,15 @@ function prepareColumn<T extends Record<string, unknown>>(column: ExTableColumn<
     const multiple = region === "multiple";
 
     if (!column.render) {
-      next.render = (_text, record) => {
-        const value = readValue(record, column.dataIndex);
-        if (multiple) {
-          const values = Array.isArray(value) ? value : [];
-          return (
-            <Space size="small">
-              {values.map((item) => (
-                <RegionTag key={String(item)} value={typeof item === "string" ? item : undefined} />
-              ))}
-            </Space>
-          );
-        }
-
-        return <RegionTag value={typeof value === "string" ? value : undefined} />;
-      };
+      next.render = (_text, record) =>
+        ExTableRegionHolder.renderTable({
+          multiple,
+          value: readValue(record, column.dataIndex),
+        });
     }
+
     if (!column.formItemRender) {
-      next.formItemRender = () => <RegionSelect multiple={multiple} />;
+      next.formItemRender = () => ExTableRegionHolder.renderForm({ multiple });
     }
   }
 
