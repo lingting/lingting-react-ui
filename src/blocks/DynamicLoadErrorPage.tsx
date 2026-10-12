@@ -2,11 +2,12 @@ import { ReloadOutlined } from "@ant-design/icons";
 import { Flex, Result, Typography } from "antd";
 
 import { Button } from "@lri/components";
-import { BasicLayout } from "@lri/layout";
 import type { DynamicLoadErrorProps } from "@lri/types";
 
 /**
  * 动态加载异常页：说明加载失败的情况，并提供重新加载入口。
+ *
+ * 不包裹 `BasicLayout`，用 `height: 100%` 铺满所在容器的可用空间，可直接放进路由内容区或独立路由。
  */
 export function DynamicLoadErrorPage({
   message,
@@ -24,7 +25,7 @@ export function DynamicLoadErrorPage({
   };
 
   return (
-    <BasicLayout>
+    <Flex flex="1 1 auto" style={{ height: "100%" }} vertical>
       <Result
         extra={
           <Button icon={<ReloadOutlined />} type="primary" onClick={handleReload}>
@@ -47,6 +48,6 @@ export function DynamicLoadErrorPage({
         }
         title="页面加载失败"
       />
-    </BasicLayout>
+    </Flex>
   );
 }

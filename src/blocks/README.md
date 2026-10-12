@@ -6,7 +6,7 @@
 
 - 组合 [`src/components`](../components/README.md) 与 [`src/layout`](../layout/README.md) 中的能力，形成开箱可用的页面级区块。
 - 所有展示内容与行为必须通过 Props 接收，不得写死领域页面、接口或业务状态。
-- 页面级区块（`LoadingPage`、`NotFoundPage`、`StandaloneRoute`、`DynamicLoadErrorPage`）自行包裹 `BasicLayout`，调用方无需重复搭建主题与上下文容器；`SimpleLoginForm`、`PlaceholderPage` 是纯内容区块，由调用方决定外层容器。
+- 页面级区块（`LoadingPage`、`NotFoundPage`、`StandaloneRoute`）自行包裹 `BasicLayout`，调用方无需重复搭建主题与上下文容器；`SimpleLoginForm`、`PlaceholderPage`、`DynamicLoadErrorPage` 是纯内容区块，由调用方决定外层容器。
 
 ## 公开导出
 
@@ -99,7 +99,7 @@ const standaloneRoutes = [
 
 重试额度：页内重试 3 次 + 整页刷新 3 次，跨刷新记录且 30 秒内视为同一轮；非动态加载类异常不自动重试。
 
-`DynamicLoadErrorPage` 属性：
+`DynamicLoadErrorPage` 不自带 `BasicLayout`，用 `height: 100%` 铺满所在容器的可用空间，需要渲染在已有主题容器的位置（如路由内容区或独立路由内）。其属性：
 
 | 属性         | 说明                                   |
 | ------------ | -------------------------------------- |
