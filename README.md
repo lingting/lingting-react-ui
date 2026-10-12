@@ -58,7 +58,7 @@ const menuRoutes = [
   {
     path: "/dashboard",
     title: "仪表盘",
-    component: () => import("./pages/Dashboard"),
+    loader: () => import("./pages/Dashboard"),
   },
 ];
 
@@ -72,6 +72,8 @@ function App() {
   );
 }
 ```
+
+> 路由页面支持三种写法：直接组件（`component: Dashboard`）、`React.lazy` 组件（`component: lazy(() => import("./pages/Dashboard"))`）、加载器（`loader: () => import("./pages/Dashboard")` 或 `component: loaderPage(() => import("./pages/Dashboard"))`）。三者的加载与自动重试行为见 [layout/README.md](./src/layout/README.md)。
 
 > 样式由入口自动引入：源码模式下由 `src/index.ts` 的 `import "./index.css"` 引入全局样式，各组件由自身文件引入自己的 CSS；构建产物由 `vite.config.ts` 的 `injectCssImports` 插件把样式引用回填到对应模块，并为每个目录入口补上全局样式。按目录入口或根入口导入时宿主无需单独引入 CSS。
 > 本库只提供组件自身样式，**不注入任何页面级样式**。宿主需要自行保证 `html`、`body`、`#root` 的高度链（例如 `height: 100%`），否则 `BasicLayout`、`SidebarLayout` 等使用 `h-full` 的布局组件会塌陷；`body` 的外边距与页面滚动行为同样由宿主决定。

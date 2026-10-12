@@ -5,7 +5,7 @@
 ## 职责与边界
 
 - 承载可被两个及以上模块复用的纯函数、常量、运行时单例与数据归一化逻辑。
-- 不包含 UI 渲染，不导入 React 组件。
+- 不实现页面与组件样式，UI 相关只做既有组件的 JSX 包装（如 `ButtonUtils`、`RoutePageUtils`）。
 - 不包含业务接口、领域模型或权限数据；只做通用转换与访问。
 - 所有模块通过 `src/lib/index.ts` 统一导出。
 
@@ -91,6 +91,31 @@ void AppHolder.router()?.navigate({ to: "/home" });
 | `findStandaloneRoute`   | 在独立路由中按路径查找                    |
 | `findFirstMenuLeafPath` | 取第一个叶子路径，用于根重定向            |
 | `findMenuAncestorPaths` | 取当前路径的菜单祖先路径                  |
+| `isRoutePageDefinition` | 判断路由定义是否为页面（叶子）定义        |
+
+### `RoutePageUtils`
+
+路由页面组件解析，支撑 compose / lazy / loader 三种页面写法，详见 [`src/layout`](../layout/README.md)。
+
+| 导出                        | 说明                                                                  |
+| --------------------------- | --------------------------------------------------------------------- |
+| `loaderPage`                | 把 loader 包装为可直接用于 `component` 的页面组件                     |
+| `resolveRoutePageComponent` | 取路由定义的可渲染组件；loader 定义按定义对象记忆化，保证组件身份稳定 |
+| `resolveRoutePageKind`      | 取页面加载方式：`"compose"` \| `"lazy"` \| `"loader"`                 |
+
+同一个 loader 只发起一次动态导入，加载成功后再次进入该路由直接复用；导入失败会丢弃缓存，页内重试重挂载后才会重新发起导入。
+
+### `DynamicLoadUtils`
+
+动态加载失败的重试额度管理，供 [`DynamicLoadErrorBoundary`](../blocks/README.md) 使用。
+
+| 导出                    | 说明                                                                                                              |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `isDynamicLoadError`    | 判断异常是否由动态加载模块失败引起                                                                                |
+| `takeDynamicLoadRetry`  | 申请一次重试额度：返回 `"route"`（页内重试，上限 3 次）或 `"reload"`（整页刷新，上限 3 次），用尽返回 `undefined` |
+| `clearDynamicLoadRetry` | 清空额度，使下一次失败重新计数                                                                                    |
+
+额度记录在 `sessionStorage`（键为 `${PREFIX}/dynamic-load-retry`）：同一轮内的连续失败共用额度，超过 30 秒视为新一轮；`sessionStorage` 不可写时不返回额度，避免无限刷新。
 
 ### `ButtonUtils`
 

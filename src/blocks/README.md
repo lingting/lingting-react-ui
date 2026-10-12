@@ -6,17 +6,19 @@
 
 - 组合 [`src/components`](../components/README.md) 与 [`src/layout`](../layout/README.md) 中的能力，形成开箱可用的页面级区块。
 - 所有展示内容与行为必须通过 Props 接收，不得写死领域页面、接口或业务状态。
-- 页面级区块（`LoadingPage`、`NotFoundPage`、`StandaloneRoute`）自行包裹 `BasicLayout`，调用方无需重复搭建主题与上下文容器；`SimpleLoginForm`、`PlaceholderPage` 是纯内容区块，由调用方决定外层容器。
+- 页面级区块（`LoadingPage`、`NotFoundPage`、`StandaloneRoute`、`DynamicLoadErrorPage`）自行包裹 `BasicLayout`，调用方无需重复搭建主题与上下文容器；`SimpleLoginForm`、`PlaceholderPage` 是纯内容区块，由调用方决定外层容器。
 
 ## 公开导出
 
-| 组件              | 说明                                                       |
-| ----------------- | ---------------------------------------------------------- |
-| `LoadingPage`     | 全屏加载页，内部已包裹 `BasicLayout` 与 `Spin fullscreen`  |
-| `NotFoundPage`    | 404 结果页，提供「返回首页」按钮并跳转到 `/`               |
-| `PlaceholderPage` | 占位页，展示当前路由标题（取 `useRouter().current.title`） |
-| `StandaloneRoute` | 独立路由渲染器，按路由静态数据渲染页面组件                 |
-| `SimpleLoginForm` | 通用登录表单                                               |
+| 组件                       | 说明                                                       |
+| -------------------------- | ---------------------------------------------------------- |
+| `LoadingPage`              | 全屏加载页，内部已包裹 `BasicLayout` 与 `Spin fullscreen`  |
+| `NotFoundPage`             | 404 结果页，提供「返回首页」按钮并跳转到 `/`               |
+| `PlaceholderPage`          | 占位页，展示当前路由标题（取 `useRouter().current.title`） |
+| `StandaloneRoute`          | 独立路由渲染器，按路由静态数据渲染页面组件                 |
+| `SimpleLoginForm`          | 通用登录表单                                               |
+| `DynamicLoadErrorPage`     | 动态加载异常页，说明加载失败情况并提供「重新加载」按钮     |
+| `DynamicLoadErrorBoundary` | 动态加载异常边界，按额度自动重试并在用尽后渲染异常组件     |
 
 ## 用法
 
@@ -44,7 +46,7 @@ const standaloneRoutes = [
     path: "/preview/:id",
     title: "预览",
     mode: "none", // 不套 BasicLayout
-    component: () => import("./pages/Preview"),
+    loader: () => import("./pages/Preview"),
   },
 ];
 ```
@@ -74,6 +76,37 @@ const standaloneRoutes = [
 ```
 
 表单提交期间自动管理 `loading`，`onFinish` 抛出的错误会以 `Alert` 形式展示在按钮上方。
+
+### 动态加载异常
+
+路由页面动态加载失败时，由 `DynamicLoadErrorBoundary` 拦截并按额度自动重试，用尽后渲染 `DynamicLoadErrorPage`。`AppSidebarLayout` / `DesktopSidebarLayout` 已默认接入（可用 `dynamicLoadErrorComponent` 替换），也可单独使用：
+
+```tsx
+<DynamicLoadErrorBoundary onRetry={retry} target="订单详情">
+  <Suspense fallback={<LoadingPage />}>
+    <Outlet />
+  </Suspense>
+</DynamicLoadErrorBoundary>
+```
+
+`DynamicLoadErrorBoundary` 属性：
+
+| 属性             | 说明                                                              |
+| ---------------- | ----------------------------------------------------------------- |
+| `onRetry`        | 页内重试动作（compose/loader 页面为路由替换）；不传则只做整页刷新 |
+| `errorComponent` | 自定义异常组件，默认 `DynamicLoadErrorPage`                       |
+| `target`         | 加载目标，透传给异常组件                                          |
+
+重试额度：页内重试 3 次 + 整页刷新 3 次，跨刷新记录且 30 秒内视为同一轮；非动态加载类异常不自动重试。
+
+`DynamicLoadErrorPage` 属性：
+
+| 属性         | 说明                                   |
+| ------------ | -------------------------------------- |
+| `target`     | 加载目标，通常是路由标题或地址         |
+| `message`    | 失败信息，通常是动态加载失败的具体原因 |
+| `onReload`   | 「重新加载」回调，默认为整页刷新       |
+| `reloadText` | 「重新加载」按钮文案，默认 `重新加载`  |
 
 ## 相关文档
 

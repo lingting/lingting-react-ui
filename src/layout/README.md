@@ -161,18 +161,19 @@ import { AppSidebarLayout } from "lingting-react-ui";
 
 ### 额外属性（在 `SidebarLayout` 属性之上）
 
-| 属性                | 说明                                                                                                            |
-| ------------------- | --------------------------------------------------------------------------------------------------------------- |
-| `menuRoutes`        | 菜单路由定义，必填                                                                                              |
-| `standaloneRoutes`  | 独立路由定义，不进入菜单                                                                                        |
-| `notFoundComponent` | 404 组件，默认 `NotFoundPage`                                                                                   |
-| `loadingComponent`  | 加载组件，默认 `LoadingPage`                                                                                    |
-| `rootRedirectTo`    | 根路径重定向目标，缺省时取第一个菜单叶子路径                                                                    |
-| `routeType`         | 路由类型：`"browser"`（默认）\| `"hash"`，见下文                                                                |
-| `title`             | 文档标题前缀，缺省时取 `document.title` 的第一段                                                                |
-| `showSidebarToggle` | 是否渲染侧栏切换按钮；平铺方式下默认 `layout === "left"`，抽屉方式下强制渲染，`sidebarShow` 为 `false` 时不渲染 |
-| `userPosition`      | 用户项位置：`"hidden"` \| `"top"`（默认）\| `"bottom"`                                                          |
-| `logoutPosition`    | 退出登录位置：`"hidden"` \| `"user"` \| `"bottom"`（默认）                                                      |
+| 属性                        | 说明                                                                                                            |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `menuRoutes`                | 菜单路由定义，必填                                                                                              |
+| `standaloneRoutes`          | 独立路由定义，不进入菜单                                                                                        |
+| `notFoundComponent`         | 404 组件，默认 `NotFoundPage`                                                                                   |
+| `loadingComponent`          | 加载组件，默认 `LoadingPage`                                                                                    |
+| `dynamicLoadErrorComponent` | 动态加载异常组件，默认 `DynamicLoadErrorPage`，见下文「路由页面与动态加载异常」                                 |
+| `rootRedirectTo`            | 根路径重定向目标，缺省时取第一个菜单叶子路径                                                                    |
+| `routeType`                 | 路由类型：`"browser"`（默认）\| `"hash"`，见下文                                                                |
+| `title`                     | 文档标题前缀，缺省时取 `document.title` 的第一段                                                                |
+| `showSidebarToggle`         | 是否渲染侧栏切换按钮；平铺方式下默认 `layout === "left"`，抽屉方式下强制渲染，`sidebarShow` 为 `false` 时不渲染 |
+| `userPosition`              | 用户项位置：`"hidden"` \| `"top"`（默认）\| `"bottom"`                                                          |
+| `logoutPosition`            | 退出登录位置：`"hidden"` \| `"user"` \| `"bottom"`（默认）                                                      |
 
 ### 行为
 
@@ -207,6 +208,33 @@ import { AppSidebarLayout } from "lingting-react-ui";
 
 路由属性（如 `routeType`）继承自 `AppSidebarLayout`；以 `file://` 加载页面时需传入 `routeType="hash"`。
 
+## 路由页面与动态加载异常
+
+### 页面写法
+
+`menuRoutes` 与 `standaloneRoutes` 的页面来源有三类，由 `component` 与 `loader` 二选一表达：
+
+| 写法    | 示例                                                                                                  | 页面加载方式                           |
+| ------- | ----------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| compose | `{ component: Dashboard }`                                                                            | 直接组件，随入口一起加载               |
+| lazy    | `{ component: lazy(() => import("./Dashboard")) }`                                                    | `React.lazy` 组件，首次进入时动态导入  |
+| loader  | `{ loader: () => import("./Dashboard") }` 或 `{ component: loaderPage(() => import("./Dashboard")) }` | 由本库接管动态导入，模块按 loader 缓存 |
+
+- `component` 与 `loader` 不能同时出现，二者也都不能与 `children` 同时出现。
+- loader 的两种写法等价：同一个 loader 只发起一次动态导入，加载成功后再次进入该路由直接复用已解析的模块（与 `React.lazy` 一致，仅首次进入会显示 `loadingComponent`）。
+- **不能写成 `component: () => import("./Dashboard")`**：运行时无法与普通组件函数区分（需要调用才能判断，会破坏 Hook 规则），该写法会被当作普通组件渲染。
+
+### 自动重试
+
+`AppSidebarLayout` 与 `DesktopSidebarLayout` 在路由内容外内置 [`DynamicLoadErrorBoundary`](../blocks/README.md)，捕获动态加载失败后按页面类型自动重试：
+
+| 页面类型         | 重试方式                                                                              | 上限 |
+| ---------------- | ------------------------------------------------------------------------------------- | ---- |
+| compose / loader | 页内重试：路由替换（`router.replace`）并重挂载路由内容，loader 页面会重新发起动态导入 | 3 次 |
+| lazy             | 整页刷新（`React.lazy` 会缓存失败的 import，页内重试无法重新加载）                    | 3 次 |
+
+额度按顺序消耗：compose / loader 页面先页内重试 3 次，仍失败再整页刷新 3 次；lazy 页面直接整页刷新 3 次。计数通过 `sessionStorage` 跨刷新保留（30 秒内的连续失败视为同一轮），额度用尽后渲染 `dynamicLoadErrorComponent`（默认 [`DynamicLoadErrorPage`](../blocks/README.md)），其「重新加载」按钮会清空额度并整页刷新。非动态加载类异常不自动重试，直接渲染异常组件。
+
 ## 布局级路由
 
 `sidebar-common/createLayoutRouter.tsx` 提供 `createLayoutRouter`，被 `AppSidebarLayout` 与 `DesktopSidebarLayout` 内部使用。它负责：
@@ -221,5 +249,7 @@ import { AppSidebarLayout } from "lingting-react-ui";
 - 屏幕模式 Hook：[`useScreenMode`](../hooks/README.md)
 - 路由 Hook：[`useRouter`](../hooks/README.md)、[`useRoute`](../hooks/README.md)
 - 路由工具：[`src/lib/RouteUtils`](../lib/README.md)
+- 路由页面组件解析：[`loaderPage`、`resolveRoutePageKind`](../lib/README.md)
+- 动态加载异常页与异常边界：[`src/blocks`](../blocks/README.md)
 - 权限规则：[`UserStore`](../store/README.md)
 - 布局相关类型：[`src/types/Route.tsx`](../types/README.md)、[`src/types/LayoutTypes.ts`](../types/README.md)

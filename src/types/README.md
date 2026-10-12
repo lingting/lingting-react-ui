@@ -10,24 +10,25 @@
 
 ## 模块清单
 
-| 文件                          | 主要内容                                                                                                |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------- |
-| `globals.tsx`                 | 通用响应与分页协议：`R`、`PaginationSort`、`PaginationParams`、`PaginationResult`                       |
-| `Menu.ts`                     | 通用菜单结构：`MenuItem`、`MenuExpandMode`                                                              |
-| `Route.tsx`                   | 路由定义：`MenuRouteDefinition`、`StandaloneRouteDefinition`、`ProRouteStaticData`、`UseRouteResult`    |
-| `UserStore.ts`                | 用户与权限：`User`、`AuthRule`、`UserAction`、`UserStoreInitializeOptions`、`UseUserStoreResult`        |
-| `LayoutTypes.ts`              | 布局：`LayoutScreenMode`                                                                                |
-| `RegionTypes.ts`              | 区域：`RegionItem`、`RegionName`、`RegionM49`、`RegionSelectProps`、`RegionFlagProps`、`RegionTagProps` |
-| `DictTypes.ts`                | 字典：`DictValue`、`DictItem`、`DictData`、`DictProps` 与各展示/选择组件 Props                          |
-| `ExTableTypes.ts`             | 表格：`ExTableProps`、`ExTableColumn`、`ExTableDict`、`ExTableRequestParams`                            |
-| `ExFormTypes.ts`              | 表单域：`ExFormDictSelectProps` 等与 `ExFormRegionProps`                                                |
-| `ButtonTypes.ts`              | 按钮：`ExButtonProps`、`ExButtonConfirm`、`ExButtonTooltip`、`TextButtonProps`                          |
-| `CopyTypes.ts`                | 复制：`CopyOptions`、`CopyResult`、`CopyMethod`、`CopyableProps`                                        |
-| `ListCardTypes.ts`            | 卡片：`ListCardProps`                                                                                   |
-| `FixedVirtualListTypes.ts`    | 虚拟列表：`FixedVirtualListProps`                                                                       |
-| `PaginationSelectorTypes.ts`  | 分页选择器：`PaginationSelectorProps`                                                                   |
-| `CloudflareTurnstileTypes.ts` | 人机验证：`CloudflareTurnstileProps`、`CloudflareTurnstileFormFieldProps`                               |
-| `SimpleLoginFormTypes.ts`     | 登录表单：`SimpleLoginFormProps`、`SimpleLoginFormValues`、`SimpleLoginFormForget`                      |
+| 文件                          | 主要内容                                                                                                                                 |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `globals.tsx`                 | 通用响应与分页协议：`R`、`PaginationSort`、`PaginationParams`、`PaginationResult`                                                        |
+| `Menu.ts`                     | 通用菜单结构：`MenuItem`、`MenuExpandMode`                                                                                               |
+| `Route.tsx`                   | 路由定义：`MenuRouteDefinition`、`StandaloneRouteDefinition`、`RoutePageLoader`、`RoutePageKind`、`ProRouteStaticData`、`UseRouteResult` |
+| `UserStore.ts`                | 用户与权限：`User`、`AuthRule`、`UserAction`、`UserStoreInitializeOptions`、`UseUserStoreResult`                                         |
+| `LayoutTypes.ts`              | 布局：`LayoutScreenMode`                                                                                                                 |
+| `RegionTypes.ts`              | 区域：`RegionItem`、`RegionName`、`RegionM49`、`RegionSelectProps`、`RegionFlagProps`、`RegionTagProps`                                  |
+| `DictTypes.ts`                | 字典：`DictValue`、`DictItem`、`DictData`、`DictProps` 与各展示/选择组件 Props                                                           |
+| `ExTableTypes.ts`             | 表格：`ExTableProps`、`ExTableColumn`、`ExTableDict`、`ExTableRequestParams`                                                             |
+| `ExFormTypes.ts`              | 表单域：`ExFormDictSelectProps` 等与 `ExFormRegionProps`                                                                                 |
+| `ButtonTypes.ts`              | 按钮：`ExButtonProps`、`ExButtonConfirm`、`ExButtonTooltip`、`TextButtonProps`                                                           |
+| `CopyTypes.ts`                | 复制：`CopyOptions`、`CopyResult`、`CopyMethod`、`CopyableProps`                                                                         |
+| `ListCardTypes.ts`            | 卡片：`ListCardProps`                                                                                                                    |
+| `FixedVirtualListTypes.ts`    | 虚拟列表：`FixedVirtualListProps`                                                                                                        |
+| `PaginationSelectorTypes.ts`  | 分页选择器：`PaginationSelectorProps`                                                                                                    |
+| `CloudflareTurnstileTypes.ts` | 人机验证：`CloudflareTurnstileProps`、`CloudflareTurnstileFormFieldProps`                                                                |
+| `SimpleLoginFormTypes.ts`     | 登录表单：`SimpleLoginFormProps`、`SimpleLoginFormValues`、`SimpleLoginFormForget`                                                       |
+| `DynamicLoadTypes.ts`         | 动态加载异常：`DynamicLoadErrorProps`、`DynamicLoadErrorBoundaryProps`                                                                   |
 
 ## 关键类型说明
 
@@ -44,10 +45,16 @@ type R<T> = { code: number; message: string; data?: T | null };
 ### 路由定义（`Route.tsx`）
 
 - `MenuRouteDefinition` 是**目录或页面**的联合类型：有 `children` 时不能有 `component`，有 `component` 时不能有 `children`。
-- `component` 支持同步组件、`React.lazy` 与 TanStack Router 的 `RouteComponent`。
+- `component` 支持同步组件、`React.lazy` 组件与 TanStack Router 的 `RouteComponent`；`loader` 支持 `() => import(...)` 形式的页面加载器，二者二选一且不能与 `children` 同时出现。
+- `RoutePageLoader` 与 `RoutePageModule` 描述页面加载器及其返回值，`RoutePageKind` 描述页面加载方式：`"compose"` \| `"lazy"` \| `"loader"`，相关工具见 [`src/lib/RoutePageUtils`](../lib/README.md)。
 - `auth` 为可选的 `AuthRule`，由 [`useRoute`](../hooks/README.md) 用于过滤。
 - `StandaloneRouteDefinition` 额外支持 `mode`：`"basic"` 渲染在 `BasicLayout` 内，`"none"` 不套布局。
 - `ProRouteType` 为布局级路由类型：`"browser"`（默认）\| `"hash"`，由 `AppSidebarLayout` / `DesktopSidebarLayout` 的 `routeType` 接收。
+
+### 动态加载异常（`DynamicLoadTypes.ts`）
+
+- `DynamicLoadErrorProps`：异常页属性 `target` / `message` / `onReload` / `reloadText`。
+- `DynamicLoadErrorBoundaryProps`：异常边界属性 `errorComponent` / `onRetry` / `target`，实现见 [`DynamicLoadErrorBoundary`](../blocks/README.md)。
 
 ### 权限规则（`UserStore.ts`）
 

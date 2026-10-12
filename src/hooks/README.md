@@ -48,16 +48,18 @@ const isMobile = useIsMobile();
 
 读取当前路由状态与导航方法，数据来源于 [`RouterContextProvider`](#routercontextprovider) 注入的上下文。
 
+```tsx
 const { current, match, navigate, reload } = useRouter();
+```
 
-````
+| 字段       | 说明                                                                                  |
+| ---------- | ------------------------------------------------------------------------------------- |
+| `current`  | `{ icon?, mode, path?, retry?, title? }`，`mode` 为 `"layout"` / `"basic"` / `"none"` |
+| `match`    | 当前命中的路由定义：`{ definition, type: "menu" \| "standalone" }` 或 `undefined`     |
+| `navigate` | `(to: string, options?: { replace?, reloadDocument? }) => Promise<void>`              |
+| `reload`   | 以 `replace` 方式重新导航到当前路径                                                   |
 
-| 字段       | 说明                                                              |
-| ---------- | ----------------------------------------------------------------- |
-| `current`  | `{ icon?, mode, path?, title? }`，`mode` 为 `"layout"` / `"basic"` / `"none"` |
-| `match`    | 当前命中的路由定义：`{ definition, type: "menu" \| "standalone" }` 或 `undefined` |
-| `navigate` | `(to: string, options?: { replace?, reloadDocument? }) => Promise<void>` |
-| `reload`   | 以 `replace` 方式重新导航到当前路径                                |
+`current.retry` 是页内重试加载当前页面的动作：compose / loader 页面为路由替换，`React.lazy` 页面不提供（其失败过的 import 会被缓存，只能整页刷新），详见 [`src/layout`](../layout/README.md)。
 
 ### `RouterContextProvider`
 
@@ -67,7 +69,7 @@ const { current, match, navigate, reload } = useRouter();
 <RouterContextProvider menuRoutes={menuRoutes} router={router} standaloneRoutes={standaloneRoutes}>
   {children}
 </RouterContextProvider>
-````
+```
 
 ### `useRoute`
 
