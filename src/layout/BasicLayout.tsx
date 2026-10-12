@@ -1,9 +1,9 @@
 import { ProConfigProvider, useIntl } from "@ant-design/pro-components";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { App, ConfigProvider } from "antd";
+import { App } from "antd";
 import clsx from "clsx";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
- import { XProvider } from '@ant-design/x';
+import { XProvider } from "@ant-design/x";
 
 import { useToken } from "@lri/hooks/useAntdExt";
 import { useScreenMode } from "@lri/hooks/useScreenMode";
