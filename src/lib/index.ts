@@ -6,6 +6,7 @@ export * from "./AuthTokenStorage";
 export * from "./ButtonUtils";
 export * from "./DateUtils";
 export * from "./DictUtils";
+export * from "./IconUtils";
 export * from "./ImageUtils";
 export * from "./MenuUtils";
 export * from "./RouteUtils";

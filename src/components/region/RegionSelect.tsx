@@ -4,7 +4,7 @@ import { memo, useMemo } from "react";
 import { filterRegionItems, normalizeRegionValue, regionItems } from "@lri/lib";
 import type { RegionItem, RegionSelectMultipleProps, RegionSelectProps } from "@lri/types";
 
-import { RegionFlag } from "./RegionFlag";
+import { RegionFlagAsync } from "@lri/components";
 
 type RegionSelectComponentProps = RegionSelectProps | RegionSelectMultipleProps;
 
@@ -12,7 +12,7 @@ function renderDefaultRegionItem(item: RegionItem) {
   const phonePrefix = item.phonePrefixes[0];
   return (
     <Space size="small">
-      <RegionFlag value={item.iso} />
+      <RegionFlagAsync value={item.iso} />
       <span>
         {phonePrefix ? `+${phonePrefix} ` : ""}
         {item.names.zh}

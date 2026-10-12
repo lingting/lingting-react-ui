@@ -3,14 +3,14 @@ import { memo } from "react";
 import { findRegionItem } from "@lri/lib";
 import type { RegionItem, RegionTagProps } from "@lri/types";
 
-import { RegionFlag } from "./RegionFlag";
 import { Typography } from "antd";
 import "./RegionTag.css";
+import { RegionFlagAsync } from "@lri/components";
 
 function renderDefaultRegion(item: RegionItem) {
   return (
     <>
-      <RegionFlag value={item.iso} />
+      <RegionFlagAsync value={item.iso} />
       <Typography.Text>{item.names.zh}</Typography.Text>
     </>
   );

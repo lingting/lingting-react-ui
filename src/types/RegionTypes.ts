@@ -66,6 +66,10 @@ export type RegionFlagProps = {
   value?: string | null;
 };
 
+export type RegionFlagAsyncProps = RegionFlagProps & {
+  onError?: (error: unknown) => void;
+};
+
 export type RegionTagProps = {
   className?: string;
   render?: RegionRender;

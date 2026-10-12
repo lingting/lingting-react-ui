@@ -7,3 +7,7 @@
 .region-flag > svg {
   @apply h-full w-full;
 }
+
+.region-flag-error {
+  @apply text-(--ant-color-error);
+}
