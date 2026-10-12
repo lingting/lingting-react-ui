@@ -1,6 +1,5 @@
 import InnerDocumentUtils from "@lri/lib/DocumentUtils";
 
-export * from "./RegionUtils";
 export * from "./ExTableRegionHolder";
 export * from "./AppHolder";
 export * from "./AuthTokenStorage";

@@ -1,10 +1,10 @@
 import { Select, Space } from "antd";
 import { memo, useMemo } from "react";
 
-import { filterRegionItems, normalizeRegionValue, regionItems } from "@lri/lib";
 import type { RegionItem, RegionSelectMultipleProps, RegionSelectProps } from "@lri/types";
 
 import { RegionFlagAsync } from "@lri/components";
+import {filterRegionItems, normalizeRegionValue, regionItems} from "@lri/lib/RegionUtils";
 
 type RegionSelectComponentProps = RegionSelectProps | RegionSelectMultipleProps;
 

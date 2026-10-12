@@ -1,11 +1,11 @@
 import { memo } from "react";
 
-import { findRegionItem } from "@lri/lib";
+import { findRegionItem } from "@lri/lib/RegionUtils";
 import type { RegionItem, RegionTagProps } from "@lri/types";
 
 import { Typography } from "antd";
 import "./RegionTag.css";
-import { RegionFlagAsync } from "@lri/components";
+import { RegionFlagAsync } from "./RegionFlagAsync";
 
 function renderDefaultRegion(item: RegionItem) {
   return (

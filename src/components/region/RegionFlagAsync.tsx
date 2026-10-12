@@ -2,7 +2,8 @@ import Icon, { LoadingOutlined, WarningOutlined } from "@ant-design/icons";
 import { Tooltip } from "antd";
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 
-import { createSvgIconComponent, findRegionItem } from "@lri/lib";
+import { createSvgIconComponent } from "@lri/lib/IconUtils";
+import { findRegionItem } from "@lri/lib/RegionUtils";
 import type { RegionFlagAsyncProps } from "@lri/types";
 
 import "./RegionFlag.css";

@@ -1,7 +1,8 @@
 import { memo, useMemo } from "react";
 import Icon from "@ant-design/icons";
 
-import { createSvgIconComponent, findRegionItem } from "@lri/lib";
+import { createSvgIconComponent } from "@lri/lib/IconUtils";
+import { findRegionItem } from "@lri/lib/RegionUtils";
 import type { RegionFlagProps } from "@lri/types";
 
 import "./RegionFlag.css";
